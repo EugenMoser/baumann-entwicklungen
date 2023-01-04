@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1000,
+    "prio": 10000,
+    "section": "moebel",
+    "title": "Schließkeile mit Dämpfung",
+    "secondTitel": "für Push-Lock-Schlößer",
+    "description": "fertig vormontiert. Diese integrierte Dämpfung reduziert Möbelgeräusche während der Fahrt und beim Schließen von Schubladen, Türen und Klappen. Für die Türen und Schubladen stehen 6 verschiedene Höhen von 8 bis 15,5mm zur Auswahl.",
+    "description2": "Für die Dachschrankklappen ist die Höhe von 15,5mm mit hochgesetzter Dämpfung erhältlich.",
+    "description3": "Breitere Ausführung (z.B. für 3mm Schlossunterlagen)",
+
+    "material": "PA-6",
+    "color": "ocker, braun, mausgrau, schwarzgrau",
+    "colorDescrption": "Die Schließkeile sind in 3 weiteren Farben erhältlich. Bitte ergänzen Sie die jeweilige Artikel-Nummer mit der entsprechenden Farb-Nr.",
+    "colorArticleNumber": {
+      "*1": "braun (ähnlich RAL8028)",
+      "*2": "mausgrau (ähnlich RAL7005)",
+      "*3": "schwarzgrau (ähnlich RAL7021)"
+    },
+    "articleNumber": {
+      "6010*": {
+        "articleDescription": "Schließkeile, ocker, 8mm",
+        "VPE": ["4.000", "2.000", "500"]
+      },
+      "6011*": {
+        "articleDescription": "Schließkeile, ocker, 9,5mm",
+        "VPE": ["3.500", "1.600", "500"]
+      },
+      "6012*": {
+        "articleDescription": "Schließkeile, ocker, 11mm",
+        "VPE": ["3.000", "1.500", "400"]
+      },
+      "6018*": {
+        "articleDescription": "Schließkeile, ocker, 15,5mm",
+        "VPE": ["2.500", "1.100", "300"]
+      },
+      "6395*": {
+        "articleDescription": "Schließkeile, ocker, 15,5mm, breitere Ausführung",
+        "VPE": ["2.200", "1.100", "300"]
+      }
+    }
+  },
+  {
+    "id": 1010,
+    "prio": 11000,
+    "section": "halterung",
+    "title": "Türfeststeller",
+    "secondTitel": "inklusive Türhalter 17mm",
+    "description": "Der Gleitschnappverschluss passt sich aufgrund seines beweglichen Unterteils jedem Türanschlag an.",
+    "description2": null,
+    "description3": null,
+
+    "material": "PP",
+    "color": "weiß (ähnlich RAL9003), grau (RAL7012)",
+    "colorDescrption": null,
+    "colorArticleNumber": {
+      "*1": null,
+      "*2": null,
+      "*3": null
+    },
+    "articleNumber": {
+      "6018-1": {
+        "articleDescription": "Türfeststeller, weiss",
+        "VPE": ["1.000", "350", "100"]
+      },
+      "6018-2": {
+        "articleDescription": "Türfeststeller, grau",
+        "VPE": ["1.000", "350", "100"]
+      }
+    }
+  }
+]
