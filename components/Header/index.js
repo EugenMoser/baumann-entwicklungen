@@ -2,6 +2,7 @@ import Link from "next/link";
 import Searchbar from "../Searchbar";
 import styled from "styled-components";
 import Image from "next/image";
+import { MdContactPhone } from "react-icons/md";
 //import { useEffect } from "react";
 
 function Header() {
@@ -16,12 +17,13 @@ function Header() {
       />
 
       <Searchbar />
-      <StyledContact>
-        <Link href="mailto: baumann-gestratz@t-online.de">
-          mail: baumann-gestratz@t-online.de
-        </Link>
-        <Link href="tel: +4983837754">Tel: +49 (0) 8383 7754</Link>
-      </StyledContact>
+
+      <Link href="/">
+        <MdContactPhone
+          size="80px"
+          color="#000"
+        />
+      </Link>
     </StyledHeader>
   );
 }
@@ -37,10 +39,4 @@ const StyledLogo = styled(Image)`
   align-self: center;
   height: auto;
   max-width: 500px;
-`;
-
-const StyledContact = styled.address`
-  display: flex;
-  flex-direction: column;
-  font-size: 0.8rem;
 `;
