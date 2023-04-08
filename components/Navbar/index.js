@@ -2,13 +2,15 @@ import styled from "styled-components";
 
 function Navbar() {
   return (
-    <StyledList>
-      <li>Möbelbereich</li>
-      <li>Halterungen</li>
-      <li>Wasserbereich</li>
-      <li>Lüftungsbereich</li>
-      <li>Elektrobereich</li>
-    </StyledList>
+    <nav>
+      <StyledList>
+        <li>Möbelbereich</li>
+        <li>Halterungen</li>
+        <li>Wasserbereich</li>
+        <li>Lüftungsbereich</li>
+        <li>Elektrobereich</li>
+      </StyledList>
+    </nav>
   );
 }
 

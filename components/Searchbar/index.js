@@ -1,5 +1,5 @@
 import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
+//import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import testDb from "../../helpers/testdb.json";
 
@@ -10,12 +10,12 @@ function Searchbar() {
         id="search"
         freeSolo
         options={testDb.map((option) => option.title)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="suchen"
-          />
-        )}
+        // renderInput={(params) => (
+        // <TextField
+        //   {...params}
+        //   label="suchen"
+        // />
+        // )}
       />
     </Stack>
   );

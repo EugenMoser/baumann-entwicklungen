@@ -1,11 +1,9 @@
-import Link from "next/link";
 import Searchbar from "../Searchbar";
 import styled from "styled-components";
 import Image from "next/image";
-import { MdContactPhone } from "react-icons/md";
-//import { useEffect } from "react";
+import ContactModal from "../ContactModal";
 
-function Header() {
+function Header(showContact, openContact) {
   return (
     <StyledHeader>
       <StyledLogo
@@ -16,14 +14,8 @@ function Header() {
         sizes="60vw"
       />
 
-      <Searchbar />
-
-      <Link href="/">
-        <MdContactPhone
-          size="80px"
-          color="#000"
-        />
-      </Link>
+      {/* <Searchbar /> */}
+      <ContactModal />
     </StyledHeader>
   );
 }
