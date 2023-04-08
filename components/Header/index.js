@@ -14,7 +14,7 @@ function Header(showContact, openContact) {
         sizes="60vw"
       />
 
-      <Searchbar />
+      {/* <Searchbar /> */}
       <ContactModal />
     </StyledHeader>
   );

@@ -1,8 +1,16 @@
-export default function Home() {
+import Link from "next/link";
+
+function Home() {
   return (
     <>
       <h1>hier kommt der Inhalt</h1>
-      <p>noch ein Modal für den Kontakt einfügen</p>
+      <Link
+        href="/moebel"
+        aria-label="zum Möbelbereich"
+      >
+        Möbelbereich
+      </Link>
     </>
   );
 }
+export default Home;

@@ -6,8 +6,6 @@ import Link from "next/link";
 function ContactModal() {
   const [openContact, setOpenContact] = useState(false);
 
-  console.log(openContact);
-
   return (
     <>
       <button
@@ -39,9 +37,10 @@ function ContactModal() {
               <br />
               D-88187 Gestratz
               <br />
-              <Link href="tel:+4983837754">08383 7754</Link>
+              <Link href="tel:+4983837754">Telefon: 08383 7754</Link>
+              <br />
               <Link href="mailto:info@baumann-entwicklungen.de">
-                info@baumann-entwicklungen.de
+                email: info@baumann-entwicklungen.de
               </Link>
             </address>
           </Modal>
