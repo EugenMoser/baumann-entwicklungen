@@ -3,19 +3,19 @@ import { useEffect, useState } from "react";
 
 function Product() {
   const router = useRouter();
-  const { categroy, id } = router.query;
+  const { category, id } = router.query;
   console.log("id", id);
+  console.log("categroy", category);
+
   const [product, setProduct] = useState([]);
 
-  const apiURL = `http://localhost:3000/api/getdata/${categroy}/${id}`;
+  const apiURL = `http://localhost:3000/api/getdata/${category}/${id}`;
 
   useEffect(() => {
     try {
       async function getDataById() {
         const response = await fetch(apiURL);
-        console.log("response", response);
         const res = await response.json();
-        console.log("response res" + res);
         setProduct(res.products[0]);
       }
       getDataById();
@@ -25,12 +25,29 @@ function Product() {
   }, []);
 
   console.log("product", product);
-
+  const {
+    product_id: Id,
+    product_name: name,
+    product_description1: description1,
+    product_description2: description2,
+    product_description3: description3,
+    product_material: material,
+    product_imagepath: image,
+    category: cat,
+  } = product;
   return (
     <>
-      <h2>test product {product.product_id}</h2>
-      <p>id:{product.product_id}</p>
-      <p>name:{product.product_name}</p>
+      <h2>test product {Id}</h2>
+      <p>name:{name}</p>
+      <p>category:{cat}</p>
+      <p>material:{material}</p>
+      <p>description1:{description1}</p>
+      <p>description2:{description2}</p>
+      <p>description3:{description3}</p>
+      <img
+        src={image}
+        alt=""
+      />
     </>
   );
 }
