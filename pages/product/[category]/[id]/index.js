@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 function Product() {
   const router = useRouter();
   const { category, id } = router.query;
-  console.log("id", id);
-  console.log("categroy", category);
 
   const [product, setProduct] = useState([]);
 
@@ -15,7 +13,9 @@ function Product() {
     try {
       async function getDataById() {
         const response = await fetch(apiURL);
+        console.log("response", response);
         const res = await response.json();
+        console.log("res", res);
         setProduct(res.products);
       }
       getDataById();
