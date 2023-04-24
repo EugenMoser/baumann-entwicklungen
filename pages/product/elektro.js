@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import ProductList from "../components/ProductList";
+import ProductList from "../../components/ProductList";
 
-function Moebel() {
+function Elektro() {
   const [products, setProducts] = useState([]);
-  const category = "moebel";
+  const category = "elektro";
 
   const apiURL = `http://localhost:3000/api/getdata/${category}`;
 
   useEffect(() => {
-    async function getProductsByCategory() {
-      const response = await fetch(apiURL);
-      const res = await response.json();
-      setProducts(res.products);
+    function getProductsByCategory() {
+      fetch(apiURL)
+        .then((response) => response.json())
+        .then((data) => setProducts(data.products));
     }
     getProductsByCategory();
   }, []);
@@ -26,4 +26,4 @@ function Moebel() {
     </>
   );
 }
-export default Moebel;
+export default Elektro;

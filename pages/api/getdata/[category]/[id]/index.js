@@ -6,38 +6,40 @@ async function handlerById(req, res) {
     const dbconnection = await createDbConnection();
     const query = `
     SELECT product.*,
+
     (
       SELECT JSON_ARRAYAGG(
         JSON_OBJECT(     
             'article_id', article.article_id,
-            'article_number', article.article_number,
             'product_id', article.product_id,
+            'article_number', article.article_number,
+            'article_name', article.article_name,
             'vpe', (
                 SELECT JSON_ARRAYAGG(vpe.vpe_value)
                 FROM article_vpe_connection
                 LEFT JOIN vpe ON article_vpe_connection.vpe_id = vpe.vpe_id
-                WHERE article_vpe_connection.article_id = article.article_id
-                
+                WHERE article_vpe_connection.article_id = article.article_id 
             )
         )
       )
       FROM article
-      where article.product_id = product.product_id
+      WHERE article.product_id = product.product_id
       ) as articles,
+
       (
-        SELECT JSON_ARRAYAGG(color.color_name)
+        SELECT JSON_ARRAYAGG(
+          JSON_OBJECT('suffix', product_color_connection.color_suffix,
+           'color_name',color.color_name, 'color_id',color.color_id))
         FROM product_color_connection
         LEFT JOIN color ON  product_color_connection.color_id = color.color_id
         WHERE product_color_connection.product_id = product.product_id
-)AS colors
+       order by product_color_connection.color_suffix
+      )AS colors
+
     FROM product
-    
     WHERE product.category = ? AND product.product_id = ?
     GROUP BY product.product_id
-
-
-
-
+    
 `;
 
     const values = [`${category}`, `${id}`];
