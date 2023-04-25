@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 function ProductDetails() {
   const router = useRouter();
   const { category, id } = router.query;
-
+  console.log(router);
   const [product, setProduct] = useState([]);
 
   const apiURL = `http://localhost:3000/api/getdata/${category}/${id}`;
@@ -20,7 +20,9 @@ function ProductDetails() {
     } catch (error) {
       console.error("Fehler Produkt" + error.message);
     }
-  }, []);
+  }, [apiURL]);
+
+  if (!product) return <h2>Produkte werden geladen</h2>;
 
   const {
     product_id: Id,
@@ -33,44 +35,45 @@ function ProductDetails() {
     category: cat,
   } = product;
 
-  if (!product) return <h2>Produkte werden geladen</h2>;
-
   return (
     <>
-      <h2>Product - ID {id}</h2>
-      <h3>Produkt - Name:{name}</h3>
-      <p>category:{cat}</p>
-      <p>material:{material}</p>
-      <p>description1:{description1}</p>
-      <p>description2:{description2}</p>
-      <p>description3:{description3}</p>
-
-      {product.articles &&
-        product.articles.map((article) => (
-          <ul key={article.article_id}>
-            <li>
-              <p>Artikel Nummer: {article.article_number}</p>
-            </li>
-            <li>
-              <p>Artikel Name: {article.article_name}</p>
-            </li>
-
-            <ul>
-              {article.vpe &&
-                article.vpe.map((vpe) => <li key={vpe}>VPE: {vpe}</li>)}
-            </ul>
-          </ul>
-        ))}
-      {product.colors &&
-        product.colors.map((color) => (
-          <ul key={color.color_id}>
-            <li>Farbe: {color.color_name}</li>
-          </ul>
-        ))}
-      <img
-        src={image}
-        alt=""
-      />
+      <section>
+        <h3>Produkt - Name:{name}</h3>
+        <p>category:{cat}</p>
+        <p>material:{material}</p>
+        <p>description1:{description1}</p>
+        <p>description2:{description2}</p>
+        <p>description3:{description3}</p>
+        <ul>
+          {product.colors &&
+            product.colors.map((color) => (
+              <li key={color.color_id}>Farbe: {color.color_name}</li>
+            ))}
+        </ul>
+        <img
+          src={image}
+          alt=""
+        />
+      </section>
+      <section>
+        <ul>
+          {product.articles &&
+            product.articles.map((article) => (
+              <li key={article.article_id}>
+                <p>Artikel Nummer: {article.article_number}</p>
+                <p>Artikel Name: {article.article_name}</p>{" "}
+                <div>
+                  <ul>
+                    {article.vpe &&
+                      article.vpe.map((vpe) => (
+                        <li key={vpe}>VPE: {vpe}</li>
+                      ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
+        </ul>
+      </section>
     </>
   );
 }

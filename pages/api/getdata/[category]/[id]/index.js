@@ -2,6 +2,7 @@ import { createDbConnection } from "../../../../../helpers/dbconnection";
 
 async function handlerById(req, res) {
   const { category, id } = req.query;
+  console.log(req);
   try {
     const dbconnection = await createDbConnection();
     const query = `
@@ -51,4 +52,5 @@ async function handlerById(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
 export default handlerById;

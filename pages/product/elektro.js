@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ProductList from "../../components/ProductList";
 
-function Elektro() {
+function Elektor() {
   const [products, setProducts] = useState([]);
   const category = "elektro";
 
@@ -26,4 +26,4 @@ function Elektro() {
     </>
   );
 }
-export default Elektro;
+export default Elektor;
