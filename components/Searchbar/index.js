@@ -5,19 +5,20 @@ import testDb from "../../helpers/testdb.json";
 
 function Searchbar() {
   return (
-    <Stack width={300}>
-      <Autocomplete
-        id="search"
-        freeSolo
-        options={testDb.map((option) => option.title)}
-        // renderInput={(params) => (
-        // <TextField
-        //   {...params}
-        //   label="suchen"
-        // />
-        // )}
-      />
-    </Stack>
+    <h2>hier kommt die Suchleiste</h2>
+    // <Stack width={300}>
+    //   <Autocomplete
+    //     id="search"
+    //     freeSolo
+    //     options={testDb.map((option) => option.title)}
+    //     // renderInput={(params) => (
+    //     // <TextField
+    //     //   {...params}
+    //     //   label="suchen"
+    //     // />
+    //     // )}
+    //   />
+    // </Stack>
   );
 }
 export default Searchbar;

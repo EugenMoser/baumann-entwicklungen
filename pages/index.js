@@ -4,12 +4,12 @@ function Home() {
   return (
     <>
       <h1>hier kommt der Inhalt</h1>
-      <Link
-        href="/moebel"
-        aria-label="zum Möbelbereich"
-      >
-        Möbelbereich
-      </Link>
+
+      <Link href="/moebel">Möbelbereich</Link>
+      <Link href="/halterung">Halterungen</Link>
+      <Link href="/wasser">Wasserbereich</Link>
+      <Link href="/lueftung">Lüftungsbereich</Link>
+      <Link href="/elektro">Elektrobereich</Link>
     </>
   );
 }
