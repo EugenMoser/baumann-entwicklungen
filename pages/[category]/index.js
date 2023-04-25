@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import ProductList from "../../components/ProductList";
+import { useRouter } from "next/router";
 
-function Elektor() {
+function Category() {
   const [products, setProducts] = useState([]);
-  const category = "elektro";
+  const router = useRouter();
+  const { category } = router.query;
 
   const apiURL = `http://localhost:3000/api/getdata/${category}`;
 
@@ -18,7 +20,19 @@ function Elektor() {
 
   return (
     <>
-      <h1>Möbelbereich</h1>
+      {category === "moebel" ? (
+        <h1>Möbelbereich</h1>
+      ) : category === "halterung" ? (
+        <h1>Halterungen</h1>
+      ) : category === "wasser" ? (
+        <h1>Wasserbereich</h1>
+      ) : category === "lueftung" ? (
+        <h1>Lüftungsbereich</h1>
+      ) : category === "elektro" ? (
+        <h1>Elektrobereich</h1>
+      ) : (
+        <h1>Keine Kategorie</h1>
+      )}
       <ProductList
         products={products}
         category={category}
@@ -26,4 +40,4 @@ function Elektor() {
     </>
   );
 }
-export default Elektor;
+export default Category;
