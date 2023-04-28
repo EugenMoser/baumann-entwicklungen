@@ -2,6 +2,11 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 
+:root {
+ --background-category-color: #Dae2e6;
+ --background-category-hover-color: #aeb5b8;
+ 
+}
 @font-face {
 font-family: 'Rubik';
 src: url("/fonts/Rubik-VariableFont_wght.ttf");}
@@ -18,6 +23,7 @@ src: url("/fonts/Rubik-VariableFont_wght.ttf");}
     body {
         padding: 0;
         margin: 0;
+        
     }
 
 

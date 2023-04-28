@@ -8,7 +8,7 @@ function Header(showContact, openContact) {
     <StyledHeader>
       <StyledLogo
         alt="Logo-Baumann-Entwicklungen"
-        src="/images/logo-baumann.webp"
+        src="/images/newLogo.png"
         width={749}
         height={103}
         sizes="60vw"
