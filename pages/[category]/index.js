@@ -18,6 +18,8 @@ function Category() {
     getProductsByCategory();
   }, []);
 
+  console.log("products", products);
+
   return (
     <>
       {category === "moebel" ? (

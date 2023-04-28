@@ -14,7 +14,10 @@ function ProductDetails() {
       function getDataById() {
         fetch(apiURL)
           .then((response) => response.json())
-          .then((data) => setProduct(data.products[0]));
+          .then((data) => {
+            console.log(data);
+            setProduct(data.products[0]);
+          });
       }
       getDataById();
     } catch (error) {
@@ -22,6 +25,7 @@ function ProductDetails() {
     }
   }, [apiURL]);
 
+  console.log(product);
   if (!product) return <h2>Produkte werden geladen</h2>;
 
   const {
