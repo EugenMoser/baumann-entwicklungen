@@ -15,12 +15,11 @@ async function handlerById(req, res) {
             'product_id', article.product_id,
             'article_number', article.article_number,
             'article_name', article.article_name,
-            'vpe', (
-                SELECT JSON_ARRAYAGG(vpe.vpe_value)
-                FROM article_vpe_connection
-                LEFT JOIN vpe ON article_vpe_connection.vpe_id = vpe.vpe_id
-                WHERE article_vpe_connection.article_id = article.article_id 
-            )
+            'article_description', article.article_description,
+            'vpe1', article.vpe1,
+            'vpe2', article.vpe2,
+            'vpe3', article.vpe3,
+            'vpe4', article.vpe4,
         )
       )
       FROM article
