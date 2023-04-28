@@ -6,7 +6,7 @@ import {
   mdiTableFurniture,
   mdiTournament,
   mdiAirFilter,
-  mdiFlash,
+  mdiFlashOutline,
 } from "@mdi/js";
 
 function Home() {
@@ -28,52 +28,52 @@ function Home() {
           Baumann Spritzgussteile e.K. gelegt.
         </StyledParagraph>
         <StyledH3>Unsere Bereiche</StyledH3>
-        <Link href="/moebel">
+        <StyledLink href="/moebel">
           <StyledButton>
             <StyledIcon
               path={mdiTableFurniture}
-              size={1}
+              size={1.5}
             />
             Möbelbereich{" "}
           </StyledButton>
-        </Link>
-        <Link href="/halterung">
+        </StyledLink>
+        <StyledLink href="/halterung">
           <StyledButton>
             <StyledIcon
               path={mdiTournament}
-              size={1}
+              size={1.5}
             />
             Halterungen
           </StyledButton>
-        </Link>
-        <Link href="/wasser">
+        </StyledLink>
+        <StyledLink href="/wasser">
           <StyledButton>
             {" "}
             <StyledIcon
               path={mdiWaterOutline}
-              size={1}
+              size={1.5}
             />
             Wasserbereich
           </StyledButton>
-        </Link>{" "}
-        <Link href="/lueftung">
+        </StyledLink>{" "}
+        <StyledLink href="/lueftung">
           <StyledButton>
             <StyledIcon
               path={mdiAirFilter}
-              size={1}
+              size={1.5}
             />
             Lüftungsbereich
           </StyledButton>
-        </Link>
-        <Link href="/elektro">
+        </StyledLink>
+        <StyledLink href="/elektro">
           <StyledButton>
             <StyledIcon
-              path={mdiFlash}
-              size={1}
+              path={mdiFlashOutline}
+              size={1.5}
             />
             Elektrobereich
           </StyledButton>
-        </Link>
+        </StyledLink>
       </StyledSection>
     </>
   );
@@ -81,12 +81,13 @@ function Home() {
 export default Home;
 
 const StyledH1 = styled.h1`
-  font-size: 1.75rem;
+  margin: 0 2rem;
+  font-size: 2rem;
 `;
 const StyledH3 = styled.h3`
   display: flex;
-  font-size: 1.5rem;
-  margin: 1rem 0 0.5rem;
+  font-size: 1.75rem;
+  margin: 2rem 0 0.5rem;
   width: 80%;
 `;
 
@@ -99,18 +100,26 @@ const StyledSection = styled.section`
   align-self: center;
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
+
 const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100px;
-  background-color: #dae2e6;
+  background-color: var(--background-category-color);
   border: none;
   border-radius: 5px;
   margin-bottom: 1rem;
   font-size: 1.5rem;
   cursor: pointer;
+  &:hover,
+  &:focus {
+    background-color: var(--background-category-hover-color);
+  }
 `;
 
 const StyledParagraph = styled.p`
