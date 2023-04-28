@@ -28,21 +28,20 @@ function ProductDetails() {
   console.log(product);
   if (!product) return <h2>Produkte werden geladen</h2>;
 
-  // const {
-  //   product_id: Id,
-  //   product_name: name,
-  //   product_description1: description1,
-  //   product_description2: description2,
-  //   product_description3: description3,
-  //   product_material: material,
-  //   product_imagepath: image,
-  //   category: cat,
-  // } = product;
+  const {
+    product_id: Id,
+    product_name: name,
+    product_description1: description1,
+    product_description2: description2,
+    product_description3: description3,
+    product_material: material,
+    product_imagepath: image,
+    category: cat,
+  } = product;
 
   return (
     <>
-      <h1>hier kommen die Details</h1>
-      {/*       <section>
+      <section>
         <h3>Produkt - Name:{name}</h3>
         <p>category:{cat}</p>
         <p>material:{material}</p>
@@ -78,7 +77,7 @@ function ProductDetails() {
               </li>
             ))}
         </ul>
-      </section> */}
+      </section>
     </>
   );
 }
