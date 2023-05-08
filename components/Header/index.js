@@ -8,7 +8,7 @@ function Header(showContact, openContact) {
     <StyledHeader>
       <StyledLogo
         alt="Logo-Baumann-Entwicklungen"
-        src="/images/newLogo.png"
+        src="/images/baumann_logo_optimiert.png"
         width={749}
         height={103}
         sizes="60vw"
@@ -25,6 +25,7 @@ export default Header;
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const StyledLogo = styled(Image)`
