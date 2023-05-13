@@ -2,6 +2,13 @@ import Svg from "../Svg";
 import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import Icon from "@mdi/react";
+import {
+  mdiMailboxOpenOutline,
+  mdiPhoneOutline,
+  mdiEmailOutline,
+} from "@mdi/js";
+import strings from "../../helpers/strings";
 
 function ContactModal() {
   const [openContact, setOpenContact] = useState(false);
@@ -20,7 +27,6 @@ function ContactModal() {
         />
         Kontakt
       </StyledContactButton>
-
       {openContact && (
         <ModalBackground>
           <Modal>
@@ -33,19 +39,36 @@ function ContactModal() {
             </StyledCloseButton>
             <h1>Kontaktdaten</h1>
             <StyledAdress>
-              Postadresse:
+              <StyledAdressDiv>
+                <Icon
+                  path={mdiMailboxOpenOutline}
+                  size={1}
+                />
+                <div>
+                  Tilo Baumann Spritzgussteile e.K.
+                  <br />
+                  Brugg 39
+                  <br />
+                  88167 Gestratz
+                </div>
+              </StyledAdressDiv>
+
               <br />
-              Tilo Baumann Spritzgussteile e.K.
+              <StyledLink href={`tel:${strings.phoneNumber}`}>
+                <Icon
+                  path={mdiPhoneOutline}
+                  size={1}
+                />{" "}
+                <span>{strings.displayPhoneNumber}</span>
+              </StyledLink>
               <br />
-              Brugg 39
-              <br />
-              D-88167 Gestratz
-              <br />
-              <Link href="tel:+4983837754">Telefon: 08383 7754</Link>
-              <br />
-              <Link href="mailto:info@baumann-entwicklungen.de">
-                email: info@baumann-entwicklungen.de
-              </Link>
+              <StyledLink href={`mailto:${strings.mailAddress}`}>
+                <Icon
+                  path={mdiEmailOutline}
+                  size={1}
+                />
+                <span>{strings.mailAddress}</span>
+              </StyledLink>
             </StyledAdress>
           </Modal>
         </ModalBackground>
@@ -55,6 +78,17 @@ function ContactModal() {
 }
 
 export default ContactModal;
+
+const ModalBackground = styled.div`
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 const StyledContactButton = styled.button`
   background-color: transparent;
@@ -67,29 +101,7 @@ const StyledContactButton = styled.button`
   margin-right: 40px;
 `;
 
-const StyledCloseButton = styled.button`
-  background-color: transparent;
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  border: none;
-`;
-
-const ModalBackground = styled.div`
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.4);
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-`;
-
 const Modal = styled.address`
-  display: flex;
   flex-direction: column;
   font-style: normal;
   position: relative;
@@ -104,11 +116,11 @@ const Modal = styled.address`
   border-radius: 10px;
   box-shadow: 0 0 10px rgb(0 0 0 / 6%), 0 5px 20px rgb(0 0 0 / 5%);
   transform: translate(-50%, -50%);
-  padding: 20px 20px;
+  padding: 30px 30px;
 
   @media (max-width: 560px) {
     h1 {
-      font-size: 0.75rem;
+      font-size: 1rem;
     }
     font-size: 0.75rem;
   }
@@ -116,11 +128,40 @@ const Modal = styled.address`
 
 const StyledAdress = styled.address`
   font-style: normal;
-
-  margin-top: 20px;
+  margin-top: 40px;
   line-height: 1.5;
 
   Link {
     text-decoration: none;
+  }
+`;
+
+const StyledCloseButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  border: none;
+`;
+
+const StyledAdressDiv = styled.div`
+  display: flex;
+  div {
+    margin-left: 20px;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+  text-decoration: none;
+  color: var(--font-color);
+  span {
+    margin-left: 20px;
+  }
+  &:hover,
+  :active {
+    color: var(--font-color-hover);
+    text-decoration: underline;
   }
 `;

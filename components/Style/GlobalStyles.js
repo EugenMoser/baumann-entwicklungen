@@ -3,8 +3,10 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle`
 
 :root {
- --background-category-color: #Dae2e6;
- --background-category-hover-color: #aeb5b8;
+    --font-color: #000000;
+    --font-color-hover: #00BFFF;
+    --background-category-color: #Dae2e6;
+    --background-category-hover-color: #aeb5b8;
  
 }
 @font-face {

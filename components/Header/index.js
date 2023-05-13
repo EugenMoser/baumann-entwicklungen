@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import ContactModal from "../ContactModal";
 
-function Header(showContact, openContact) {
+function Header() {
   return (
     <StyledHeader>
       <StyledLogo

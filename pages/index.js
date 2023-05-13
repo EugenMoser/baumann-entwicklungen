@@ -8,26 +8,16 @@ import {
   mdiAirFilter,
   mdiFlashOutline,
 } from "@mdi/js";
+import strings from "../helpers/strings";
 
 function Home() {
-  const thisYear = new Date().getFullYear();
-  const difYear = thisYear - 1984;
-
   return (
     <>
-      <StyledH1>Willkommen auf unserer Webseite</StyledH1>
+      <StyledH1>{strings.companyWelcome}</StyledH1>
 
       <StyledSection>
-        <StyledParagraph>
-          Wir entwickeln und produzieren im Allgäu seit {difYear} Jahren
-          Spritzgussteile für die Caravan Industrie. Für diesen Markt ist
-          ein großes Sortiment an Möbelteilen, Halterungen, Lüftungsteilen
-          und Dichtungen entstanden. Mit dem 1984 gegründeten Unternehmen
-          Wilfried Baumann Spritzgussteile, wurde das Fundament für das in
-          zweiter Generation inhabergeführte Familienunternehmen Tilo
-          Baumann Spritzgussteile e.K. gelegt.
-        </StyledParagraph>
-        <StyledH3>Unsere Bereiche</StyledH3>
+        <StyledParagraph>{strings.companyDescription}</StyledParagraph>
+        <StyledH3>{strings.companyOurAreas}</StyledH3>
         <StyledLink href="/moebel">
           <StyledButton>
             <StyledIcon
