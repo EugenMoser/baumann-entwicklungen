@@ -1,36 +1,63 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 function Navbar() {
   const [isDisplayed, setIsDisplayed] = useState(true);
-  const { pathname } = useRouter();
+  const router = useRouter();
+  const path = router.asPath;
+  console.log("router", path);
 
   useEffect(() => {
-    if (pathname === "/") {
-      setIsDisplayed(!isDisplayed);
-    }
-  }, []);
+    if (path === "/") {
+      setIsDisplayed(false);
+    } else setIsDisplayed(true);
+  }, [path]);
 
   return (
     <nav>
       {isDisplayed && (
         <StyledList>
           <li>
-            <Link href="/moebel">Möbelbereich</Link>
+            <StyledLink
+              variant={path === "/moebel" && "active"}
+              href="/moebel"
+            >
+              Möbelbereich
+            </StyledLink>
           </li>
           <li>
-            <Link href="/halterung">Halterungen</Link>
+            <StyledLink
+              variant={path === "/halterung" && "active"}
+              href="/halterung"
+            >
+              Halterungen
+            </StyledLink>
           </li>
           <li>
-            <Link href="/wasser">Wasserbereich</Link>
+            <StyledLink
+              variant={path === "/wasser" && "active"}
+              href="/wasser"
+            >
+              Wasserbereich
+            </StyledLink>
           </li>
           <li>
-            <Link href="/lueftung">Lüftungsbereich</Link>
+            <StyledLink
+              variant={path === "/lueftung" && "active"}
+              href="/lueftung"
+            >
+              Lüftungsbereich
+            </StyledLink>
           </li>
           <li>
-            <Link href="/elektro">Elektrobereich</Link>
+            <StyledLink
+              variant={path === "/elektro" && "active"}
+              href="/elektro"
+            >
+              Elektrobereich
+            </StyledLink>
           </li>
         </StyledList>
       )}
@@ -43,4 +70,21 @@ export default Navbar;
 const StyledList = styled.ul`
   display: flex;
   justify-content: space-around;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: var(--font-color);
+
+  ${({ variant }) =>
+    variant === "active" &&
+    css`
+      text-decoration: underline;
+    `}
+
+  &:hover,
+  :active {
+    color: var(--font-color-hover);
+    text-decoration: underline;
+  }
 `;

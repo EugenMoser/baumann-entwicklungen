@@ -16,7 +16,7 @@ function Category() {
         .then((data) => setProducts(data.products));
     }
     getProductsByCategory();
-  }, []);
+  }, [category]);
 
   console.log("products", products);
 
