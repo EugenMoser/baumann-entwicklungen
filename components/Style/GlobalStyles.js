@@ -5,8 +5,10 @@ const GlobalStyles = createGlobalStyle`
 :root {
     --font-color: #000000;
     --font-color-hover: #00BFFF;
+    --font-color-footer: #ffffff;
     --background-category-color: #Dae2e6;
     --background-category-hover-color: #aeb5b8;
+    --background-footer-color: #777777
  
 }
 @font-face {
@@ -23,6 +25,10 @@ src: url("/fonts/Rubik-VariableFont_wght.ttf");}
 }
     html,
     body {
+       
+
+       
+
         padding: 0;
         margin: 0;
         
@@ -30,18 +36,14 @@ src: url("/fonts/Rubik-VariableFont_wght.ttf");}
 
 
 
-    body {
-        margin: 2vw;
-        border:2px solid grey;
-        
-       
-    }
+
     main {
         display: flex;
         flex-direction: column;
         text-align: center; 
         align-items: center;
-        margin: 5% 0;
+        margin: 50px 0 0 0;
+       
         
     }
 `;

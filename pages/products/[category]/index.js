@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
-import ProductList from "../../components/ProductList";
+import ProductList from "../../../components/ProductList";
 import { useRouter } from "next/router";
 
 function Category() {
   const [products, setProducts] = useState([]);
   const router = useRouter();
   const { category } = router.query;
+
+  console.log("router", router);
+
+  console.log("category000", category);
 
   const apiURL = `http://localhost:3000/api/getdata/${category}`;
 

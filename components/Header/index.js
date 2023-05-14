@@ -1,4 +1,4 @@
-import Searchbar from "../Searchbar";
+// import Searchbar from "../Searchbar";
 import styled from "styled-components";
 import Image from "next/image";
 import ContactModal from "../ContactModal";

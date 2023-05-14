@@ -7,7 +7,9 @@ function Product({ product, category }) {
       <p>Name: {product.product_name}</p>
       <p>Beschreibung: {product.product_description1}</p>
 
-      <Link href={`./${category}/${product.product_id}`}>I am a link</Link>
+      <Link href={`./products/${category}/${product.product_id}`}>
+        I am a link
+      </Link>
       <hr />
     </>
   );

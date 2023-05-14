@@ -21,40 +21,46 @@ function Navbar() {
         <StyledList>
           <li>
             <StyledLink
-              variant={path === "/moebel" && "active"}
-              href="/moebel"
+              variant={path === "/products/moebel" ? "active" : "inactive"}
+              href="/products/moebel"
             >
               Möbelbereich
             </StyledLink>
           </li>
           <li>
             <StyledLink
-              variant={path === "/halterung" && "active"}
-              href="/halterung"
+              variant={
+                path === "/products/halterung" ? "active" : "inactive"
+              }
+              href="/products/halterung"
             >
               Halterungen
             </StyledLink>
           </li>
           <li>
             <StyledLink
-              variant={path === "/wasser" && "active"}
-              href="/wasser"
+              variant={path === "/products/wasser" ? "active" : "inactive"}
+              href="/products/wasser"
             >
               Wasserbereich
             </StyledLink>
           </li>
           <li>
             <StyledLink
-              variant={path === "/lueftung" && "active"}
-              href="/lueftung"
+              variant={
+                path === "/products/lueftung" ? "active" : "inactive"
+              }
+              href="/products/lueftung"
             >
               Lüftungsbereich
             </StyledLink>
           </li>
           <li>
             <StyledLink
-              variant={path === "/elektro" && "active"}
-              href="/elektro"
+              variant={
+                path === "/products/elektro" ? "active" : "inactive"
+              }
+              href="/products/elektro"
             >
               Elektrobereich
             </StyledLink>

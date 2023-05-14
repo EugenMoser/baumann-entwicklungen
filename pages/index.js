@@ -14,11 +14,10 @@ function Home() {
   return (
     <>
       <StyledH1>{strings.companyWelcome}</StyledH1>
-
       <StyledSection>
         <StyledParagraph>{strings.companyDescription}</StyledParagraph>
         <StyledH3>{strings.companyOurAreas}</StyledH3>
-        <StyledLink href="/moebel">
+        <StyledLink href="/products/moebel">
           <StyledButton>
             <StyledIcon
               path={mdiTableFurniture}
@@ -27,7 +26,7 @@ function Home() {
             Möbelbereich{" "}
           </StyledButton>
         </StyledLink>
-        <StyledLink href="/halterung">
+        <StyledLink href="/products/halterung">
           <StyledButton>
             <StyledIcon
               path={mdiTournament}
@@ -36,7 +35,7 @@ function Home() {
             Halterungen
           </StyledButton>
         </StyledLink>
-        <StyledLink href="/wasser">
+        <StyledLink href="/products/wasser">
           <StyledButton>
             {" "}
             <StyledIcon
@@ -46,7 +45,7 @@ function Home() {
             Wasserbereich
           </StyledButton>
         </StyledLink>{" "}
-        <StyledLink href="/lueftung">
+        <StyledLink href="/products/lueftung">
           <StyledButton>
             <StyledIcon
               path={mdiAirFilter}
@@ -55,7 +54,7 @@ function Home() {
             Lüftungsbereich
           </StyledButton>
         </StyledLink>
-        <StyledLink href="/elektro">
+        <StyledLink href="/products/elektro">
           <StyledButton>
             <StyledIcon
               path={mdiFlashOutline}
