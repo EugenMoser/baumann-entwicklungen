@@ -3,28 +3,51 @@ import styled from "styled-components";
 
 function Footer() {
   return (
-    <footer>
+    <StyledFooter>
       <StyledList>
         <li>
-          <Link href="#">Kontakt</Link>
+          <p>Tilo Baumann</p>
         </li>
         <li>
-          <Link href="#">Impressum</Link>
+          <StyledLink href="../../privacy">Impressum</StyledLink>
         </li>
         <li>
-          <Link href="#">Datenschutz</Link>
+          <StyledLink href="../../privacy">Datenschutz</StyledLink>
         </li>
       </StyledList>
-    </footer>
+    </StyledFooter>
   );
 }
 
 export default Footer;
 
-const StyledList = styled.ul`
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
+const StyledFooter = styled.footer`
   display: flex;
-  justify-content: space-around;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--background-footer-color);
+  color: var(--font-color-footer);
+  justify-content: center;
+
+  height: 3rem;
+`;
+
+const StyledList = styled.ul`
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 50px;
+  align-items: center;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+
+  &:hover,
+  :active {
+    color: var(--font-color-hover);
+    text-decoration: underline;
+  }
 `;

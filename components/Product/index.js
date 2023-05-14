@@ -1,16 +1,51 @@
 import Link from "next/link";
+import Image from "next/image";
+import styled from "styled-components";
 
 function Product({ product, category }) {
   return (
-    <>
-      <p>Id: {product.product_id}</p>
-      <p>Name: {product.product_name}</p>
-      <p>Beschreibung: {product.product_description1}</p>
+    <StyledLink href={`./${category}/${product.product_id}`}>
+      <StyledImage
+        src="/../public/images/a_6010-Schliesskeil.webp"
+        alt={product.product_name}
+        width={90}
+        height={90}
+        sizes="60vw"
+      />
 
-      <Link href={`./${category}/${product.product_id}`}>I am a link</Link>
-      <hr />
-    </>
+      <TextWrapper>
+        <h4>{product.product_name}</h4>
+        <StyledP>{product.product_description1}</StyledP>
+      </TextWrapper>
+    </StyledLink>
   );
 }
 
 export default Product;
+
+const StyledLink = styled(Link)`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 20% 1fr;
+  gap: 2rem;
+  align-items: center;
+  text-decoration: none;
+  color: var(--font-color);
+`;
+
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledP = styled.p`
+  font-size: 1.25rem;
+`;
+
+const StyledImage = styled(Image)`
+  max-width: 90%;
+  height: auto;
+  border-radius: 50%;
+  margin-left: 1rem;
+`;

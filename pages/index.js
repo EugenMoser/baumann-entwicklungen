@@ -8,87 +8,74 @@ import {
   mdiAirFilter,
   mdiFlashOutline,
 } from "@mdi/js";
+import strings from "../helpers/strings";
 
 function Home() {
-  const thisYear = new Date().getFullYear();
-  const difYear = thisYear - 1984;
-
   return (
-    <>
-      <StyledH1>Willkommen auf unserer Webseite</StyledH1>
-
-      <StyledSection>
-        <StyledParagraph>
-          Wir entwickeln und produzieren im Allgäu seit {difYear} Jahren
-          Spritzgussteile für die Caravan Industrie. Für diesen Markt ist
-          ein großes Sortiment an Möbelteilen, Halterungen, Lüftungsteilen
-          und Dichtungen entstanden. Mit dem 1984 gegründeten Unternehmen
-          Wilfried Baumann Spritzgussteile, wurde das Fundament für das in
-          zweiter Generation inhabergeführte Familienunternehmen Tilo
-          Baumann Spritzgussteile e.K. gelegt.
-        </StyledParagraph>
-        <StyledH3>Unsere Bereiche</StyledH3>
-        <StyledLink href="/moebel">
-          <StyledButton>
-            <StyledIcon
-              path={mdiTableFurniture}
-              size={1.5}
-            />
-            Möbelbereich{" "}
-          </StyledButton>
-        </StyledLink>
-        <StyledLink href="/halterung">
-          <StyledButton>
-            <StyledIcon
-              path={mdiTournament}
-              size={1.5}
-            />
-            Halterungen
-          </StyledButton>
-        </StyledLink>
-        <StyledLink href="/wasser">
-          <StyledButton>
-            {" "}
-            <StyledIcon
-              path={mdiWaterOutline}
-              size={1.5}
-            />
-            Wasserbereich
-          </StyledButton>
-        </StyledLink>{" "}
-        <StyledLink href="/lueftung">
-          <StyledButton>
-            <StyledIcon
-              path={mdiAirFilter}
-              size={1.5}
-            />
-            Lüftungsbereich
-          </StyledButton>
-        </StyledLink>
-        <StyledLink href="/elektro">
-          <StyledButton>
-            <StyledIcon
-              path={mdiFlashOutline}
-              size={1.5}
-            />
-            Elektrobereich
-          </StyledButton>
-        </StyledLink>
-      </StyledSection>
-    </>
+    <StyledSection>
+      <StyledH1>{strings.companyWelcome}</StyledH1>
+      <StyledParagraph>{strings.companyDescription}</StyledParagraph>
+      <StyledH3>{strings.companyOurAreas}</StyledH3>
+      <StyledLink href="/products/moebel">
+        <StyledButton>
+          <StyledIcon
+            path={mdiTableFurniture}
+            size={1.5}
+          />
+          Möbelbereich{" "}
+        </StyledButton>
+      </StyledLink>
+      <StyledLink href="/products/halterung">
+        <StyledButton>
+          <StyledIcon
+            path={mdiTournament}
+            size={1.5}
+          />
+          Halterungen
+        </StyledButton>
+      </StyledLink>
+      <StyledLink href="/products/wasser">
+        <StyledButton>
+          {" "}
+          <StyledIcon
+            path={mdiWaterOutline}
+            size={1.5}
+          />
+          Wasserbereich
+        </StyledButton>
+      </StyledLink>{" "}
+      <StyledLink href="/products/lueftung">
+        <StyledButton>
+          <StyledIcon
+            path={mdiAirFilter}
+            size={1.5}
+          />
+          Lüftungsbereich
+        </StyledButton>
+      </StyledLink>
+      <StyledLink href="/products/elektro">
+        <StyledButton>
+          <StyledIcon
+            path={mdiFlashOutline}
+            size={1.5}
+          />
+          Elektrobereich
+        </StyledButton>
+      </StyledLink>
+    </StyledSection>
   );
 }
 export default Home;
 
 const StyledH1 = styled.h1`
-  margin: 0 2rem;
+  text-align: center;
   font-size: 2rem;
+  margin: 1rem 0;
 `;
 const StyledH3 = styled.h3`
   display: flex;
   font-size: 1.75rem;
   margin: 2rem 0 0.5rem;
-  width: 80%;
 `;
 
 const StyledIcon = styled(Icon)`
@@ -96,8 +83,8 @@ const StyledIcon = styled(Icon)`
 `;
 
 const StyledSection = styled.section`
-  width: 80%;
-  align-self: center;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledLink = styled(Link)`
@@ -123,5 +110,5 @@ const StyledButton = styled.button`
 `;
 
 const StyledParagraph = styled.p`
-  margin: 1rem 0;
+  line-height: 1.5;
 `;
