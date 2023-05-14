@@ -5,19 +5,22 @@ import styled from "styled-components";
 
 function Layout({ children }) {
   return (
-    <StyledDiv>
+    <StyledWrapper>
       <Header />
       <Navbar />
       <main>{children}</main>
       <Footer />
-    </StyledDiv>
+    </StyledWrapper>
   );
 }
 
 export default Layout;
 
-const StyledDiv = styled.div`
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
   min-height: 100vh;
   position: relative;
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;
 `;

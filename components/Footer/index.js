@@ -5,8 +5,15 @@ function Footer() {
   return (
     <StyledFooter>
       <StyledList>
-        <StyledLink href="../../privacy">Impressum</StyledLink>
-        <StyledLink href="../../privacy">Datenschutz</StyledLink>
+        <li>
+          <p>Tilo Baumann</p>
+        </li>
+        <li>
+          <StyledLink href="../../privacy">Impressum</StyledLink>
+        </li>
+        <li>
+          <StyledLink href="../../privacy">Datenschutz</StyledLink>
+        </li>
       </StyledList>
     </StyledFooter>
   );
@@ -20,19 +27,24 @@ const StyledFooter = styled.footer`
   bottom: 0;
   width: 100%;
   background-color: var(--background-footer-color);
-  height: 2em;
+  color: var(--font-color-footer);
+  justify-content: center;
+
+  height: 3rem;
 `;
 
 const StyledList = styled.ul`
   display: flex;
-  width: 100vw;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 50px;
   align-items: center;
-  justify-content: space-around;
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: var(--font-color-footer);
+  color: inherit;
+
   &:hover,
   :active {
     color: var(--font-color-hover);

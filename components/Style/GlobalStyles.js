@@ -25,24 +25,19 @@ src: url("/fonts/Rubik-VariableFont_wght.ttf");}
 }
     html,
     body {
-       
-
-       
-
-        padding: 0;
-        margin: 0;
         
+        padding: 0;
+        margin: 0;       
     }
 
 
 
 
     main {
-        display: flex;
-        flex-direction: column;
-        text-align: center; 
-        align-items: center;
-        margin: 50px 0 0 0;
+      
+        align-self: center;
+        width: 80%;
+        
        
         
     }
