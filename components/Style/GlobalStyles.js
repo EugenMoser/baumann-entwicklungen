@@ -37,6 +37,7 @@ src: url("/fonts/Rubik-VariableFont_wght.ttf");}
       
         align-self: center;
         width: 80%;
+        padding-bottom: 1rem;
         
        
         
