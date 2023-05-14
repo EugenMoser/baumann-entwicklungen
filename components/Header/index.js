@@ -18,7 +18,6 @@ function Header() {
         src="/images/baumann_logo_optimiert.png"
         width={749}
         height={103}
-        sizes="60vw"
         onClick={() => navHome()}
       />
 
@@ -33,12 +32,16 @@ export default Header;
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
+  gap: 2rem;
   align-items: center;
+  margin: 1rem 2rem;
 `;
 
 const StyledLogo = styled(Image)`
   align-self: center;
   height: auto;
   max-width: 500px;
+  max-height: 128px;
+
   cursor: pointer;
 `;

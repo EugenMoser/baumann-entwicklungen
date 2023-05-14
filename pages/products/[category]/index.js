@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ProductList from "../../../components/ProductList";
 import { useRouter } from "next/router";
+import styled from "styled-components";
 
 function Category() {
   const [products, setProducts] = useState([]);
@@ -27,17 +28,17 @@ function Category() {
   return (
     <>
       {category === "moebel" ? (
-        <h1>Möbelbereich</h1>
+        <StyledH1>Möbelbereich</StyledH1>
       ) : category === "halterung" ? (
-        <h1>Halterungen</h1>
+        <StyledH1>Halterungen</StyledH1>
       ) : category === "wasser" ? (
-        <h1>Wasserbereich</h1>
+        <StyledH1>Wasserbereich</StyledH1>
       ) : category === "lueftung" ? (
-        <h1>Lüftungsbereich</h1>
+        <StyledH1>Lüftungsbereich</StyledH1>
       ) : category === "elektro" ? (
-        <h1>Elektrobereich</h1>
+        <StyledH1>Elektrobereich</StyledH1>
       ) : (
-        <h1>Keine Kategorie</h1>
+        <StyledH1>Keine Kategorie</StyledH1>
       )}
       <ProductList
         products={products}
@@ -47,3 +48,9 @@ function Category() {
   );
 }
 export default Category;
+
+const StyledH1 = styled.h1`
+  text-align: center;
+  font-size: 2rem;
+  margin: 1rem 0;
+`;

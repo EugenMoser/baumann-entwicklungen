@@ -68,8 +68,7 @@ function Home() {
 export default Home;
 
 const StyledH1 = styled.h1`
-  align-self: center;
-  justify-content: center;
+  text-align: center;
   font-size: 2rem;
   margin: 1rem 0;
 `;

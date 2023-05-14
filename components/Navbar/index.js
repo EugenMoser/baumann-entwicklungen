@@ -16,7 +16,7 @@ function Navbar() {
   }, [path]);
 
   return (
-    <nav>
+    <StyledNav>
       {isDisplayed && (
         <StyledList>
           <li>
@@ -67,11 +67,15 @@ function Navbar() {
           </li>
         </StyledList>
       )}
-    </nav>
+    </StyledNav>
   );
 }
 
 export default Navbar;
+
+const StyledNav = styled.nav`
+  margin: 2rem 0;
+`;
 
 const StyledList = styled.ul`
   display: flex;
@@ -85,12 +89,18 @@ const StyledLink = styled(Link)`
   ${({ variant }) =>
     variant === "active" &&
     css`
-      text-decoration: underline;
+      /* text-decoration: underline; */
+      border-bottom: 2px solid black;
+
+      &:hover,
+      :active {
+        color: var(--font-color-hover);
+        border-bottom: 2px solid var(--font-color-hover);
+      }
     `}
 
   &:hover,
   :active {
     color: var(--font-color-hover);
-    text-decoration: underline;
   }
 `;
