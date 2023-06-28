@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Image from "next/image";
 
 import strings from "../../../../helpers/strings";
-import ColorButton from "../../../../components/ColorButtons";
+import ColorButtons from "../../../../components/ColorButtons";
 import Article from "../../../../components/Article";
 
 function ProductDetails() {
@@ -14,7 +14,6 @@ function ProductDetails() {
   const [product, setProduct] = useState([]);
 
   const apiURL = `http://localhost:3000/api/getdata/${category}/${id}`;
-  const [age, setAge] = React.useState("");
 
   useEffect(() => {
     try {
@@ -31,10 +30,6 @@ function ProductDetails() {
       console.error("Fehler Produkt" + error.message);
     }
   }, [apiURL]);
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
   if (!product) return <h2>Produkte werden geladen</h2>;
 
@@ -72,12 +67,8 @@ function ProductDetails() {
         <p>description3:{description3}</p>
 
         <legend>{strings.chooseColor}</legend>
-        <ButtonWrapper>
-          {product.colors &&
-            product.colors.map((color) => (
-              <ColorButton color={color} />
-            ))}{" "}
-        </ButtonWrapper>
+
+        {product.colors && <ColorButtons colors={product.colors} />}
       </section>
       <section>
         {product.articles &&
@@ -126,8 +117,4 @@ const StyledImage = styled(Image)`
   width: 100%;
   height: auto;
   cursor: pointer;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
 `;

@@ -1,52 +1,31 @@
 import * as React from "react";
+import ColorButton from "/components/ColorButton";
 import { useState } from "react";
 
 import styled from "styled-components";
 
-export default function ColorButton({ color }) {
-  console.log("color", color);
+export default function ColorButtons({ colors }) {
+  const firstColor = colors[0].color_name;
+  const [selectedButton, setSelectedButton] = useState(firstColor);
 
-  function handleClick() {
-    const checkedButton = document.getElementById(color.color_name);
-    checkedButton.checked = true;
+  function selectButtonSetter(colorName) {
+    setSelectedButton(colorName);
   }
 
   return (
-    <>
-      <StyledInput
-        name="radio"
-        type="radio"
-        id={color.color_name}
-        value={color.color_name}
-      />
-      <Wrapper>
-        <StyledButton
-          variant={color.color_code}
-          onClick={() => handleClick()}
-        ></StyledButton>
-        <StyledLabel htmlFor={color.color_name}>
-          {color.color_name}
-        </StyledLabel>
-      </Wrapper>
-    </>
+    <ButtonWrapper>
+      {colors.map((color) => (
+        <ColorButton
+          color={color}
+          isFirstColor={color.color_name === firstColor}
+          selectedButton={selectedButton}
+          selectButtonSetter={selectButtonSetter}
+          keyCode={color.color_code}
+        />
+      ))}
+    </ButtonWrapper>
   );
 }
-
-const StyledInput = styled.input`
-  display: none;
-`;
-
-const Wrapper = styled.div`
+const ButtonWrapper = styled.ul`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const StyledLabel = styled.label``;
-
-const StyledButton = styled.button`
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  background-color: ${(props) => props.variant};
 `;
