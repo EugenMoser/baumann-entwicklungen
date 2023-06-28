@@ -8,10 +8,6 @@ function Category() {
   const router = useRouter();
   const { category } = router.query;
 
-  console.log("router", router);
-
-  console.log("category000", category);
-
   const apiURL = `http://localhost:3000/api/getdata/${category}`;
 
   useEffect(() => {
