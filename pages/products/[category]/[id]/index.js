@@ -6,32 +6,33 @@ import Image from "next/image";
 
 import strings from "../../../../helpers/strings";
 import ColorButtons from "../../../../components/ColorButtons";
-import Article from "../../../../components/Article";
+import Articles from "../../../../components/Articles";
 
-function ProductDetails() {
+function ProductDetails({ products }) {
   const router = useRouter();
-  const { category, id } = router.query;
-  const [product, setProduct] = useState([]);
+  const { id } = router.query;
 
-  const apiURL = `http://localhost:3000/api/getdata/${category}/${id}`;
+  const product = products?.find(
+    (product) => product.product_id.toString() === id
+  );
 
-  useEffect(() => {
-    try {
-      function getDataById() {
-        fetch(apiURL)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("data", data);
-            setProduct(data.products[0]);
-          });
-      }
-      getDataById();
-    } catch (error) {
-      console.error("Fehler Produkt" + error.message);
-    }
-  }, [apiURL]);
-
-  if (!product) return <h2>Produkte werden geladen</h2>;
+  // const [product, setProduct] = useState([]);
+  // const apiURL = `http://localhost:3000/api/getdata/${category}/${id}`;
+  // useEffect(() => {
+  //   try {
+  //     function getDataById() {
+  //       fetch(apiURL)
+  //         .then((response) => response.json())
+  //         .then((data) => {
+  //           console.log("data", data);
+  //           setProduct(data.products[0]);
+  //         });
+  //     }
+  //     getDataById();
+  //   } catch (error) {
+  //     console.error("Fehler Produkt" + error.message);
+  //   }
+  // }, [apiURL]);
 
   const {
     product_id: Id,
@@ -45,7 +46,23 @@ function ProductDetails() {
     category: cat,
   } = product;
 
-  console.log(product);
+  const [articleVarant, setArticleVariant] = useState("");
+
+  function articleVariantSetter(value) {
+    setArticleVariant(value);
+  }
+
+  const [selectedButton, setSelectedButton] = useState(
+    product.colors && product.colors[0].color_name
+  );
+
+  function selectButtonSetter(colorName) {
+    setSelectedButton(colorName);
+  }
+
+  if (!product) return <h2>Produkte werden geladen</h2>;
+
+  console.log(product.colors && product.colors[0].color_name);
 
   return (
     <>
@@ -68,29 +85,27 @@ function ProductDetails() {
 
         <legend>{strings.chooseColor}</legend>
 
-        {product.colors && <ColorButtons colors={product.colors} />}
+        {product.colors && (
+          <ColorButtons
+            colors={product.colors}
+            selectedButton={selectedButton}
+            selectButtonSetter={selectButtonSetter}
+            firstColor={product.colors[0].color_name}
+          />
+        )}
       </section>
       <section>
-        {product.articles &&
-          product.articles.map((article) => <Article article={article} />)}
+        {product.articles && (
+          <Articles
+            articles={product.articles}
+            articleVariantSetter={articleVariantSetter}
+          />
+        )}
       </section>
-      {/* <section>
-        <InputLabel id="article-label">
-          {strings.articleVariant}
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={age}
-          onChange={handleChange}
-          label="Age"
-        >
-          {product.articles &&
-            product.articles.map((article) => (
-              <Article article={article} />
-            ))}
-        </Select>
-      </section> */}
+      <section>
+        <h2>Ergebnis</h2>
+        <p>Artikelnummer: {articleVarant}</p>
+      </section>
     </>
   );
 }

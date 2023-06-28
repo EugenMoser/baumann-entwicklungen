@@ -3,23 +3,25 @@ import ProductList from "../../../components/ProductList";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
-function Category() {
-  const [products, setProducts] = useState([]);
+function Category({ products }) {
   const router = useRouter();
   const { category } = router.query;
 
-  const apiURL = `http://localhost:3000/api/getdata/${category}`;
+  const productsByCategory = products.filter(
+    (product) => product.category === category && product
+  );
 
-  useEffect(() => {
-    function getProductsByCategory() {
-      fetch(apiURL)
-        .then((response) => response.json())
-        .then((data) => setProducts(data.products));
-    }
-    getProductsByCategory();
-  }, [category]);
+  console.log("productsByCategory", productsByCategory);
+  // const apiURL = `http://localhost:3000/api/getdata/${category}`;
 
-  console.log("products", products);
+  // useEffect(() => {
+  //   function getProductsByCategory() {
+  //     fetch(apiURL)
+  //       .then((response) => response.json())
+  //       .then((data) => setProducts(data.products));
+  //   }
+  //   getProductsByCategory();
+  // }, [category]);
 
   return (
     <>
@@ -37,7 +39,7 @@ function Category() {
         <StyledH1>Keine Kategorie</StyledH1>
       )}
       <ProductList
-        products={products}
+        products={productsByCategory}
         category={category}
       />
     </>

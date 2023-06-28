@@ -1,17 +1,15 @@
 import * as React from "react";
-import ColorButton from "/components/ColorButton";
+import ColorButton from "./ColorButton";
 import { useState } from "react";
 
 import styled from "styled-components";
 
-export default function ColorButtons({ colors }) {
-  const firstColor = colors[0].color_name;
-  const [selectedButton, setSelectedButton] = useState(firstColor);
-
-  function selectButtonSetter(colorName) {
-    setSelectedButton(colorName);
-  }
-
+export default function ColorButtons({
+  colors,
+  selectedButton,
+  selectButtonSetter,
+  firstColor,
+}) {
   return (
     <ButtonWrapper>
       {colors.map((color) => (
