@@ -12,16 +12,6 @@ function Category({ products }) {
   );
 
   console.log("productsByCategory", productsByCategory);
-  // const apiURL = `http://localhost:3000/api/getdata/${category}`;
-
-  // useEffect(() => {
-  //   function getProductsByCategory() {
-  //     fetch(apiURL)
-  //       .then((response) => response.json())
-  //       .then((data) => setProducts(data.products));
-  //   }
-  //   getProductsByCategory();
-  // }, [category]);
 
   return (
     <>

@@ -16,24 +16,6 @@ function ProductDetails({ products }) {
     (product) => product.product_id.toString() === id
   );
 
-  // const [product, setProduct] = useState([]);
-  // const apiURL = `http://localhost:3000/api/getdata/${category}/${id}`;
-  // useEffect(() => {
-  //   try {
-  //     function getDataById() {
-  //       fetch(apiURL)
-  //         .then((response) => response.json())
-  //         .then((data) => {
-  //           console.log("data", data);
-  //           setProduct(data.products[0]);
-  //         });
-  //     }
-  //     getDataById();
-  //   } catch (error) {
-  //     console.error("Fehler Produkt" + error.message);
-  //   }
-  // }, [apiURL]);
-
   const {
     product_id: Id,
     product_name: name,
