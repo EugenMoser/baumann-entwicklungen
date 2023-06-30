@@ -7,14 +7,23 @@ function MyApp({ Component, pageProps }) {
   const [products, setProducts] = useState([]);
   const apiURL = `http://localhost:3000/api/getdata`;
 
+  async function fetchProducts() {
+    const response = await fetch(apiURL);
+    const data = await response.json();
+    setProducts(data.products);
+  }
+
   useEffect(() => {
-    function getProductsByCategory() {
-      fetch(apiURL)
-        .then((response) => response.json())
-        .then((data) => setProducts(data.products));
+    try {
+      fetchProducts();
+    } catch (error) {
+      console.error("Fehler Produkt" + error.message);
     }
-    getProductsByCategory();
   }, []);
+
+  console.log("all products", products);
+
+  if (!products) return <h2>Seite wird geladen</h2>;
 
   return (
     <>

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+//products by category
+
 import ProductList from "../../../components/ProductList";
 import { useRouter } from "next/router";
 import styled from "styled-components";
@@ -11,7 +12,7 @@ function Category({ products }) {
     (product) => product.category === category && product
   );
 
-  console.log("productsByCategory", productsByCategory);
+  // console.log("productsByCategory", productsByCategory);
 
   return (
     <>

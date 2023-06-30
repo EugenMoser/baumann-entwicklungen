@@ -1,9 +1,10 @@
+//products details
+
 import * as React from "react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-
 import strings from "../../../../helpers/strings";
 import ColorButtons from "../../../../components/ColorButtons";
 import Articles from "../../../../components/Articles";
@@ -12,12 +13,16 @@ function ProductDetails({ products }) {
   const router = useRouter();
   const { id } = router.query;
 
-  const product = products?.find(
-    (product) => product.product_id.toString() === id
-  );
+  function productById(id) {
+    console.log("products at function ", products);
+
+    return products.find(
+      (product) => product.product_id.toString() === id
+    );
+  }
+  const product = productById(id);
 
   const {
-    product_id: Id,
     product_name: name,
     product_description1: description1,
     product_description2: description2,
@@ -28,23 +33,27 @@ function ProductDetails({ products }) {
     category: cat,
   } = product;
 
-  const [articleVarant, setArticleVariant] = useState("");
+  const [selectedArticle, setSelectedArticle] = useState("");
 
-  function articleVariantSetter(value) {
-    setArticleVariant(value);
+  function selectedArticleSetter(value) {
+    setSelectedArticle(value);
   }
 
-  const [selectedButton, setSelectedButton] = useState(
-    product.colors && product.colors[0].color_name
+  const [selectedColor, setselectedColor] = useState(
+    product.colors && product.colors[0]
   );
 
-  function selectButtonSetter(colorName) {
-    setSelectedButton(colorName);
+  function selectedColorSetter(color) {
+    setselectedColor(color);
   }
 
   if (!product) return <h2>Produkte werden geladen</h2>;
 
-  console.log(product.colors && product.colors[0].color_name);
+  // console.log("pproducts at details", products);
+  // console.log("product details", product);
+  // console.log("product details color", product.colors[0]);
+  // console.log("selectedArticle", selectedArticle);
+  // console.log("selectedColor ---", selectedColor);
 
   return (
     <>
@@ -70,8 +79,8 @@ function ProductDetails({ products }) {
         {product.colors && (
           <ColorButtons
             colors={product.colors}
-            selectedButton={selectedButton}
-            selectButtonSetter={selectButtonSetter}
+            selectedColor={selectedColor}
+            selectedColorSetter={selectedColorSetter}
             firstColor={product.colors[0].color_name}
           />
         )}
@@ -80,13 +89,15 @@ function ProductDetails({ products }) {
         {product.articles && (
           <Articles
             articles={product.articles}
-            articleVariantSetter={articleVariantSetter}
+            selectedArticleSetter={selectedArticleSetter}
           />
         )}
       </section>
       <section>
         <h2>Ergebnis</h2>
-        <p>Artikelnummer: {articleVarant}</p>
+        <p>
+          Artikelnummer: {selectedArticle} - {selectedColor.suffix}
+        </p>
       </section>
     </>
   );

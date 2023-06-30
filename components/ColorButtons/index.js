@@ -6,8 +6,8 @@ import styled from "styled-components";
 
 export default function ColorButtons({
   colors,
-  selectedButton,
-  selectButtonSetter,
+  selectedColor,
+  selectedColorSetter,
   firstColor,
 }) {
   return (
@@ -16,8 +16,8 @@ export default function ColorButtons({
         <ColorButton
           color={color}
           isFirstColor={color.color_name === firstColor}
-          selectedButton={selectedButton}
-          selectButtonSetter={selectButtonSetter}
+          selectedColor={selectedColor}
+          selectedColorSetter={selectedColorSetter}
           keyCode={color.color_code}
         />
       ))}

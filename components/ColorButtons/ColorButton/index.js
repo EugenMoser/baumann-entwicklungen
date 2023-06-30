@@ -4,18 +4,16 @@ import styled from "styled-components";
 export default function ColorButton({
   color,
   isFirstColor,
-  selectedButton,
-  selectButtonSetter,
+  selectedColor,
+  selectedColorSetter,
   keyCode,
 }) {
   const nameSplit = color.color_name.split("");
-
-  function handleClick(colorName) {
-    selectButtonSetter(colorName);
-    const checkedInput = document.getElementById(colorName);
+  function handleClick(color) {
+    selectedColorSetter(color);
+    const checkedInput = document.getElementById(color.color_name);
     checkedInput.checked = true;
   }
-
   return (
     <StyledListItem key={keyCode}>
       <StyledInput
@@ -28,9 +26,9 @@ export default function ColorButton({
       <Wrapper>
         <StyledButton
           name={color.color_name}
-          variant={color.color_code}
-          onClick={() => handleClick(color.color_name)}
-          isSelected={selectedButton === color.color_name}
+          color={color.color_code}
+          onClick={() => handleClick(color)}
+          isSelected={selectedColor.color_name === color.color_name}
         ></StyledButton>
         <StyledLabel htmlFor={color.color_name}>{nameSplit}</StyledLabel>
       </Wrapper>
@@ -60,5 +58,5 @@ const StyledButton = styled.button`
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  background-color: ${(props) => props.variant};
+  background-color: ${(props) => props.color};
 `;
