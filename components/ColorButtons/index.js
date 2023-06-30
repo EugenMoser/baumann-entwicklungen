@@ -18,7 +18,7 @@ export default function ColorButtons({
           isFirstColor={color.color_name === firstColor}
           selectedColor={selectedColor}
           selectedColorSetter={selectedColorSetter}
-          keyCode={color.color_code}
+          key={color.color_code}
         />
       ))}
     </ButtonWrapper>

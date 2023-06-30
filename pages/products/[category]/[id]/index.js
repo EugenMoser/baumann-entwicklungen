@@ -12,15 +12,21 @@ import Articles from "../../../../components/Articles";
 function ProductDetails({ products }) {
   const router = useRouter();
   const { id } = router.query;
+  const product = productById(id);
+  const [selectedArticle, setSelectedArticle] = useState();
+  const [selectedColor, setselectedColor] = useState(
+    product.colors && product.colors[0]
+  );
 
   function productById(id) {
-    console.log("products at function ", products);
-
-    return products.find(
-      (product) => product.product_id.toString() === id
-    );
+    if (!products) {
+      return console.log("products are not loaded");
+    } else {
+      return products.find(
+        (product) => product.product_id.toString() === id
+      );
+    }
   }
-  const product = productById(id);
 
   const {
     product_name: name,
@@ -29,19 +35,15 @@ function ProductDetails({ products }) {
     product_description3: description3,
     product_material: material,
     product_imagepath_big1: image1,
-    Product_image_alt: imageAlt,
     category: cat,
   } = product;
 
-  const [selectedArticle, setSelectedArticle] = useState("");
-
-  function selectedArticleSetter(value) {
-    setSelectedArticle(value);
+  function selectedArticleSetter(articleId) {
+    const articleObject = product.articles.find(
+      (article) => article.article_id.toString() === articleId
+    );
+    setSelectedArticle(articleObject);
   }
-
-  const [selectedColor, setselectedColor] = useState(
-    product.colors && product.colors[0]
-  );
 
   function selectedColorSetter(color) {
     setselectedColor(color);
@@ -52,7 +54,6 @@ function ProductDetails({ products }) {
   // console.log("pproducts at details", products);
   // console.log("product details", product);
   // console.log("product details color", product.colors[0]);
-  // console.log("selectedArticle", selectedArticle);
   // console.log("selectedColor ---", selectedColor);
 
   return (
@@ -64,7 +65,7 @@ function ProductDetails({ products }) {
           <p>{description2}</p>
           <StyledImage
             src={image1}
-            alt={`Ein Bild von ${imageAlt}`}
+            alt={`Ein Bild von ${name}`}
             width={459}
             height={204}
             sizes="60vw"
@@ -93,12 +94,28 @@ function ProductDetails({ products }) {
           />
         )}
       </section>
-      <section>
-        <h2>Ergebnis</h2>
-        <p>
-          Artikelnummer: {selectedArticle} - {selectedColor.suffix}
-        </p>
-      </section>
+
+      <StyledResultSection>
+        {selectedArticle && selectedColor ? (
+          <>
+            <h3>Ergebnis</h3>
+            <p>
+              Der Ausgewählte <StyledSpan>{name} </StyledSpan>mit{" "}
+              <StyledSpan>
+                {selectedArticle.article_description}
+              </StyledSpan>{" "}
+              und in der Farbe
+              <StyledSpan> {selectedColor.color_name}</StyledSpan> hat die
+            </p>
+            <p>
+              Artikelnummer: {selectedArticle.article_number} -{" "}
+              {selectedColor.suffix}
+            </p>{" "}
+          </>
+        ) : (
+          <p>Bitte Farbe und Produktvariante auswähle</p>
+        )}
+      </StyledResultSection>
     </>
   );
 }
@@ -125,4 +142,13 @@ const StyledImage = styled(Image)`
   width: 100%;
   height: auto;
   cursor: pointer;
+`;
+
+const StyledResultSection = styled.section`
+  border: 1px solid red;
+  background-color: #e2edd9;
+`;
+
+const StyledSpan = styled.span`
+  font-weight: bold;
 `;

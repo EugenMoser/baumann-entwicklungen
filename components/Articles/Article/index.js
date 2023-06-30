@@ -2,7 +2,7 @@ import * as React from "react";
 
 export default function Article({ article }) {
   return (
-    <option value={article.article_number}>
+    <option value={article.article_id}>
       {article.article_description}
 
       {/* {article.vpe &&

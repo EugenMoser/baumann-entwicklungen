@@ -6,7 +6,6 @@ export default function ColorButton({
   isFirstColor,
   selectedColor,
   selectedColorSetter,
-  keyCode,
 }) {
   const nameSplit = color.color_name.split("");
   function handleClick(color) {
@@ -15,7 +14,7 @@ export default function ColorButton({
     checkedInput.checked = true;
   }
   return (
-    <StyledListItem key={keyCode}>
+    <StyledListItem>
       <StyledInput
         name="radio"
         type="radio"
