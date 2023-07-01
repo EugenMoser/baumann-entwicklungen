@@ -1,30 +1,22 @@
-import { useState, useEffect } from "react";
+//products by category
+
 import ProductList from "../../../components/ProductList";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
-function Category() {
-  const [products, setProducts] = useState([]);
+function ProductCategory({ products }) {
   const router = useRouter();
   const { category } = router.query;
 
-  console.log("router", router);
+  const filteredProducts = productsByCategory(category);
 
-  console.log("category000", category);
-
-  const apiURL = `http://localhost:3000/api/getdata/${category}`;
-
-  useEffect(() => {
-    function getProductsByCategory() {
-      fetch(apiURL)
-        .then((response) => response.json())
-        .then((data) => setProducts(data.products));
-    }
-    getProductsByCategory();
-  }, [category]);
-
-  console.log("products", products);
-
+  //filter products by category
+  function productsByCategory(category) {
+    const filteredProduct = products.filter(
+      (product) => product.category === category
+    );
+    return filteredProduct;
+  }
   return (
     <>
       {category === "moebel" ? (
@@ -40,14 +32,16 @@ function Category() {
       ) : (
         <StyledH1>Keine Kategorie</StyledH1>
       )}
-      <ProductList
-        products={products}
-        category={category}
-      />
+      {filteredProducts && (
+        <ProductList
+          products={filteredProducts}
+          category={category}
+        />
+      )}
     </>
   );
 }
-export default Category;
+export default ProductCategory;
 
 const StyledH1 = styled.h1`
   text-align: center;

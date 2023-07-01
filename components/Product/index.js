@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
 
-function Product({ product, category }) {
+export default function Product({ product, category }) {
   return (
     <StyledLink href={`./${category}/${product.product_id}`}>
       <StyledImage
@@ -20,8 +20,6 @@ function Product({ product, category }) {
     </StyledLink>
   );
 }
-
-export default Product;
 
 const StyledLink = styled(Link)`
   width: 100%;

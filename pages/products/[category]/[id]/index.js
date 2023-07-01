@@ -1,84 +1,133 @@
+//products details
+
+import * as React from "react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
+import Image from "next/image";
+import strings from "../../../../helpers/strings";
+import ColorButtons from "../../../../components/ColorButtons";
+import Articles from "../../../../components/Articles";
+import ShowSelection from "../../../../components/ShowSelection";
 
-function ProductDetails() {
+function ProductDetails({ products }) {
   const router = useRouter();
-  const { category, id } = router.query;
-  console.log(router);
-  const [product, setProduct] = useState([]);
-
-  const apiURL = `http://localhost:3000/api/getdata/${category}/${id}`;
-
-  useEffect(() => {
-    try {
-      function getDataById() {
-        fetch(apiURL)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            setProduct(data.products[0]);
-          });
-      }
-      getDataById();
-    } catch (error) {
-      console.error("Fehler Produkt" + error.message);
-    }
-  }, [apiURL]);
-
-  console.log(product);
-  if (!product) return <h2>Produkte werden geladen</h2>;
-
+  const { id } = router.query;
+  const product = productById(id);
+  if (!products || !product) {
+    return <h2>Produkte werden geladen</h2>;
+  }
+  const selectFirstColor = product?.colors[0];
+  const [selectedArticle, setSelectedArticle] = useState(undefined);
+  const [selectedColor, setSelectedColor] = useState(selectFirstColor);
   const {
-    product_id: Id,
     product_name: name,
     product_description1: description1,
     product_description2: description2,
-    product_description3: description3,
     product_material: material,
-    product_imagepath: image,
+    product_imagepath_big1: image1,
     category: cat,
   } = product;
+
+  //filter products by id
+  function productById(id) {
+    const filteredProduct = products.find(
+      (product) => product.product_id.toString() === id
+    );
+    return filteredProduct;
+  }
+
+  function selectedArticleSetter(articleId) {
+    const articleObject = product.articles.find(
+      (article) => article.article_id.toString() === articleId
+    );
+    setSelectedArticle(articleObject);
+  }
+
+  function selectedColorSetter(color) {
+    setSelectedColor(color);
+  }
+
+  // console.log("pproducts at details", products);
+  // console.log("product details", product);
+  // console.log("product details color", product.colors[0]);
+  // console.log("selectedColor ---", selectedColor);
 
   return (
     <>
       <section>
-        <h3>Produkt - Name:{name}</h3>
-        <p>category:{cat}</p>
+        <StyledH1>{name}</StyledH1>
+        <p>{description1}</p>
+        <ImageWrapper>
+          <p>{description2}</p>
+          <StyledImage
+            src={image1}
+            alt={`Ein Bild von ${name}`}
+            width={459}
+            height={204}
+            sizes="60vw"
+          />
+        </ImageWrapper>
         <p>material:{material}</p>
-        <p>description1:{description1}</p>
-        <p>description2:{description2}</p>
-        <p>description3:{description3}</p>
-        <ul>
-          {product.colors &&
-            product.colors.map((color) => (
-              <li key={color.color_id}>Farbe: {color.color_name}</li>
-            ))}
-        </ul>
-        <img
-          src={image}
-          alt=""
-        />
+        <p>category:{cat}</p>
+
+        <legend>{strings.chooseColor}</legend>
+
+        {product.colors && (
+          <ColorButtons
+            colors={product.colors}
+            selectedColor={selectedColor}
+            selectedColorSetter={selectedColorSetter}
+            firstColorName={selectFirstColor.color_name}
+          />
+        )}
       </section>
       <section>
-        <ul>
-          {product.articles &&
-            product.articles.map((article) => (
-              <li key={article.article_id}>
-                <p>Artikel Nummer: {article.article_number}</p>
-                <p>Artikel Name: {article.article_name}</p>{" "}
-                <div>
-                  <ul>
-                    {article.vpe &&
-                      article.vpe.map((vpe) => (
-                        <li key={vpe}>VPE: {vpe}</li>
-                      ))}
-                  </ul>
-                </div>
-              </li>
-            ))}
-        </ul>
+        {product.articles && (
+          <Articles
+            articles={product.articles}
+            selectedArticleSetter={selectedArticleSetter}
+          />
+        )}
       </section>
+
+      <StyledResultSection>
+        <ShowSelection
+          selectedArticle={selectedArticle}
+          selectedColor={selectedColor}
+          name={name}
+        />
+      </StyledResultSection>
     </>
   );
 }
+
 export default ProductDetails;
+
+const StyledH1 = styled.h1`
+  text-align: start;
+  font-size: 2rem;
+  margin: 1rem 0;
+`;
+
+const ImageWrapper = styled.div`
+  display: flex;
+  gap: 2rem;
+`;
+
+const StyledImage = styled(Image)`
+  align-self: center;
+  max-width: 459px;
+  min-width: 260px;
+  max-height: 204px;
+  min-height: 115px;
+
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+`;
+
+const StyledResultSection = styled.section`
+  border: 1px solid red;
+  background-color: #e2edd9;
+`;

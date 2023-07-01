@@ -7,7 +7,6 @@ function Navbar() {
   const [isDisplayed, setIsDisplayed] = useState(true);
   const router = useRouter();
   const path = router.asPath;
-  console.log("router", path);
 
   useEffect(() => {
     if (path === "/") {
