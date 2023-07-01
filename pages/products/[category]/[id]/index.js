@@ -2,41 +2,41 @@
 
 import * as React from "react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import strings from "../../../../helpers/strings";
 import ColorButtons from "../../../../components/ColorButtons";
 import Articles from "../../../../components/Articles";
+import ShowSelection from "../../../../components/ShowSelection";
 
 function ProductDetails({ products }) {
   const router = useRouter();
   const { id } = router.query;
   const product = productById(id);
+  if (!product) return <h2>Produkte werden geladen</h2>;
+
+  const selectFirstColor = product.colors[0];
   const [selectedArticle, setSelectedArticle] = useState();
-  const [selectedColor, setselectedColor] = useState(
-    product.colors && product.colors[0]
-  );
-
-  function productById(id) {
-    if (!products) {
-      return console.log("products are not loaded");
-    } else {
-      return products.find(
-        (product) => product.product_id.toString() === id
-      );
-    }
-  }
-
+  const [selectedColor, setselectedColor] = useState(selectFirstColor);
   const {
     product_name: name,
     product_description1: description1,
     product_description2: description2,
-    product_description3: description3,
     product_material: material,
     product_imagepath_big1: image1,
     category: cat,
   } = product;
+  function productById(id) {
+    if (!products) {
+      return console.log("products are not loaded");
+    } else {
+      const product = products.find(
+        (product) => product.product_id.toString() === id
+      );
+      return product;
+    }
+  }
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
@@ -48,8 +48,6 @@ function ProductDetails({ products }) {
   function selectedColorSetter(color) {
     setselectedColor(color);
   }
-
-  if (!product) return <h2>Produkte werden geladen</h2>;
 
   // console.log("pproducts at details", products);
   // console.log("product details", product);
@@ -73,7 +71,6 @@ function ProductDetails({ products }) {
         </ImageWrapper>
         <p>material:{material}</p>
         <p>category:{cat}</p>
-        <p>description3:{description3}</p>
 
         <legend>{strings.chooseColor}</legend>
 
@@ -96,25 +93,11 @@ function ProductDetails({ products }) {
       </section>
 
       <StyledResultSection>
-        {selectedArticle && selectedColor ? (
-          <>
-            <h3>Ergebnis</h3>
-            <p>
-              Der Ausgewählte <StyledSpan>{name} </StyledSpan>mit{" "}
-              <StyledSpan>
-                {selectedArticle.article_description}
-              </StyledSpan>{" "}
-              und in der Farbe
-              <StyledSpan> {selectedColor.color_name}</StyledSpan> hat die
-            </p>
-            <p>
-              Artikelnummer: {selectedArticle.article_number} -{" "}
-              {selectedColor.suffix}
-            </p>{" "}
-          </>
-        ) : (
-          <p>Bitte Farbe und Produktvariante auswähle</p>
-        )}
+        <ShowSelection
+          selectedArticle={selectedArticle}
+          selectedColor={selectedColor}
+          name={name}
+        />
       </StyledResultSection>
     </>
   );
@@ -147,8 +130,4 @@ const StyledImage = styled(Image)`
 const StyledResultSection = styled.section`
   border: 1px solid red;
   background-color: #e2edd9;
-`;
-
-const StyledSpan = styled.span`
-  font-weight: bold;
 `;

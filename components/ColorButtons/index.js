@@ -11,19 +11,24 @@ export default function ColorButtons({
   firstColor,
 }) {
   return (
-    <ButtonWrapper>
-      {colors.map((color) => (
-        <ColorButton
-          color={color}
-          isFirstColor={color.color_name === firstColor}
-          selectedColor={selectedColor}
-          selectedColorSetter={selectedColorSetter}
-          key={color.color_code}
-        />
-      ))}
-    </ButtonWrapper>
+    <>
+      {selectedColor && (
+        <ButtonWrapper>
+          {colors.map((color) => (
+            <ColorButton
+              color={color}
+              isFirstColor={color.color_name === firstColor}
+              selectedColor={selectedColor}
+              selectedColorSetter={selectedColorSetter}
+              key={color.color_code}
+            />
+          ))}
+        </ButtonWrapper>
+      )}
+    </>
   );
 }
+
 const ButtonWrapper = styled.ul`
   display: flex;
 `;

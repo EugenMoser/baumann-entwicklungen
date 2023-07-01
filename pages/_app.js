@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
   const [products, setProducts] = useState([]);
   const apiURL = `http://localhost:3000/api/getdata`;
 
-  async function fetchProducts() {
+  async function fetchAllProducts() {
     const response = await fetch(apiURL);
     const data = await response.json();
     setProducts(data.products);
@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     try {
-      fetchProducts();
+      fetchAllProducts();
     } catch (error) {
       console.error("Fehler Produkt" + error.message);
     }

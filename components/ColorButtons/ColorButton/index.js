@@ -8,11 +8,13 @@ export default function ColorButton({
   selectedColorSetter,
 }) {
   const nameSplit = color.color_name.split("");
+
   function handleClick(color) {
     selectedColorSetter(color);
     const checkedInput = document.getElementById(color.color_name);
     checkedInput.checked = true;
   }
+
   return (
     <StyledListItem>
       <StyledInput

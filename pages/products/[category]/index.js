@@ -4,7 +4,7 @@ import ProductList from "../../../components/ProductList";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
-function Category({ products }) {
+function ProductCategory({ products }) {
   const router = useRouter();
   const { category } = router.query;
 
@@ -36,7 +36,7 @@ function Category({ products }) {
     </>
   );
 }
-export default Category;
+export default ProductCategory;
 
 const StyledH1 = styled.h1`
   text-align: center;
