@@ -20,10 +20,9 @@ function MyApp({ Component, pageProps }) {
       console.error("Fehler Produkt" + error.message);
     }
   }, []);
+  if (!products) return <h2>Seite wird geladen</h2>;
 
   console.log("all products", products);
-
-  if (!products) return <h2>Seite wird geladen</h2>;
 
   return (
     <>

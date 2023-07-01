@@ -8,7 +8,7 @@ export default function ColorButtons({
   colors,
   selectedColor,
   selectedColorSetter,
-  firstColor,
+  firstColorName,
 }) {
   return (
     <>
@@ -17,7 +17,7 @@ export default function ColorButtons({
           {colors.map((color) => (
             <ColorButton
               color={color}
-              isFirstColor={color.color_name === firstColor}
+              isFirstColor={color.color_name === firstColorName}
               selectedColor={selectedColor}
               selectedColorSetter={selectedColorSetter}
               key={color.color_code}

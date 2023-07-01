@@ -14,11 +14,12 @@ function ProductDetails({ products }) {
   const router = useRouter();
   const { id } = router.query;
   const product = productById(id);
-  if (!product) return <h2>Produkte werden geladen</h2>;
-
-  const selectFirstColor = product.colors[0];
-  const [selectedArticle, setSelectedArticle] = useState();
-  const [selectedColor, setselectedColor] = useState(selectFirstColor);
+  if (!products || !product) {
+    return <h2>Produkte werden geladen</h2>;
+  }
+  const selectFirstColor = product?.colors[0];
+  const [selectedArticle, setSelectedArticle] = useState(undefined);
+  const [selectedColor, setSelectedColor] = useState(selectFirstColor);
   const {
     product_name: name,
     product_description1: description1,
@@ -27,15 +28,13 @@ function ProductDetails({ products }) {
     product_imagepath_big1: image1,
     category: cat,
   } = product;
+
+  //filter products by id
   function productById(id) {
-    if (!products) {
-      return console.log("products are not loaded");
-    } else {
-      const product = products.find(
-        (product) => product.product_id.toString() === id
-      );
-      return product;
-    }
+    const filteredProduct = products.find(
+      (product) => product.product_id.toString() === id
+    );
+    return filteredProduct;
   }
 
   function selectedArticleSetter(articleId) {
@@ -46,7 +45,7 @@ function ProductDetails({ products }) {
   }
 
   function selectedColorSetter(color) {
-    setselectedColor(color);
+    setSelectedColor(color);
   }
 
   // console.log("pproducts at details", products);
@@ -79,7 +78,7 @@ function ProductDetails({ products }) {
             colors={product.colors}
             selectedColor={selectedColor}
             selectedColorSetter={selectedColorSetter}
-            firstColor={product.colors[0].color_name}
+            firstColorName={selectFirstColor.color_name}
           />
         )}
       </section>
@@ -102,6 +101,7 @@ function ProductDetails({ products }) {
     </>
   );
 }
+
 export default ProductDetails;
 
 const StyledH1 = styled.h1`

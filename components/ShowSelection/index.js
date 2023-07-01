@@ -6,6 +6,9 @@ export default function ShowSelection({
   selectedColor,
   name,
 }) {
+  console.log("selectedColor on showsection", selectedColor);
+  console.log("selectedArticle on showsection", selectedArticle);
+
   return (
     <>
       {selectedArticle && selectedColor ? (
@@ -21,6 +24,13 @@ export default function ShowSelection({
             Artikelnummer: {selectedArticle.article_number} -{" "}
             {selectedColor.suffix}
           </p>{" "}
+          <ul>
+            Verpankungseinheiten:
+            {selectedArticle.vpe1 && <li>{selectedArticle.vpe1} Stück</li>}
+            {selectedArticle.vpe2 && <li>{selectedArticle.vpe2} Stück</li>}
+            {selectedArticle.vpe3 && <li>{selectedArticle.vpe3} Stück</li>}
+            {selectedArticle.vpe4 && <li>{selectedArticle.vpe4} Stück</li>}
+          </ul>
         </>
       ) : (
         <p>Bitte Farbe und Produktvariante auswähle</p>

@@ -8,12 +8,15 @@ function ProductCategory({ products }) {
   const router = useRouter();
   const { category } = router.query;
 
-  const productsByCategory = products.filter(
-    (product) => product.category === category && product
-  );
+  const filteredProducts = productsByCategory(category);
 
-  // console.log("productsByCategory", productsByCategory);
-
+  //filter products by category
+  function productsByCategory(category) {
+    const filteredProduct = products.filter(
+      (product) => product.category === category
+    );
+    return filteredProduct;
+  }
   return (
     <>
       {category === "moebel" ? (
@@ -29,10 +32,12 @@ function ProductCategory({ products }) {
       ) : (
         <StyledH1>Keine Kategorie</StyledH1>
       )}
-      <ProductList
-        products={productsByCategory}
-        category={category}
-      />
+      {filteredProducts && (
+        <ProductList
+          products={filteredProducts}
+          category={category}
+        />
+      )}
     </>
   );
 }
