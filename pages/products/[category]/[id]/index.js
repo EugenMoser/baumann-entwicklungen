@@ -19,6 +19,7 @@ function ProductDetails({ products }) {
   const selectFirstColor = product?.colors[0];
   const [selectedArticle, setSelectedArticle] = useState(undefined);
   const [selectedColor, setSelectedColor] = useState(selectFirstColor);
+  console.log("selectedColor", selectedColor);
   const {
     product_name: name,
     product_description1: description1,
@@ -51,21 +52,20 @@ function ProductDetails({ products }) {
       <StyledH1>{name}</StyledH1>
       <Descripton1>{description1}</Descripton1>
       <Wrapper>
-        <section>
-          <ProductWrapper>
-            <p>{description2}</p>
-            <StyledImage
-              src={image1}
-              alt={`Ein Bild von ${name}`}
-              width={459}
-              height={204}
-              sizes="60vw"
-            />
-          </ProductWrapper>
+        <ProductWrapper>
+          <p>{description2}</p>
           <StyledParagraph>
             Material:<Indentation>{material}</Indentation>
           </StyledParagraph>
-        </section>
+          <StyledImage
+            src={image1}
+            alt={`Ein Bild von ${name}`}
+            width={459}
+            height={204}
+            sizes="60vw"
+          />
+        </ProductWrapper>
+
         <ArticleWrapper>
           {product.articles && (
             <Articles
@@ -101,6 +101,7 @@ export default ProductDetails;
 const Wrapper = styled.div`
   display: flex;
   gap: 3rem;
+  margin-bottom: 2rem;
 `;
 
 const StyledH1 = styled.h1`
@@ -112,16 +113,16 @@ const StyledH1 = styled.h1`
 const ProductWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  flex: 1 0;
+  gap: 1.25rem;
 `;
 
 const StyledImage = styled(Image)`
   align-self: center;
-  max-width: 459px;
-  min-width: 260px;
+  max-width: 470px;
+  /* min-width: 260px; */
   max-height: 204px;
-  min-height: 115px;
+  /* min-height: 115px; */
 
   width: 100%;
   height: auto;
@@ -138,13 +139,14 @@ const Indentation = styled.span`
 `;
 
 const StyledParagraph = styled.p`
-  margin-bottom: 2rem;
+  /* margin-bottom: 1rem; */
 `;
 
 const ArticleWrapper = styled.div`
-  /* display: flex; */
-  gap: 2rem;
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0;
+  gap: 1.25rem;
 `;
 
 const StyledResultSection = styled.section`

@@ -24,40 +24,43 @@ export default function ColorButton({
         defaultChecked={isFirstColor}
         value={color.color_name}
       />
-      <Wrapper>
-        <StyledButton
-          name={color.color_name}
-          color={color.color_code}
-          onClick={() => handleClick(color)}
-          isSelected={selectedColor.color_name === color.color_name}
-        ></StyledButton>
-        <StyledLabel htmlFor={color.color_name}>{nameSplit}</StyledLabel>
-      </Wrapper>
+      <StyledButton
+        name={color.color_name}
+        color={color.color_code}
+        onClick={() => handleClick(color)}
+        isSelected={selectedColor.color_name === color.color_name}
+        onF
+      >
+        <StyledSpan color={color.color_code}></StyledSpan>
+      </StyledButton>
     </StyledListItem>
   );
 }
 
 const StyledListItem = styled.li`
   list-style: none;
+  align-self: center;
 `;
 const StyledInput = styled.input`
   display: none;
 `;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const StyledLabel = styled.label`
-  max-width: 150px;
-`;
-
 const StyledButton = styled.button`
-  border: ${(props) => (props.isSelected ? "5px double #fff" : "none")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: content-box;
+  border: ${(props) =>
+    props.isSelected ? "2px solid blue" : "2px solid transparent"};
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  background-color: transparent;
+`;
+
+const StyledSpan = styled.div`
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
   background-color: ${(props) => props.color};
 `;

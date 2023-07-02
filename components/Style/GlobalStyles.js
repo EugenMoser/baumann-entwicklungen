@@ -5,6 +5,7 @@ const GlobalStyles = createGlobalStyle`
 :root {
     --font-color: #000000;
     --font-color-hover: #00BFFF;
+    --font-color-varant: #86868b;
     --background-category-color: #Dae2e6;
     --background-category-hover-color: #aeb5b8;
  
