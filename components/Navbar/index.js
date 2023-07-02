@@ -20,7 +20,9 @@ function Navbar() {
         <StyledList>
           <li>
             <StyledLink
-              variant={path === "/products/moebel" ? "active" : "inactive"}
+              variant={
+                path.startsWith("/products/moebel") ? "active" : "inactive"
+              }
               href="/products/moebel"
             >
               Möbelbereich
@@ -29,7 +31,9 @@ function Navbar() {
           <li>
             <StyledLink
               variant={
-                path === "/products/halterung" ? "active" : "inactive"
+                path.startsWith("/products/halterung")
+                  ? "active"
+                  : "inactive"
               }
               href="/products/halterung"
             >
@@ -38,7 +42,9 @@ function Navbar() {
           </li>
           <li>
             <StyledLink
-              variant={path === "/products/wasser" ? "active" : "inactive"}
+              variant={
+                path.startsWith("/products/wasser") ? "active" : "inactive"
+              }
               href="/products/wasser"
             >
               Wasserbereich
@@ -47,7 +53,9 @@ function Navbar() {
           <li>
             <StyledLink
               variant={
-                path === "/products/lueftung" ? "active" : "inactive"
+                path.startsWith("/products/lueftung")
+                  ? "active"
+                  : "inactive"
               }
               href="/products/lueftung"
             >

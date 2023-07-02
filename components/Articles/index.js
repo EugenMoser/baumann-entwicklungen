@@ -1,14 +1,16 @@
 import * as React from "react";
-import { useState } from "react";
 import Article from "./Article";
+import styled from "styled-components";
 
 export default function Articles({ articles, selectedArticleSetter }) {
   function handleOnChange(articleId) {
     selectedArticleSetter(articleId);
   }
   return (
-    <>
-      <label htmlFor="article">Bitte Produkt-Variante wählen</label>
+    <StyledArticleSection>
+      <StyledLabel htmlFor="article">
+        Bitte Produkt-Variante wählen
+      </StyledLabel>
       <select
         id="article"
         name="article"
@@ -29,6 +31,15 @@ export default function Articles({ articles, selectedArticleSetter }) {
           />
         ))}
       </select>
-    </>
+    </StyledArticleSection>
   );
 }
+
+const StyledArticleSection = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledLabel = styled.label`
+  margin-bottom: 1rem;
+`;

@@ -34,7 +34,7 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   gap: 2rem;
   align-items: center;
-  margin: 1rem 2rem;
+  margin: 1rem 0;
 `;
 
 const StyledLogo = styled(Image)`
@@ -42,6 +42,5 @@ const StyledLogo = styled(Image)`
   height: auto;
   max-width: 500px;
   max-height: 128px;
-
   cursor: pointer;
 `;

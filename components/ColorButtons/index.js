@@ -1,6 +1,6 @@
 import * as React from "react";
 import ColorButton from "./ColorButton";
-import { useState } from "react";
+import strings from "../../helpers/strings";
 
 import styled from "styled-components";
 
@@ -11,7 +11,8 @@ export default function ColorButtons({
   firstColorName,
 }) {
   return (
-    <>
+    <StyledColorSection>
+      <StyledLabel>{strings.chooseColor}</StyledLabel>
       {selectedColor && (
         <ButtonWrapper>
           {colors.map((color) => (
@@ -25,10 +26,19 @@ export default function ColorButtons({
           ))}
         </ButtonWrapper>
       )}
-    </>
+    </StyledColorSection>
   );
 }
 
+const StyledColorSection = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
+
 const ButtonWrapper = styled.ul`
   display: flex;
+`;
+
+const StyledLabel = styled.label`
+  margin-bottom: 1rem;
 `;

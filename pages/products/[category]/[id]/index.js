@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import strings from "../../../../helpers/strings";
 import ColorButtons from "../../../../components/ColorButtons";
 import Articles from "../../../../components/Articles";
 import ShowSelection from "../../../../components/ShowSelection";
@@ -26,7 +25,6 @@ function ProductDetails({ products }) {
     product_description2: description2,
     product_material: material,
     product_imagepath_big1: image1,
-    category: cat,
   } = product;
 
   //filter products by id
@@ -48,48 +46,44 @@ function ProductDetails({ products }) {
     setSelectedColor(color);
   }
 
-  // console.log("pproducts at details", products);
-  // console.log("product details", product);
-  // console.log("product details color", product.colors[0]);
-  // console.log("selectedColor ---", selectedColor);
-
   return (
     <>
-      <section>
-        <StyledH1>{name}</StyledH1>
-        <p>{description1}</p>
-        <ImageWrapper>
-          <p>{description2}</p>
-          <StyledImage
-            src={image1}
-            alt={`Ein Bild von ${name}`}
-            width={459}
-            height={204}
-            sizes="60vw"
-          />
-        </ImageWrapper>
-        <p>material:{material}</p>
-        <p>category:{cat}</p>
+      <StyledH1>{name}</StyledH1>
+      <Descripton1>{description1}</Descripton1>
+      <Wrapper>
+        <section>
+          <ProductWrapper>
+            <p>{description2}</p>
+            <StyledImage
+              src={image1}
+              alt={`Ein Bild von ${name}`}
+              width={459}
+              height={204}
+              sizes="60vw"
+            />
+          </ProductWrapper>
+          <StyledParagraph>
+            Material:<Indentation>{material}</Indentation>
+          </StyledParagraph>
+        </section>
+        <ArticleWrapper>
+          {product.articles && (
+            <Articles
+              articles={product.articles}
+              selectedArticleSetter={selectedArticleSetter}
+            />
+          )}
 
-        <legend>{strings.chooseColor}</legend>
-
-        {product.colors && (
-          <ColorButtons
-            colors={product.colors}
-            selectedColor={selectedColor}
-            selectedColorSetter={selectedColorSetter}
-            firstColorName={selectFirstColor.color_name}
-          />
-        )}
-      </section>
-      <section>
-        {product.articles && (
-          <Articles
-            articles={product.articles}
-            selectedArticleSetter={selectedArticleSetter}
-          />
-        )}
-      </section>
+          {product.colors && (
+            <ColorButtons
+              colors={product.colors}
+              selectedColor={selectedColor}
+              selectedColorSetter={selectedColorSetter}
+              firstColorName={selectFirstColor.color_name}
+            />
+          )}
+        </ArticleWrapper>
+      </Wrapper>
 
       <StyledResultSection>
         <ShowSelection
@@ -104,15 +98,22 @@ function ProductDetails({ products }) {
 
 export default ProductDetails;
 
+const Wrapper = styled.div`
+  display: flex;
+  gap: 3rem;
+`;
+
 const StyledH1 = styled.h1`
   text-align: start;
   font-size: 2rem;
   margin: 1rem 0;
 `;
 
-const ImageWrapper = styled.div`
+const ProductWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const StyledImage = styled(Image)`
@@ -125,6 +126,25 @@ const StyledImage = styled(Image)`
   width: 100%;
   height: auto;
   cursor: pointer;
+`;
+
+const Descripton1 = styled.p`
+  font-weight: bold;
+  margin-bottom: 1rem;
+`;
+
+const Indentation = styled.span`
+  margin-left: 2rem;
+`;
+
+const StyledParagraph = styled.p`
+  margin-bottom: 2rem;
+`;
+
+const ArticleWrapper = styled.div`
+  /* display: flex; */
+  gap: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const StyledResultSection = styled.section`

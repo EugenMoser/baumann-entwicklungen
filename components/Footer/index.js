@@ -26,8 +26,8 @@ const StyledFooter = styled.footer`
   position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: var(--background-footer-color);
-  color: var(--font-color-footer);
+  border-top: 1px solid var(--font-color);
+  color: var(--font-color);
   justify-content: center;
 
   height: 3rem;
