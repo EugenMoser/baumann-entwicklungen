@@ -19,14 +19,17 @@ function ProductDetails({ products }) {
   const selectFirstColor = product?.colors[0];
   const [selectedArticle, setSelectedArticle] = useState(undefined);
   const [selectedColor, setSelectedColor] = useState(selectFirstColor);
-  console.log("selectedColor", selectedColor);
   const {
     product_name: name,
     product_description1: description1,
     product_description2: description2,
+    product_description3: description3,
+
     product_material: material,
     product_imagepath_big1: image1,
   } = product;
+
+  console.log(selectedArticle, "selectedArticle1.0");
 
   //filter products by id
   function productById(id) {
@@ -38,7 +41,8 @@ function ProductDetails({ products }) {
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
-      (article) => article.article_id.toString() === articleId
+      // (article) => article.article_id.toString() === articleId
+      (article) => article.article_id === articleId
     );
     setSelectedArticle(articleObject);
   }
@@ -53,10 +57,10 @@ function ProductDetails({ products }) {
       <Descripton1>{description1}</Descripton1>
       <Wrapper>
         <ProductWrapper>
-          <p>{description2}</p>
-          <StyledParagraph>
-            Material:<Indentation>{material}</Indentation>
-          </StyledParagraph>
+          {description2 && <p>{description2}</p>}
+          {description3 && <p>{description3}</p>}
+
+          <StyledParagraph>Material: {material}</StyledParagraph>
           <StyledImage
             src={image1}
             alt={`Ein Bild von ${name}`}
@@ -82,16 +86,13 @@ function ProductDetails({ products }) {
               firstColorName={selectFirstColor.color_name}
             />
           )}
+          <ShowSelection
+            selectedArticle={selectedArticle}
+            selectedColor={selectedColor}
+            name={name}
+          />
         </ArticleWrapper>
       </Wrapper>
-
-      <StyledResultSection>
-        <ShowSelection
-          selectedArticle={selectedArticle}
-          selectedColor={selectedColor}
-          name={name}
-        />
-      </StyledResultSection>
     </>
   );
 }
@@ -114,7 +115,7 @@ const ProductWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1 0;
-  gap: 1.25rem;
+  gap: 1.75rem;
 `;
 
 const StyledImage = styled(Image)`
@@ -134,10 +135,6 @@ const Descripton1 = styled.p`
   margin-bottom: 1rem;
 `;
 
-const Indentation = styled.span`
-  margin-left: 2rem;
-`;
-
 const StyledParagraph = styled.p`
   /* margin-bottom: 1rem; */
 `;
@@ -146,10 +143,5 @@ const ArticleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1 0;
-  gap: 1.25rem;
-`;
-
-const StyledResultSection = styled.section`
-  border: 1px solid red;
-  background-color: #e2edd9;
+  gap: 1.75rem;
 `;
