@@ -1,12 +1,33 @@
 import * as React from "react";
+import { useState } from "react";
 import Article from "./Article";
 import styled from "styled-components";
 import strings from "../../helpers/strings";
 
 export default function Articles({ articles, selectedArticleSetter }) {
+  const [defaultArticle, setDefaultArticle] = useState(9999);
+
+  React.useEffect(() => {
+    if (articles.length === 1) {
+      setDefaultArticle(articles[0].article_id);
+      selectedArticleSetter(articles[0].article_id);
+    } else {
+      setDefaultArticle(9999);
+    }
+  }, []);
+
   function handleOnChange(articleId) {
     selectedArticleSetter(articleId);
   }
+
+  //***************** */
+  console.log(defaultArticle, " defaultArticle");
+  console.log(articles.length, " articles.length");
+  console.log(typeof articles[0].article_id, " articles[0].article_id");
+  //***************** */
+
+  // if only one article is available, it is automatically selected
+
   return (
     <StyledArticleSection>
       <StyledLabel htmlFor="article">
@@ -16,16 +37,18 @@ export default function Articles({ articles, selectedArticleSetter }) {
       <StyledSelect
         id="article"
         name="article"
-        onChange={(option) => handleOnChange(option.target.value)}
-        defaultValue={99}
+        onChange={(option) => handleOnChange(Number(option.target.value))}
+        defaultValue={defaultArticle && defaultArticle}
         required
       >
-        <option
-          value="99"
-          disabled
-        >
-          Bitte wählen
-        </option>
+        {defaultArticle === 9999 && (
+          <option
+            value="9999"
+            disabled
+          >
+            Bitte wählen
+          </option>
+        )}
         {articles.map((article) => (
           <Article
             article={article}
@@ -40,14 +63,14 @@ export default function Articles({ articles, selectedArticleSetter }) {
 const StyledArticleSection = styled.section`
   display: flex;
   flex-direction: column;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #86868b;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--font-color-varant);
 `;
 
 const StyledLabel = styled.label`
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
 `;
 
 const StyledSpan = styled.span`

@@ -15,7 +15,7 @@ export default function ColorButtons({
       <StyledLabel>
         {strings.colorLabel} <StyledSpan>{strings.chooseColor}</StyledSpan>
       </StyledLabel>
-      <StyledParagraph>Farbe - {selectedColor.color_name}</StyledParagraph>
+      <StyledParagraph>{selectedColor.color_name}</StyledParagraph>
       {selectedColor && (
         <ButtonWrapper>
           {colors.map((color) => (
@@ -36,6 +36,8 @@ export default function ColorButtons({
 const StyledColorSection = styled.section`
   display: flex;
   flex-direction: column;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid #86868b;
 `;
 
 const ButtonWrapper = styled.ul`
@@ -49,7 +51,7 @@ const ButtonWrapper = styled.ul`
 const StyledLabel = styled.label`
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
 `;
 
 const StyledSpan = styled.span`

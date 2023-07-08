@@ -60,7 +60,7 @@ const StyledButton = styled.button`
 
 const StyledSpan = styled.div`
   border-radius: 50%;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   background-color: ${(props) => props.color};
 `;
