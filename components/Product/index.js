@@ -7,7 +7,11 @@ export default function Product({ product, category }) {
     <StyledLink href={`./${category}/${product.product_id}`}>
       <ImageWrapper>
         <StyledImage
-          src={product.product_imagepath_small}
+          src={
+            product.product_imagepath_small
+              ? product.product_imagepath_small
+              : "/images/placeholder.jpg"
+          }
           alt={product.product_name}
           width={80}
           height={80}

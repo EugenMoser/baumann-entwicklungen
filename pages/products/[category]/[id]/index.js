@@ -59,7 +59,7 @@ function ProductDetails({ products }) {
 
           <p>Material: {material}</p>
           <StyledImage
-            src={image1}
+            src={image1 ? image1 : "/images/placeholder.jpg"}
             alt={`Ein Bild von ${name}`}
             width={459}
             height={204}
