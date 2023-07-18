@@ -1,13 +1,19 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Article from "./Article";
 import styled from "styled-components";
 import strings from "../../helpers/strings";
 
 export default function Articles({ articles, selectedArticleSetter }) {
   const [defaultArticle, setDefaultArticle] = useState(9999);
+  const [isArticleDescriptionAvailable, setIsArticleDescriptionAvailable] =
+    useState(true);
 
-  React.useEffect(() => {
+  function isArticleDescriptionAvailableSetter() {
+    setIsArticleDescriptionAvailable(!isArticleDescriptionAvailable);
+  }
+
+  useEffect(() => {
     if (articles.length === 1) {
       setDefaultArticle(articles[0].article_id);
       selectedArticleSetter(articles[0].article_id);
@@ -20,16 +26,10 @@ export default function Articles({ articles, selectedArticleSetter }) {
     selectedArticleSetter(articleId);
   }
 
-  //***************** */
-  console.log(defaultArticle, " defaultArticle");
-  console.log(articles.length, " articles.length");
-  console.log(typeof articles[0].article_id, " articles[0].article_id");
-  //***************** */
-
-  // if only one article is available, it is automatically selected
-
   return (
-    <StyledArticleSection>
+    <StyledArticleSection
+      isArticleDescriptionAvailable={isArticleDescriptionAvailable}
+    >
       <StyledLabel htmlFor="article">
         {strings.articleVaraintLabel}
         <StyledSpan> {strings.articleVariant}</StyledSpan>
@@ -53,6 +53,9 @@ export default function Articles({ articles, selectedArticleSetter }) {
           <Article
             article={article}
             key={article.article_id}
+            isArticleDescriptionAvailableSetter={
+              isArticleDescriptionAvailableSetter
+            }
           />
         ))}
       </StyledSelect>
@@ -61,7 +64,10 @@ export default function Articles({ articles, selectedArticleSetter }) {
 }
 
 const StyledArticleSection = styled.section`
-  display: flex;
+  /* display: flex; */
+  display: ${(props) =>
+    props.isArticleDescriptionAvailable === false && "none"};
+
   flex-direction: column;
   padding-bottom: 1.75rem;
   border-bottom: 1px solid var(--font-color-varant);

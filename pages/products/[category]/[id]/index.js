@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import ColorButtons from "../../../../components/ColorButtons";
@@ -24,12 +24,9 @@ function ProductDetails({ products }) {
     product_description1: description1,
     product_description2: description2,
     product_description3: description3,
-
     product_material: material,
     product_imagepath_big1: image1,
   } = product;
-
-  console.log(selectedArticle, "selectedArticle1.0");
 
   //filter products by id
   function productById(id) {
@@ -60,7 +57,7 @@ function ProductDetails({ products }) {
           {description2 && <p>{description2}</p>}
           {description3 && <p>{description3}</p>}
 
-          <StyledParagraph>Material: {material}</StyledParagraph>
+          <p>Material: {material}</p>
           <StyledImage
             src={image1}
             alt={`Ein Bild von ${name}`}
@@ -89,7 +86,6 @@ function ProductDetails({ products }) {
           <ShowSelection
             selectedArticle={selectedArticle}
             selectedColor={selectedColor}
-            name={name}
           />
         </ArticleWrapper>
       </Wrapper>
@@ -133,10 +129,6 @@ const StyledImage = styled(Image)`
 const Descripton1 = styled.p`
   font-weight: bold;
   margin-bottom: 1rem;
-`;
-
-const StyledParagraph = styled.p`
-  /* margin-bottom: 1rem; */
 `;
 
 const ArticleWrapper = styled.div`

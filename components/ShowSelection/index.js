@@ -5,28 +5,34 @@ import Icon from "@mdi/react";
 import { mdiEmailOutline } from "@mdi/js";
 import strings from "../../helpers/strings";
 
-export default function ShowSelection({
-  selectedArticle,
-  selectedColor,
-  name,
-}) {
+export default function ShowSelection({ selectedArticle, selectedColor }) {
   return (
     <StyledResultSection>
       {selectedArticle && selectedColor ? (
         <>
-          {/* <p>
-            Der ausgewählte <StyledSpan>{name} </StyledSpan>
-            mit der Variante{" "}
-            <StyledSpan>{selectedArticle.article_description}</StyledSpan>
-            und in der Farbe{" "}
-            <StyledSpan> {selectedColor.color_name}</StyledSpan> hat die
-          </p> */}
           <StyledArticleNumber>
             Artikelnummer: {selectedArticle.article_number}
             {selectedColor.suffix === 0
               ? ""
               : " - " + selectedColor.suffix}
           </StyledArticleNumber>{" "}
+          <StyledSpecials>
+            {selectedArticle.article_description && (
+              <>
+                <p>Besonderheiten:</p>
+                <p>{selectedArticle.article_description}</p>
+              </>
+            )}
+            {selectedArticle.article_description1 && (
+              <p>{selectedArticle.article_description1}</p>
+            )}
+            {selectedArticle.article_description2 && (
+              <p>{selectedArticle.article_description2}</p>
+            )}
+            {selectedArticle.article_description3 && (
+              <p>{selectedArticle.article_description3}</p>
+            )}
+          </StyledSpecials>
           <StyledList>
             Mögliche Verpackungseinheiten:
             {selectedArticle.vpe1 && <li>{selectedArticle.vpe1} Stück</li>}
@@ -55,14 +61,16 @@ const StyledResultSection = styled.section`
   border: 1px solid var(--background-showSelection-border);
   border-radius: 4px;
   background-color: var(--background-showSelection-color);
-  padding: 0.5rem 0.5rem;
+  padding: 1rem 1rem;
 `;
 
 const StyledArticleNumber = styled.p`
   font-size: 1.25rem;
   font-weight: bold;
-
   margin: 0 0 1rem;
+`;
+const StyledSpecials = styled.div`
+  margin-bottom: 1rem;
 `;
 
 const StyledList = styled.ul`

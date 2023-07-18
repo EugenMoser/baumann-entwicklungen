@@ -1,13 +1,18 @@
 import * as React from "react";
+import { useEffect } from "react";
 
-export default function Article({ article }) {
+export default function Article({
+  article,
+  isArticleDescriptionAvailableSetter,
+}) {
+  useEffect(() => {
+    if (article.article_description.length === 0) {
+      isArticleDescriptionAvailableSetter(false);
+    }
+  }, []);
   return (
     <option value={article.article_id}>
       {article.article_description}
-
-      {/* {article.vpe &&
-        article.vpe.map((vpe) => <li key={vpe}>VPE: {vpe}</li>)} */}
     </option>
-    // </li>
   );
 }

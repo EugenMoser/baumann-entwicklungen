@@ -59,6 +59,7 @@ const StyledButton = styled.button`
 `;
 
 const StyledSpan = styled.div`
+  border: 0.5px solid black;
   border-radius: 50%;
   width: 36px;
   height: 36px;
