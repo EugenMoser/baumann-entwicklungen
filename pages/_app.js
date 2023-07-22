@@ -26,17 +26,17 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <StyledEngineProvider injectFirst>
-        <CssVarsProvider>
-          <GlobalStyles />
-          <Layout>
-            <Component
-              {...pageProps}
-              products={products}
-            />
-          </Layout>{" "}
-        </CssVarsProvider>
-      </StyledEngineProvider>
+      {/* <StyledEngineProvider injectFirst>
+        <CssVarsProvider> */}
+      <GlobalStyles />
+      <Layout>
+        <Component
+          {...pageProps}
+          products={products}
+        />
+      </Layout>{" "}
+      {/* </CssVarsProvider>
+      </StyledEngineProvider> */}
     </>
   );
 }

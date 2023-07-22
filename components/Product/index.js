@@ -5,13 +5,19 @@ import styled from "styled-components";
 export default function Product({ product, category }) {
   return (
     <StyledLink href={`./${category}/${product.product_id}`}>
-      <StyledImage
-        src="/../public/images/a_6010-Schliesskeil.webp"
-        alt={product.product_name}
-        width={90}
-        height={90}
-        sizes="60vw"
-      />
+      <ImageWrapper>
+        <StyledImage
+          src={
+            product.product_imagepath_small
+              ? product.product_imagepath_small
+              : "/images/placeholder.jpg"
+          }
+          alt={product.product_name}
+          width={80}
+          height={80}
+          // sizes="60vw"
+        />
+      </ImageWrapper>
 
       <TextWrapper>
         <h4>{product.product_name}</h4>
@@ -41,9 +47,19 @@ const StyledP = styled.p`
   font-size: 1.25rem;
 `;
 
-const StyledImage = styled(Image)`
-  max-width: 90%;
-  height: auto;
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
   border-radius: 50%;
   margin-left: 1rem;
+  width: 80px;
+  height: 80px;
+`;
+
+const StyledImage = styled(Image)`
+  font-size: 0.5rem;
+  border-radius: 50%;
+  overflow: hidden;
 `;

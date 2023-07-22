@@ -12,7 +12,10 @@ export default function ColorButtons({
 }) {
   return (
     <StyledColorSection>
-      <StyledLabel>{strings.chooseColor}</StyledLabel>
+      <StyledLabel>
+        {strings.colorLabel} <StyledSpan>{strings.chooseColor}</StyledSpan>
+      </StyledLabel>
+      <StyledParagraph>{selectedColor.color_name}</StyledParagraph>
       {selectedColor && (
         <ButtonWrapper>
           {colors.map((color) => (
@@ -33,12 +36,28 @@ export default function ColorButtons({
 const StyledColorSection = styled.section`
   display: flex;
   flex-direction: column;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid #86868b;
 `;
 
 const ButtonWrapper = styled.ul`
   display: flex;
+  justify-content: flex-start;
+  text-align: center;
+  height: 50px;
+  gap: 1rem;
 `;
 
 const StyledLabel = styled.label`
-  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+`;
+
+const StyledSpan = styled.span`
+  color: var(--font-color-varant);
+`;
+
+const StyledParagraph = styled.p`
+  margin-bottom: 0.75rem;
 `;

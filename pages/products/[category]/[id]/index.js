@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import ColorButtons from "../../../../components/ColorButtons";
@@ -23,6 +23,7 @@ function ProductDetails({ products }) {
     product_name: name,
     product_description1: description1,
     product_description2: description2,
+    product_description3: description3,
     product_material: material,
     product_imagepath_big1: image1,
   } = product;
@@ -37,7 +38,8 @@ function ProductDetails({ products }) {
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
-      (article) => article.article_id.toString() === articleId
+      // (article) => article.article_id.toString() === articleId
+      (article) => article.article_id === articleId
     );
     setSelectedArticle(articleObject);
   }
@@ -51,21 +53,20 @@ function ProductDetails({ products }) {
       <StyledH1>{name}</StyledH1>
       <Descripton1>{description1}</Descripton1>
       <Wrapper>
-        <section>
-          <ProductWrapper>
-            <p>{description2}</p>
-            <StyledImage
-              src={image1}
-              alt={`Ein Bild von ${name}`}
-              width={459}
-              height={204}
-              sizes="60vw"
-            />
-          </ProductWrapper>
-          <StyledParagraph>
-            Material:<Indentation>{material}</Indentation>
-          </StyledParagraph>
-        </section>
+        <ProductWrapper>
+          {description2 && <p>{description2}</p>}
+          {description3 && <p>{description3}</p>}
+
+          <p>Material: {material}</p>
+          <StyledImage
+            src={image1 ? image1 : "/images/placeholder.jpg"}
+            alt={`Ein Bild von ${name}`}
+            width={459}
+            height={204}
+            sizes="60vw"
+          />
+        </ProductWrapper>
+
         <ArticleWrapper>
           {product.articles && (
             <Articles
@@ -82,16 +83,12 @@ function ProductDetails({ products }) {
               firstColorName={selectFirstColor.color_name}
             />
           )}
+          <ShowSelection
+            selectedArticle={selectedArticle}
+            selectedColor={selectedColor}
+          />
         </ArticleWrapper>
       </Wrapper>
-
-      <StyledResultSection>
-        <ShowSelection
-          selectedArticle={selectedArticle}
-          selectedColor={selectedColor}
-          name={name}
-        />
-      </StyledResultSection>
     </>
   );
 }
@@ -101,6 +98,7 @@ export default ProductDetails;
 const Wrapper = styled.div`
   display: flex;
   gap: 3rem;
+  margin-bottom: 2rem;
 `;
 
 const StyledH1 = styled.h1`
@@ -112,16 +110,16 @@ const StyledH1 = styled.h1`
 const ProductWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  flex: 1 0;
+  gap: 1.75rem;
 `;
 
 const StyledImage = styled(Image)`
   align-self: center;
-  max-width: 459px;
-  min-width: 260px;
+  max-width: 470px;
+  /* min-width: 260px; */
   max-height: 204px;
-  min-height: 115px;
+  /* min-height: 115px; */
 
   width: 100%;
   height: auto;
@@ -133,21 +131,9 @@ const Descripton1 = styled.p`
   margin-bottom: 1rem;
 `;
 
-const Indentation = styled.span`
-  margin-left: 2rem;
-`;
-
-const StyledParagraph = styled.p`
-  margin-bottom: 2rem;
-`;
-
 const ArticleWrapper = styled.div`
-  /* display: flex; */
-  gap: 2rem;
-  margin-bottom: 2rem;
-`;
-
-const StyledResultSection = styled.section`
-  border: 1px solid red;
-  background-color: #e2edd9;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0;
+  gap: 1.75rem;
 `;
