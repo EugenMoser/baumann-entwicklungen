@@ -9,11 +9,50 @@ import ColorButtons from "../../../../components/ColorButtons";
 import Articles from "../../../../components/Articles";
 import ShowSelection from "../../../../components/ShowSelection";
 
-function ProductDetails({ products }) {
-  const router = useRouter();
-  const { id } = router.query;
-  const product = productById(id);
-  if (!products || !product) {
+//******** */
+
+const getProducts = async () => {
+  const res = await fetch("http://localhost:3000/api/getdata");
+  const data = await res.json();
+  return data.products;
+};
+
+export async function getStaticPaths() {
+  // const res = await fetch("http://localhost:3000/api/getdata");
+  // const data = await res.json();
+  const products = await getProducts();
+  const paths = products.map((product) => {
+    return {
+      params: {
+        category: product.category,
+        id: product.product_id.toString(),
+      },
+    };
+  });
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const id = context.params.id;
+  // const category = context.params.category;
+  // const res = await fetch(`http://localhost:3000/api/getdata`);
+  // const data = await res.json();
+  const products = await getProducts();
+  const result = products.filter(
+    (product) => product.product_id.toString() === id
+  );
+  return { props: { staticProduct: result } };
+}
+//********** */
+
+function ProductDetails({ staticProduct }) {
+  // const router = useRouter();
+  // const { id } = router.query;
+  // const product = productById(id);
+  console.log("staticProducts", staticProduct);
+
+  const product = staticProduct[0];
+  if (!product) {
     return <h2>Produkte werden geladen</h2>;
   }
   const selectFirstColor = product?.colors[0];
@@ -29,12 +68,12 @@ function ProductDetails({ products }) {
   } = product;
 
   //filter products by id
-  function productById(id) {
-    const filteredProduct = products.find(
-      (product) => product.product_id.toString() === id
-    );
-    return filteredProduct;
-  }
+  // function productById(id) {
+  //   const filteredProduct = products.find(
+  //     (product) => product.product_id.toString() === id
+  //   );
+  //   return filteredProduct;
+  // }
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
@@ -92,6 +131,19 @@ function ProductDetails({ products }) {
     </>
   );
 }
+//*************
+//*************
+// export const getStaticPaths = async () => {
+//   const paths = products.map((product) => ({
+//     params: { id: product.product_id },
+//   }));
+//   return { paths, fallback: false };
+// };
+// export const getStaticProps = async () => {
+//   const products = products;
+//   return { props: { products } };
+// };
+//****** */
 
 export default ProductDetails;
 
