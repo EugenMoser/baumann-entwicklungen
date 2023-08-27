@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import Article from "./Article";
 import styled from "styled-components";
-import strings from "../../helpers/strings";
+import { strings } from "../../helpers/strings";
 
 export default function Articles({ articles, selectedArticleSetter }) {
   const [defaultArticle, setDefaultArticle] = useState(9999);

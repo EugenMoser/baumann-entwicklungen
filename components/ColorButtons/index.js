@@ -1,6 +1,6 @@
 import * as React from "react";
 import ColorButton from "./ColorButton";
-import strings from "../../helpers/strings";
+import { strings } from "../../helpers/strings";
 
 import styled from "styled-components";
 
