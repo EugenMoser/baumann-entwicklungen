@@ -11,10 +11,24 @@ const strings = {
   phoneNumber: "+4983837754",
   displayPhoneNumber: "+49 8383 7754",
   mailAddress: "info@baumann-entwicklungen.de",
-  mailReference: "?subject=Unverbindliche%20Anfrage",
+  subject: "Unverbindliche Anfrage",
+
   colorLabel: "Farbe.",
-  chooseColor: "In welcher Farbe benötigst Sie das Produkt?",
+  chooseColor: "In welcher Farbe benötigen Sie das Produkt?",
   request: "unvberbindlich anfragen",
 };
 
-export default strings;
+function getEmailBody(articleName, articleNumber, colorName) {
+  return `
+Sehr geehrte Damen und Herren,
+
+ich habe folgendes Produkt auf Ihrer Webseite gefunden:
+
+Artikelbezeichung: ${articleName}
+Artikelnummer: ${articleNumber}
+Farbe: ${colorName}
+
+Bitte senden Sie mir ein unverbindliches Angebot. `;
+}
+
+export { strings, getEmailBody };

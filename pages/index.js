@@ -8,7 +8,7 @@ import {
   mdiAirFilter,
   mdiFlashOutline,
 } from "@mdi/js";
-import strings from "../helpers/strings";
+import { strings } from "../helpers/strings";
 
 function Home() {
   return (
