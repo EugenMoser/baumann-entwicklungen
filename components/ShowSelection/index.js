@@ -3,18 +3,27 @@ import styled from "styled-components";
 import Link from "next/link";
 import Icon from "@mdi/react";
 import { mdiEmailOutline } from "@mdi/js";
-import strings from "../../helpers/strings";
+import { strings, getEmailBody } from "../../helpers/strings";
 
 export default function ShowSelection({ selectedArticle, selectedColor }) {
+  const colorSuffix =
+    selectedColor && selectedColor.suffix === 0
+      ? ""
+      : " - " + selectedColor.suffix;
+
+  const fulllArticleNumber =
+    selectedArticle && selectedArticle.article_number + colorSuffix;
+
   return (
     <StyledResultSection>
       {selectedArticle && selectedColor ? (
         <>
           <StyledArticleNumber>
-            Artikelnummer: {selectedArticle.article_number}
+            Artikelnummer: {fulllArticleNumber}
+            {/* {selectedArticle.article_number}
             {selectedColor.suffix === 0
               ? ""
-              : " - " + selectedColor.suffix}
+              : " - " + selectedColor.suffix} */}
           </StyledArticleNumber>{" "}
           <StyledSpecials>
             {selectedArticle.article_description && (
@@ -42,7 +51,20 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
           </StyledList>
           <StyledButton>
             {" "}
-            <StyledLink href={`mailto:${strings.mailAddress}`}>
+            <StyledLink
+              href={`mailto:${strings.mailAddress}?subject=${
+                strings.subject
+              }
+   &body=${encodeURI(
+     getEmailBody(
+       selectedArticle.article_name,
+       fulllArticleNumber,
+       selectedColor.color_name
+     )
+   )}
+             
+              `}
+            >
               <span>{strings.request}</span>
             </StyledLink>
           </StyledButton>

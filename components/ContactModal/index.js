@@ -8,7 +8,7 @@ import {
   mdiPhoneOutline,
   mdiEmailOutline,
 } from "@mdi/js";
-import strings from "../../helpers/strings";
+import { strings } from "../../helpers/strings";
 
 function ContactModal() {
   const [openContact, setOpenContact] = useState(false);
