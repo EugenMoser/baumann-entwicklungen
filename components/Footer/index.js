@@ -9,7 +9,7 @@ function Footer() {
           <p>Tilo Baumann</p>
         </li>
         <li>
-          <StyledLink href="../../privacy">Impressum</StyledLink>
+          <StyledLink href="../../imprint">Impressum</StyledLink>
         </li>
         <li>
           <StyledLink href="../../privacy">Datenschutz</StyledLink>

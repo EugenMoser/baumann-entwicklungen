@@ -9,7 +9,9 @@ const strings = {
   companyOurAreas: "Unsere Bereiche",
 
   phoneNumber: "+4983837754",
+
   displayPhoneNumber: "+49 8383 7754",
+  displayFaxNumber: "+49 8383 7891",
   mailAddress: "info@baumann-entwicklungen.de",
   subject: "Unverbindliche Anfrage",
 
