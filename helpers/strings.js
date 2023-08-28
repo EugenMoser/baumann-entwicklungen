@@ -28,7 +28,8 @@ Artikelbezeichung: ${articleName}
 Artikelnummer: ${articleNumber}
 Farbe: ${colorName}
 
-Bitte senden Sie mir ein unverbindliches Angebot. `;
+Bitte bieten Sie mir den Artikel der
+VPE ___ bei einem Jahresbedarf von circa ___ an. `;
 }
 
 export { strings, getEmailBody };
