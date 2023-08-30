@@ -9,7 +9,9 @@ const strings = {
   companyOurAreas: "Unsere Bereiche",
 
   phoneNumber: "+4983837754",
+
   displayPhoneNumber: "+49 8383 7754",
+  displayFaxNumber: "+49 8383 7891",
   mailAddress: "info@baumann-entwicklungen.de",
   subject: "Unverbindliche Anfrage",
 
@@ -28,7 +30,8 @@ Artikelbezeichung: ${articleName}
 Artikelnummer: ${articleNumber}
 Farbe: ${colorName}
 
-Bitte senden Sie mir ein unverbindliches Angebot. `;
+Bitte bieten Sie mir den Artikel der
+VPE ___ bei einem Jahresbedarf von circa ___ an. `;
 }
 
 export { strings, getEmailBody };

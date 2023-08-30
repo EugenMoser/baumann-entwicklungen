@@ -42,32 +42,30 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
               <p>{selectedArticle.article_description3}</p>
             )}
           </StyledSpecials>
+          <p>Mögliche Verpackungseinheiten (VPE):</p>
           <StyledList>
-            Mögliche Verpackungseinheiten:
             {selectedArticle.vpe1 && <li>{selectedArticle.vpe1} Stück</li>}
             {selectedArticle.vpe2 && <li>{selectedArticle.vpe2} Stück</li>}
             {selectedArticle.vpe3 && <li>{selectedArticle.vpe3} Stück</li>}
             {selectedArticle.vpe4 && <li>{selectedArticle.vpe4} Stück</li>}
           </StyledList>
-          <StyledButton>
-            {" "}
-            <StyledLink
-              href={`mailto:${strings.mailAddress}?subject=${
-                strings.subject
-              }
-   &body=${encodeURI(
-     getEmailBody(
-       selectedArticle.article_name,
-       fulllArticleNumber,
-       selectedColor.color_name
-     )
-   )}
-             
-              `}
-            >
-              <span>{strings.request}</span>
-            </StyledLink>
-          </StyledButton>
+          <StyledForm
+            action={`mailto:${strings.mailAddress}?subject=${
+              strings.subject
+            } &body=${encodeURI(
+              getEmailBody(
+                selectedArticle.article_name,
+                fulllArticleNumber,
+                selectedColor.color_name
+              )
+            )} `}
+            method="post"
+          >
+            <StyledInputButton
+              type="submit"
+              value={strings.request}
+            />
+          </StyledForm>
         </>
       ) : (
         <StyledParagraph>
@@ -103,28 +101,26 @@ const StyledParagraph = styled.p`
   color: red;
 `;
 
-const StyledButton = styled.button`
+const StyledForm = styled.form`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const StyledInputButton = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
-  align-self: flex-end;
   border-style: none;
   width: 40%;
   height: 2rem;
   border-radius: 4px;
   background-color: black;
-  color: white;
+  color: var(--white);
+
   &:hover,
   :active {
     background-color: var(--font-color-hover);
     text-decoration: underline;
-  }
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: var(--font-color);
-  span {
-    color: white;
+    cursor: pointer;
   }
 `;
