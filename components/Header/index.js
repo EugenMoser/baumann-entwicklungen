@@ -1,10 +1,10 @@
 // import Searchbar from "../Searchbar";
 import styled from "styled-components";
 import Image from "next/image";
-import ContactModal from "../ContactModal";
 import { useRouter } from "next/router";
+import ContactModal from "../ContactModal";
 
-function Header() {
+function Header({ openContact, setOpenContact }) {
   const router = useRouter();
 
   function navHome() {
@@ -22,7 +22,10 @@ function Header() {
       />
 
       {/* <Searchbar /> */}
-      <ContactModal />
+      <ContactModal
+        openContact={openContact}
+        setOpenContact={setOpenContact}
+      />
     </StyledHeader>
   );
 }

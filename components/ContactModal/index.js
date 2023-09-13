@@ -10,9 +10,7 @@ import {
 } from "@mdi/js";
 import { strings } from "../../helpers/strings";
 
-function ContactModal() {
-  const [openContact, setOpenContact] = useState(false);
-
+function ContactModal({ openContact, setOpenContact }) {
   return (
     <>
       <StyledContactButton

@@ -2,14 +2,26 @@ import Header from "../Header";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import styled from "styled-components";
+import { useState } from "react";
 
 function Layout({ children }) {
+  const [openContact, setOpenContact] = useState(false);
+
+  function openContactModal() {
+    setOpenContact(!openContact);
+  }
   return (
     <StyledWrapper>
-      <Header />
+      <Header
+        openContact={openContact}
+        setOpenContact={openContactModal}
+      />
       <Navbar />
       <main>{children}</main>
-      <Footer />
+      <Footer
+        openContact={openContact}
+        setOpenContact={openContactModal}
+      />
     </StyledWrapper>
   );
 }
