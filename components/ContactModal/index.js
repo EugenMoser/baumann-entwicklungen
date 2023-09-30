@@ -1,14 +1,15 @@
-import Svg from "../Svg";
-import { useState } from "react";
-import styled from "styled-components";
 import Link from "next/link";
-import Icon from "@mdi/react";
+import styled from "styled-components";
+
 import {
+  mdiEmailOutline,
   mdiMailboxOpenOutline,
   mdiPhoneOutline,
-  mdiEmailOutline,
 } from "@mdi/js";
+import Icon from "@mdi/react";
+
 import { strings } from "../../helpers/strings";
+import Svg from "../Svg";
 
 function ContactModal({ openContact, setOpenContact }) {
   return (
