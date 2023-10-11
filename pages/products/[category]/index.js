@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 // import { useRouter } from "next/router";
-import { useRouter } from "next/navigation";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 
 import ProductList from "../../../components/ProductList";
@@ -37,6 +35,7 @@ export async function getStaticProps(context) {
   );
   return { props: { staticProduct: filteredProducts } };
 }
+
 //********** */
 
 function ProductCategory({ staticProduct }) {
