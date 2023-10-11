@@ -1,12 +1,14 @@
 //products details
 
 import * as React from "react";
-import { useRouter } from "next/router";
 import { useState } from "react";
-import styled from "styled-components";
+
 import Image from "next/image";
-import ColorButtons from "../../../../components/ColorButtons";
+import { useRouter } from "next/router";
+import styled from "styled-components";
+
 import Articles from "../../../../components/Articles";
+import ColorButtons from "../../../../components/ColorButtons";
 import ShowSelection from "../../../../components/ShowSelection";
 
 //******** */

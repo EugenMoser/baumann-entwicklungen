@@ -1,6 +1,10 @@
-import GlobalStyles from "../components/Style/GlobalStyles";
-import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
+
+import { CssVarsProvider, StyledEngineProvider } from "@mui/joy/styles";
+
+import Layout from "../components/Layout";
+import GlobalStyles from "../components/Style/GlobalStyles";
+import findProductName from "../helpers/services";
 
 function MyApp({ Component, pageProps }) {
   return (

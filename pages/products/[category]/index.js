@@ -1,11 +1,14 @@
 //products by category
 
-import ProductList from "../../../components/ProductList";
+import Image from "next/image";
+import Link from "next/link";
 // import { useRouter } from "next/router";
 import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import styled from "styled-components";
-import Link from "next/link";
-import Image from "next/image";
+
+import ProductList from "../../../components/ProductList";
+
 //******** */
 
 const getProducts = async () => {
@@ -92,7 +95,7 @@ function ProductCategory({ staticProduct }) {
       ))}
       {/* {filteredProducts && (
         <ProductList
-          products={filteredProducts}
+          products={searchInputTextByCategory}
           category={category}
         />
       )} */}
