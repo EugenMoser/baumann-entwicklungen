@@ -29,11 +29,11 @@ function Header({
         onClick={() => navHome()}
       />
 
-      <Searchbar
+      {/* <Searchbar
         allProducts={allProducts}
         setSearchInputText={setSearchInputText}
         searchInputText={searchInputText}
-      />
+      /> */}
       <ContactModal
         openContact={openContact}
         setOpenContact={setOpenContact}
