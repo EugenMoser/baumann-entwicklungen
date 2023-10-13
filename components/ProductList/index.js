@@ -1,19 +1,14 @@
+import Product from "../Product";
 import styled from "styled-components";
 
-import Product from "../Product";
-
-function ProductList(props) {
-  const products = props.products;
-  const category = props?.category;
-  const hrefProduct = props.hrefProduct ? props.hrefProduct : "";
+function ProductList({ products, category }) {
   return (
     <ul>
-      {products.map((product, index) => (
-        <StyledListItem key={product.product_id + index}>
+      {products.map((product) => (
+        <StyledListItem key={product.product_id}>
           <Product
             product={product}
-            category={category || product.category}
-            hrefProduct={hrefProduct}
+            category={category}
           />
         </StyledListItem>
       ))}

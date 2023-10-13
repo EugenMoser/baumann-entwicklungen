@@ -1,10 +1,8 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
-
-import styled from "styled-components";
-
-import { strings } from "../../helpers/strings";
+import { useState, useEffect } from "react";
 import Article from "./Article";
+import styled from "styled-components";
+import strings from "../../helpers/strings";
 
 export default function Articles({ articles, selectedArticleSetter }) {
   const [defaultArticle, setDefaultArticle] = useState(9999);
@@ -51,10 +49,10 @@ export default function Articles({ articles, selectedArticleSetter }) {
             Bitte wählen
           </option>
         )}
-        {articles.map((article, index) => (
+        {articles.map((article) => (
           <Article
             article={article}
-            key={article.article_id + index}
+            key={article.article_id}
             isArticleDescriptionAvailableSetter={
               isArticleDescriptionAvailableSetter
             }

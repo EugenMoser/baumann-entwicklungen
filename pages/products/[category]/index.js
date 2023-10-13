@@ -1,20 +1,22 @@
 //products by category
 
+import ProductList from "../../../components/ProductList";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
-import ProductList from "../../../components/ProductList";
-import { productsByCategory } from "../../../helpers/services";
-
-function ProductCategory({ allProducts, searchInputText }) {
+function ProductCategory({ products }) {
   const router = useRouter();
   const { category } = router.query;
 
-  //
-  const products = searchInputText ? searchInputText : allProducts;
+  const filteredProducts = productsByCategory(category);
 
-  const searchInputTextByCategory = productsByCategory(products, category);
-
+  //filter products by category
+  function productsByCategory(category) {
+    const filteredProduct = products.filter(
+      (product) => product.category === category
+    );
+    return filteredProduct;
+  }
   return (
     <>
       {category === "moebel" ? (
@@ -30,9 +32,9 @@ function ProductCategory({ allProducts, searchInputText }) {
       ) : (
         <StyledH1>Keine Kategorie</StyledH1>
       )}
-      {searchInputTextByCategory && (
+      {filteredProducts && (
         <ProductList
-          products={searchInputTextByCategory}
+          products={filteredProducts}
           category={category}
         />
       )}

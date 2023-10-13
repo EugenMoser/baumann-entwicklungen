@@ -1,22 +1,14 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
+// import Searchbar from "../Searchbar";
 import styled from "styled-components";
-
+import Image from "next/image";
 import ContactModal from "../ContactModal";
-import Searchbar from "../Searchbar";
+import { useRouter } from "next/router";
 
-function Header({
-  openContact,
-  setOpenContact,
-  allProducts,
-  setSearchInputText,
-  searchInputText,
-}) {
+function Header() {
   const router = useRouter();
 
   function navHome() {
     router.push("/");
-    setSearchInputText("");
   }
 
   return (
@@ -29,15 +21,8 @@ function Header({
         onClick={() => navHome()}
       />
 
-      {/* <Searchbar
-        allProducts={allProducts}
-        setSearchInputText={setSearchInputText}
-        searchInputText={searchInputText}
-      /> */}
-      <ContactModal
-        openContact={openContact}
-        setOpenContact={setOpenContact}
-      />
+      {/* <Searchbar /> */}
+      <ContactModal />
     </StyledHeader>
   );
 }

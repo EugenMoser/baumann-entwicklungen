@@ -10,7 +10,6 @@ const GlobalStyles = createGlobalStyle`
     --background-category-hover-color: #bcbcc5;
     --background-showSelection-color: #e9e9ec;
     --background-showSelection-border: #bcbcc5;
-    --white: #ffffff;
     
  
 }
