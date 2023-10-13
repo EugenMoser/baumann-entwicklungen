@@ -3,9 +3,6 @@ import { createDbConnection } from "../../../helpers/dbconnection";
 async function handlerByCategory(req, res) {
   try {
     const dbconnection = await createDbConnection();
-
-    //TODO: fix typo in db = article.artcle_prio,
-
     const query = `
     SELECT product.*,
     (
@@ -13,7 +10,6 @@ async function handlerByCategory(req, res) {
           JSON_OBJECT(
               'article_id', article.article_id,
               'product_id', article.product_id,
-              'article_prio', article.artcle_prio, 
               'article_number', article.article_number,
               'article_name', article.article_name,
               'article_description', article.article_description,
