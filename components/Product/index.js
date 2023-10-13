@@ -1,10 +1,10 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
 
-export default function Product({ product, category }) {
+export default function Product({ product, category, hrefProduct }) {
   return (
-    <StyledLink href={`./${category}/${product.product_id}`}>
+    <StyledLink href={`.${hrefProduct}/${category}/${product.product_id}`}>
       <ImageWrapper>
         <StyledImage
           src={

@@ -1,19 +1,21 @@
 //products details
 
 import * as React from "react";
-import { useRouter } from "next/router";
 import { useState } from "react";
-import styled from "styled-components";
+
 import Image from "next/image";
-import ColorButtons from "../../../../components/ColorButtons";
+import { useRouter } from "next/router";
+import styled from "styled-components";
+
 import Articles from "../../../../components/Articles";
+import ColorButtons from "../../../../components/ColorButtons";
 import ShowSelection from "../../../../components/ShowSelection";
 
-function ProductDetails({ products }) {
+function ProductDetails({ allProducts, searchInputText }) {
   const router = useRouter();
   const { id } = router.query;
   const product = productById(id);
-  if (!products || !product) {
+  if (!allProducts || !product) {
     return <h2>Produkte werden geladen</h2>;
   }
   const selectFirstColor = product?.colors[0];
@@ -30,7 +32,7 @@ function ProductDetails({ products }) {
 
   //filter products by id
   function productById(id) {
-    const filteredProduct = products.find(
+    const filteredProduct = allProducts.find(
       (product) => product.product_id.toString() === id
     );
     return filteredProduct;
