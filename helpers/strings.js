@@ -26,11 +26,11 @@ Sehr geehrte Damen und Herren,
 
 ich habe folgendes Produkt auf Ihrer Webseite gefunden:
 
-Artikelbezeichung: ${articleName}
+Artikelbezeichnung: ${articleName}
 Artikelnummer: ${articleNumber}
 Farbe: ${colorName}
 
-Bitte bieten Sie mir den Artikel der
+Bitte bieten Sie mir den Artikel mit
 VPE ___ bei einem Jahresbedarf von circa ___ an. `;
 }
 
