@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import styled from "styled-components";
 
 export default function ColorButton({
@@ -30,6 +29,7 @@ export default function ColorButton({
         color={color.color_code}
         onClick={() => handleClick(color)}
         isSelected={selectedColor.color_name === color.color_name}
+        onF
       >
         <StyledSpan color={color.color_code}></StyledSpan>
       </StyledButton>

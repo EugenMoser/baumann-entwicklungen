@@ -1,85 +1,68 @@
-import { useEffect } from "react";
-
 import Link from "next/link";
 import styled from "styled-components";
-
+import Icon from "@mdi/react";
 import {
-  mdiAirFilter,
-  mdiFlashOutline,
+  mdiWaterOutline,
   mdiTableFurniture,
   mdiTournament,
-  mdiWaterOutline,
+  mdiAirFilter,
+  mdiFlashOutline,
 } from "@mdi/js";
-import Icon from "@mdi/react";
+import strings from "../helpers/strings";
 
-import ProductList from "../components/ProductList";
-import { strings } from "../helpers/strings";
-
-function Home({ searchInputText }) {
+function Home() {
   return (
-    <>
-      {searchInputText.length ? (
-        <>
-          <h1>test</h1>
-          <ProductList
-            products={searchInputText}
-            hrefProduct={"/products"}
+    <StyledSection>
+      <StyledH1>{strings.companyWelcome}</StyledH1>
+      <StyledParagraph>{strings.companyDescription}</StyledParagraph>
+      <StyledH3>{strings.companyOurAreas}</StyledH3>
+      <StyledLink href="/products/moebel">
+        <StyledButton>
+          <StyledIcon
+            path={mdiTableFurniture}
+            size={1.5}
           />
-        </>
-      ) : (
-        <StyledSection>
-          <StyledH1>{strings.companyWelcome}</StyledH1>
-          <StyledParagraph>{strings.companyDescription}</StyledParagraph>
-          <StyledH3>{strings.companyOurAreas}</StyledH3>
-          <StyledLink href="/products/moebel">
-            <StyledButton>
-              <StyledIcon
-                path={mdiTableFurniture}
-                size={1.5}
-              />
-              Möbelbereich{" "}
-            </StyledButton>
-          </StyledLink>
-          <StyledLink href="/products/halterung">
-            <StyledButton>
-              <StyledIcon
-                path={mdiTournament}
-                size={1.5}
-              />
-              Halterungen
-            </StyledButton>
-          </StyledLink>
-          <StyledLink href="/products/wasser">
-            <StyledButton>
-              {" "}
-              <StyledIcon
-                path={mdiWaterOutline}
-                size={1.5}
-              />
-              Wasserbereich
-            </StyledButton>
-          </StyledLink>{" "}
-          <StyledLink href="/products/lueftung">
-            <StyledButton>
-              <StyledIcon
-                path={mdiAirFilter}
-                size={1.5}
-              />
-              Lüftungsbereich
-            </StyledButton>
-          </StyledLink>
-          <StyledLink href="/products/elektro">
-            <StyledButton>
-              <StyledIcon
-                path={mdiFlashOutline}
-                size={1.5}
-              />
-              Elektrobereich
-            </StyledButton>
-          </StyledLink>
-        </StyledSection>
-      )}
-    </>
+          Möbelbereich{" "}
+        </StyledButton>
+      </StyledLink>
+      <StyledLink href="/products/halterung">
+        <StyledButton>
+          <StyledIcon
+            path={mdiTournament}
+            size={1.5}
+          />
+          Halterungen
+        </StyledButton>
+      </StyledLink>
+      <StyledLink href="/products/wasser">
+        <StyledButton>
+          {" "}
+          <StyledIcon
+            path={mdiWaterOutline}
+            size={1.5}
+          />
+          Wasserbereich
+        </StyledButton>
+      </StyledLink>{" "}
+      <StyledLink href="/products/lueftung">
+        <StyledButton>
+          <StyledIcon
+            path={mdiAirFilter}
+            size={1.5}
+          />
+          Lüftungsbereich
+        </StyledButton>
+      </StyledLink>
+      <StyledLink href="/products/elektro">
+        <StyledButton>
+          <StyledIcon
+            path={mdiFlashOutline}
+            size={1.5}
+          />
+          Elektrobereich
+        </StyledButton>
+      </StyledLink>
+    </StyledSection>
   );
 }
 export default Home;

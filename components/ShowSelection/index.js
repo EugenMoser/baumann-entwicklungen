@@ -3,27 +3,18 @@ import styled from "styled-components";
 import Link from "next/link";
 import Icon from "@mdi/react";
 import { mdiEmailOutline } from "@mdi/js";
-import { strings, getEmailBody } from "../../helpers/strings";
+import strings from "../../helpers/strings";
 
 export default function ShowSelection({ selectedArticle, selectedColor }) {
-  const colorSuffix =
-    selectedColor && selectedColor.suffix === 0
-      ? ""
-      : " - " + selectedColor.suffix;
-
-  const fulllArticleNumber =
-    selectedArticle && selectedArticle.article_number + colorSuffix;
-
   return (
     <StyledResultSection>
       {selectedArticle && selectedColor ? (
         <>
           <StyledArticleNumber>
-            Artikelnummer: {fulllArticleNumber}
-            {/* {selectedArticle.article_number}
+            Artikelnummer: {selectedArticle.article_number}
             {selectedColor.suffix === 0
               ? ""
-              : " - " + selectedColor.suffix} */}
+              : " - " + selectedColor.suffix}
           </StyledArticleNumber>{" "}
           <StyledSpecials>
             {selectedArticle.article_description && (
@@ -42,30 +33,19 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
               <p>{selectedArticle.article_description3}</p>
             )}
           </StyledSpecials>
-          <p>Mögliche Verpackungseinheiten (VPE):</p>
           <StyledList>
+            Mögliche Verpackungseinheiten:
             {selectedArticle.vpe1 && <li>{selectedArticle.vpe1} Stück</li>}
             {selectedArticle.vpe2 && <li>{selectedArticle.vpe2} Stück</li>}
             {selectedArticle.vpe3 && <li>{selectedArticle.vpe3} Stück</li>}
             {selectedArticle.vpe4 && <li>{selectedArticle.vpe4} Stück</li>}
           </StyledList>
-          <StyledForm
-            action={`mailto:${strings.mailAddress}?subject=${
-              strings.subject
-            } &body=${encodeURI(
-              getEmailBody(
-                selectedArticle.article_name,
-                fulllArticleNumber,
-                selectedColor.color_name
-              )
-            )} `}
-            method="post"
-          >
-            <StyledInputButton
-              type="submit"
-              value={strings.request}
-            />
-          </StyledForm>
+          <StyledButton>
+            {" "}
+            <StyledLink href={`mailto:${strings.mailAddress}`}>
+              <span>{strings.request}</span>
+            </StyledLink>
+          </StyledButton>
         </>
       ) : (
         <StyledParagraph>
@@ -101,26 +81,28 @@ const StyledParagraph = styled.p`
   color: red;
 `;
 
-const StyledForm = styled.form`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const StyledInputButton = styled.input`
+const StyledButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  align-self: flex-end;
   border-style: none;
   width: 40%;
   height: 2rem;
   border-radius: 4px;
   background-color: black;
-  color: var(--white);
-
+  color: white;
   &:hover,
   :active {
     background-color: var(--font-color-hover);
     text-decoration: underline;
-    cursor: pointer;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: var(--font-color);
+  span {
+    color: white;
   }
 `;

@@ -1,9 +1,8 @@
 import * as React from "react";
+import ColorButton from "./ColorButton";
+import strings from "../../helpers/strings";
 
 import styled from "styled-components";
-
-import { strings } from "../../helpers/strings";
-import ColorButton from "./ColorButton";
 
 export default function ColorButtons({
   colors,
@@ -19,13 +18,13 @@ export default function ColorButtons({
       <StyledParagraph>{selectedColor.color_name}</StyledParagraph>
       {selectedColor && (
         <ButtonWrapper>
-          {colors.map((color, index) => (
+          {colors.map((color) => (
             <ColorButton
               color={color}
               isFirstColor={color.color_name === firstColorName}
               selectedColor={selectedColor}
               selectedColorSetter={selectedColorSetter}
-              key={color.color_code + index}
+              key={color.color_code}
             />
           ))}
         </ButtonWrapper>

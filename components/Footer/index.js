@@ -1,22 +1,15 @@
 import Link from "next/link";
 import styled from "styled-components";
-import ContactModal from "../ContactModal";
 
-function Footer({ openContact, setOpenContact }) {
+function Footer() {
   return (
     <StyledFooter>
       <StyledList>
         <li>
-          <StyledButton
-            onClick={() => {
-              setOpenContact(!openContact);
-            }}
-          >
-            Tilo Baumann
-          </StyledButton>
+          <p>Tilo Baumann</p>
         </li>
         <li>
-          <StyledLink href="../../imprint">Impressum</StyledLink>
+          <StyledLink href="../../privacy">Impressum</StyledLink>
         </li>
         <li>
           <StyledLink href="../../privacy">Datenschutz</StyledLink>
@@ -46,21 +39,6 @@ const StyledList = styled.ul`
   width: 80%;
   margin: 0 50px;
   align-items: center;
-`;
-
-const StyledButton = styled.button`
-  background: none;
-  border: none;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  font-size: inherit;
-
-  &:hover,
-  :active {
-    color: var(--font-color-hover);
-    text-decoration: underline;
-  }
 `;
 
 const StyledLink = styled(Link)`
