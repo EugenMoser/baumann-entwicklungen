@@ -6,9 +6,12 @@ function ProductList(props) {
   const products = props.products;
   const category = props?.category;
   const hrefProduct = props.hrefProduct ? props.hrefProduct : "";
+
+  //sort the products by column prio
+  const sortedProducts = products.sort((a, b) => a.prio - b.prio);
   return (
     <ul>
-      {products.map((product, index) => (
+      {sortedProducts.map((product, index) => (
         <StyledListItem key={product.product_id + index}>
           <Product
             product={product}

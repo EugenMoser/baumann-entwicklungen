@@ -27,7 +27,10 @@ export default function Articles({ articles, selectedArticleSetter }) {
   function handleOnChange(articleId) {
     selectedArticleSetter(articleId);
   }
-
+  //sort the articles by column prio
+  const sortedArticles = articles.sort(
+    (a, b) => a.article_prio - b.article_prio
+  );
   return (
     <StyledArticleSection
       isArticleDescriptionAvailable={isArticleDescriptionAvailable}
@@ -51,7 +54,7 @@ export default function Articles({ articles, selectedArticleSetter }) {
             Bitte wählen
           </option>
         )}
-        {articles.map((article, index) => (
+        {sortedArticles.map((article, index) => (
           <Article
             article={article}
             key={article.article_id + index}
