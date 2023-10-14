@@ -1,21 +1,62 @@
 //products details
 
+import "react-image-gallery/styles/css/image-gallery.css";
+
 import * as React from "react";
 import { useState } from "react";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
+import ImageGallery from "react-image-gallery";
 import styled from "styled-components";
 
 import Articles from "../../../../components/Articles";
 import ColorButtons from "../../../../components/ColorButtons";
 import ShowSelection from "../../../../components/ShowSelection";
 
-function ProductDetails({ allProducts, searchInputText }) {
-  const router = useRouter();
-  const { id } = router.query;
-  const product = productById(id);
-  if (!allProducts || !product) {
+//******** */
+
+const getProducts = async () => {
+  const res = await fetch("http://localhost:3000/api/getdata");
+  const data = await res.json();
+  return data.products;
+};
+
+export async function getStaticPaths() {
+  // const res = await fetch("http://localhost:3000/api/getdata");
+  // const data = await res.json();
+  const products = await getProducts();
+  const paths = products.map((product) => {
+    return {
+      params: {
+        category: product.category,
+        id: product.product_id.toString(),
+      },
+    };
+  });
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const id = context.params.id;
+  // const category = context.params.category;
+  // const res = await fetch(`http://localhost:3000/api/getdata`);
+  // const data = await res.json();
+  const products = await getProducts();
+  const result = products.filter(
+    (product) => product.product_id.toString() === id
+  );
+  return { props: { staticProduct: result } };
+}
+//********** */
+
+function ProductDetails({ staticProduct }) {
+  // const router = useRouter();
+  // const { id } = router.query;
+  // const product = productById(id);
+
+  const product = staticProduct[0];
+  if (!product) {
     return <h2>Produkte werden geladen</h2>;
   }
   const selectFirstColor = product?.colors[0];
@@ -28,15 +69,42 @@ function ProductDetails({ allProducts, searchInputText }) {
     product_description3: description3,
     product_material: material,
     product_imagepath_big1: image1,
+    product_imagepath_big2: image2,
+    product_imagepath_big3: image3,
   } = product;
 
-  //filter products by id
-  function productById(id) {
-    const filteredProduct = allProducts.find(
-      (product) => product.product_id.toString() === id
-    );
-    return filteredProduct;
+  const images = [];
+
+  if (image1) {
+    images.push({
+      original: image1,
+      thumbnail: image1,
+      originalAlt: `Ein Bild von ${name}`,
+    });
   }
+  if (image2) {
+    images.push({
+      original: image2,
+      thumbnail: image2,
+      originalAlt: `Ein Bild von ${name}`,
+    });
+  }
+
+  if (image3) {
+    images.push({
+      original: image3,
+      thumbnail: image3,
+      originalAlt: `Ein Bild von ${name}`,
+    });
+  }
+
+  //filter products by id
+  // function productById(id) {
+  //   const filteredProduct = products.find(
+  //     (product) => product.product_id.toString() === id
+  //   );
+  //   return filteredProduct;
+  // }
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
@@ -60,13 +128,17 @@ function ProductDetails({ allProducts, searchInputText }) {
           {description3 && <p>{description3}</p>}
 
           <p>Material: {material}</p>
-          <StyledImage
-            src={image1 ? image1 : "/images/placeholder.jpg"}
-            alt={`Ein Bild von ${name}`}
-            width={459}
-            height={204}
-            sizes="60vw"
-          />
+          <StyledImageGalleryWrapper>
+            <ImageGallery
+              items={images}
+              showBullets={false}
+              showThumbnails={image2 || image3 ? true : false}
+              showPlayButton={false}
+              slideDuration={300}
+              showFullscreenButton={false}
+              showNav={image2 || image3 ? true : false}
+            />
+          </StyledImageGalleryWrapper>
         </ProductWrapper>
 
         <ArticleWrapper>
@@ -94,6 +166,19 @@ function ProductDetails({ allProducts, searchInputText }) {
     </>
   );
 }
+//*************
+//*************
+// export const getStaticPaths = async () => {
+//   const paths = products.map((product) => ({
+//     params: { id: product.product_id },
+//   }));
+//   return { paths, fallback: false };
+// };
+// export const getStaticProps = async () => {
+//   const products = products;
+//   return { props: { products } };
+// };
+//****** */
 
 export default ProductDetails;
 
@@ -116,16 +201,14 @@ const ProductWrapper = styled.div`
   gap: 1.75rem;
 `;
 
-const StyledImage = styled(Image)`
-  align-self: center;
-  max-width: 470px;
-  /* min-width: 260px; */
-  max-height: 204px;
-  /* min-height: 115px; */
-
-  width: 100%;
-  height: auto;
-  cursor: pointer;
+const StyledImageGalleryWrapper = styled.div`
+  .image-gallery-svg {
+    opacity: 0.1;
+    :hover,
+    :focus {
+      opacity: 1;
+    }
+  }
 `;
 
 const Descripton1 = styled.p`

@@ -3,12 +3,18 @@ import styled from "styled-components";
 import Product from "../Product";
 
 function ProductList(props) {
-  const products = props.products;
-  const category = props?.category;
-  const hrefProduct = props.hrefProduct ? props.hrefProduct : "";
+  //for dynamic website
+  // const products = props.products;
 
+  //for static website
+  const products = props.products;
+
+  const category = props?.category;
+
+  const hrefProduct = props.hrefProduct ? props.hrefProduct : "";
   //sort the products by column prio
   const sortedProducts = products.sort((a, b) => a.prio - b.prio);
+
   return (
     <ul>
       {sortedProducts.map((product, index) => (
