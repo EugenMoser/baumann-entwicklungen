@@ -1,7 +1,8 @@
-import styled, { css } from "styled-components";
+import { useEffect, useRef, useState } from "react";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import styled, { css } from "styled-components";
 
 function Navbar() {
   const [isDisplayed, setIsDisplayed] = useState(true);
@@ -81,12 +82,15 @@ function Navbar() {
 export default Navbar;
 
 const StyledNav = styled.nav`
-  margin: 2rem 0;
+  background-color: var(--white);
+  position: sticky;
+  top: 0;
 `;
 
 const StyledList = styled.ul`
   display: flex;
   justify-content: space-around;
+  margin: 2rem 0;
 `;
 
 const StyledLink = styled(Link)`
