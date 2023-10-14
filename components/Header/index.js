@@ -16,7 +16,7 @@ function Header({
 
   function navHome() {
     router.push("/");
-    setSearchInputText("");
+    // setSearchInputText("");
   }
 
   return (

@@ -33,17 +33,16 @@ export async function getStaticProps(context) {
   const filteredProducts = products.filter(
     (product) => product.category === category
   );
-  return { props: { staticProduct: filteredProducts } };
+  return { props: { staticProducts: filteredProducts } };
 }
 
 //********** */
 
-function ProductCategory({ staticProduct }) {
+function ProductCategory({ staticProducts }) {
   // const router = useRouter();
   // const { category } = router.query;
-  console.log("staticProductsn111", staticProduct);
 
-  const category = staticProduct[0].category;
+  const category = staticProducts[0].category;
   // const filteredProducts = productsByCategory(products.category);
 
   // //filter products by category
@@ -68,36 +67,14 @@ function ProductCategory({ staticProduct }) {
       ) : (
         <StyledH1>Keine Kategorie</StyledH1>
       )}
-      {staticProduct.map((product) => (
-        <StyledListItem key={product.product_id}>
-          <StyledLink href={`./${category}/${product.product_id}`}>
-            <ImageWrapper>
-              <StyledImage
-                src={
-                  product.product_imagepath_small
-                    ? product.product_imagepath_small
-                    : "/images/placeholder.jpg"
-                }
-                alt={product.product_name}
-                width={80}
-                height={80}
-                // sizes="60vw"
-              />
-            </ImageWrapper>
 
-            <TextWrapper>
-              <h4>{product.product_name}</h4>
-              <StyledP>{product.product_description1}</StyledP>
-            </TextWrapper>
-          </StyledLink>
-        </StyledListItem>
-      ))}
-      {/* {filteredProducts && (
+      {staticProducts && (
         <ProductList
-          products={searchInputTextByCategory}
+          // products={searchInputTextByCategory}
+          products={staticProducts}
           category={category}
         />
-      )} */}
+      )}
     </>
   );
 }

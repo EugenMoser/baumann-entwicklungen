@@ -54,7 +54,6 @@ function ProductDetails({ staticProduct }) {
   // const router = useRouter();
   // const { id } = router.query;
   // const product = productById(id);
-  console.log("staticProducts", staticProduct);
 
   const product = staticProduct[0];
   if (!product) {
