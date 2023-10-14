@@ -9,10 +9,7 @@ import { productsByCategory } from "../../../helpers/services";
 function ProductCategory({ allProducts, searchInputText }) {
   const router = useRouter();
   const { category } = router.query;
-
-  //
   const products = searchInputText ? searchInputText : allProducts;
-
   const searchInputTextByCategory = productsByCategory(products, category);
 
   return (
