@@ -27,12 +27,10 @@ export default function Articles({ articles, selectedArticleSetter }) {
   function handleOnChange(articleId) {
     selectedArticleSetter(articleId);
   }
-
   //sort the articles by column prio
   const sortedArticles = articles.sort(
     (a, b) => a.article_prio - b.article_prio
   );
-
   return (
     <StyledArticleSection
       isArticleDescriptionAvailable={isArticleDescriptionAvailable}

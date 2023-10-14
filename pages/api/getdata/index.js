@@ -2,9 +2,10 @@ import { createDbConnection } from "../../../helpers/dbconnection";
 
 async function handlerByCategory(req, res) {
   try {
+    const dbconnection = await createDbConnection();
+
     //TODO: fix typo in db = article.artcle_prio,
 
-    const dbconnection = await createDbConnection();
     const query = `
     SELECT product.*,
     (
