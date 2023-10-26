@@ -5,7 +5,6 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import * as React from "react";
 import { useState } from "react";
 
-import Image from "next/image";
 import { useRouter } from "next/router";
 import ImageGallery from "react-image-gallery";
 import styled from "styled-components";
@@ -34,9 +33,7 @@ function ProductDetails({ allProducts, searchInputText }) {
     product_imagepath_big2: image2,
     product_imagepath_big3: image3,
   } = product;
-  console.log("image1", typeof image1, image1);
-  console.log("image2", typeof image2, image2);
-  console.log("image3", typeof image3, image3);
+
   const images = [];
 
   if (image1) {

@@ -9,14 +9,9 @@ function findProductName(products) {
     const articleFullName =
       `${name} ${description1} ${description2}`.trim();
 
-    // const article = product.articles.map(
-    //   (article) => article.article_number
-    // );
-
     return articleFullName.length > maxLength
       ? articleFullName.slice(0, maxLength) + "..."
       : articleFullName;
-    // || article
   });
   return product;
 }
@@ -28,4 +23,5 @@ function productsByCategory(products, category) {
   );
   return filteredProduct;
 }
+
 export { findProductName, productsByCategory };

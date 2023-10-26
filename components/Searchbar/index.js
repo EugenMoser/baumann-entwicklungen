@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { useRouter } from "next/router";
 
 // import { createFilterOptions } from "@material-ui/lab";
@@ -14,26 +16,32 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
   const router = useRouter();
   const { category } = router.query;
 
-  //display all products or searched products at autocomplete
-  const products =
+  //dis[display]play all products or searched products at autocomplete
+  const displayProducts =
     category && searchInputText
-      ? productsByCategory(searchInputText, category)
+      ? productsByCategory(allProducts, category)
       : allProducts;
 
   function changeHandler(event, value) {
-    setSearchInputText(value.toLowerCase());
+    setSearchInputText(value);
   }
 
+  useEffect(() => {
+    setSearchInputText("");
+  }, [category]);
+
+  console.log(displayProducts, "displayProducts");
   return (
     <Stack width={300}>
       <Autocomplete
         disablePortal
+        autoHighlight={true}
         freeSolo={true}
         id="search"
+        value={searchInputText}
         autoComplete={true}
         onInputChange={changeHandler}
-        // options={findProducts}
-        options={findProductName(products)}
+        options={findProductName(displayProducts)}
         renderInput={(params) => (
           <TextField
             {...params}

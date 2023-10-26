@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -15,69 +13,78 @@ import Icon from "@mdi/react";
 import ProductList from "../components/ProductList";
 import { strings } from "../helpers/strings";
 
-function Home({ searchInputText }) {
+function Home({ allProducts, searchInputText, filteredProducts }) {
   return (
     <>
-      {searchInputText.length ? (
-        <>
-          <h1>test</h1>
-          <ProductList
-            products={searchInputText}
-            hrefProduct={"/products"}
-          />
-        </>
+      {allProducts.length ? (
+        filteredProducts.length && searchInputText.length ? (
+          <>
+            <h1>test</h1>
+            <ProductList
+              products={filteredProducts}
+              hrefProduct={"/products"}
+            />
+          </>
+        ) : !filteredProducts.length && searchInputText.length ? (
+          <StyledMessage>Kein Produkt gefunden.</StyledMessage>
+        ) : (
+          <StyledSection>
+            <StyledH1>{strings.companyWelcome}</StyledH1>
+            <StyledParagraph>{strings.companyDescription}</StyledParagraph>
+            <StyledH3>{strings.companyOurAreas}</StyledH3>
+            <StyledLink href="/products/moebel">
+              <StyledButton>
+                <StyledIcon
+                  path={mdiTableFurniture}
+                  size={1.5}
+                />
+                Möbelbereich{" "}
+              </StyledButton>
+            </StyledLink>
+            <StyledLink href="/products/halterung">
+              <StyledButton>
+                <StyledIcon
+                  path={mdiTournament}
+                  size={1.5}
+                />
+                Halterungen
+              </StyledButton>
+            </StyledLink>
+            <StyledLink href="/products/wasser">
+              <StyledButton>
+                {" "}
+                <StyledIcon
+                  path={mdiWaterOutline}
+                  size={1.5}
+                />
+                Wasserbereich
+              </StyledButton>
+            </StyledLink>{" "}
+            <StyledLink href="/products/lueftung">
+              <StyledButton>
+                <StyledIcon
+                  path={mdiAirFilter}
+                  size={1.5}
+                />
+                Lüftungsbereich
+              </StyledButton>
+            </StyledLink>
+            <StyledLink href="/products/elektro">
+              <StyledButton>
+                <StyledIcon
+                  path={mdiFlashOutline}
+                  size={1.5}
+                />
+                Elektrobereich
+              </StyledButton>
+            </StyledLink>
+          </StyledSection>
+        )
       ) : (
-        <StyledSection>
-          <StyledH1>{strings.companyWelcome}</StyledH1>
-          <StyledParagraph>{strings.companyDescription}</StyledParagraph>
-          <StyledH3>{strings.companyOurAreas}</StyledH3>
-          <StyledLink href="/products/moebel">
-            <StyledButton>
-              <StyledIcon
-                path={mdiTableFurniture}
-                size={1.5}
-              />
-              Möbelbereich{" "}
-            </StyledButton>
-          </StyledLink>
-          <StyledLink href="/products/halterung">
-            <StyledButton>
-              <StyledIcon
-                path={mdiTournament}
-                size={1.5}
-              />
-              Halterungen
-            </StyledButton>
-          </StyledLink>
-          <StyledLink href="/products/wasser">
-            <StyledButton>
-              {" "}
-              <StyledIcon
-                path={mdiWaterOutline}
-                size={1.5}
-              />
-              Wasserbereich
-            </StyledButton>
-          </StyledLink>{" "}
-          <StyledLink href="/products/lueftung">
-            <StyledButton>
-              <StyledIcon
-                path={mdiAirFilter}
-                size={1.5}
-              />
-              Lüftungsbereich
-            </StyledButton>
-          </StyledLink>
-          <StyledLink href="/products/elektro">
-            <StyledButton>
-              <StyledIcon
-                path={mdiFlashOutline}
-                size={1.5}
-              />
-              Elektrobereich
-            </StyledButton>
-          </StyledLink>
-        </StyledSection>
+        <StyledMessage>
+          Seite konnte nicht geladen werden. Bitte versuchen Sie es später
+          nochmal.
+        </StyledMessage>
       )}
     </>
   );
@@ -128,4 +135,11 @@ const StyledButton = styled.button`
 
 const StyledParagraph = styled.p`
   line-height: 1.5;
+`;
+
+const StyledMessage = styled.p`
+  font-size: 1.5rem;
+  color: var(--red);
+  margin: 3rem 0;
+  text-align: center;
 `;

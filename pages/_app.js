@@ -2,28 +2,36 @@ import { useEffect, useState } from "react";
 
 import Layout from "../components/Layout";
 import GlobalStyles from "../components/Style/GlobalStyles";
-import findProductName from "../helpers/services";
 
 function MyApp({ Component, pageProps }) {
   const [products, setProducts] = useState([]);
 
   //search text input
   const [searchInputText, setSearchInputText] = useState("");
-  console.log("searchInputText", searchInputText);
 
   //filtered products for search text input
   const [filteredProducts, setFilteredProducts] = useState([]);
-  console.log("filteredProducts", filteredProducts);
 
   const apiURL = `http://localhost:3000/api/getdata`;
+
+  useEffect(() => {
+    try {
+      fetchAllProducts();
+    } catch (error) {
+      console.error("Fehler beim Abruf der Produkte" + error.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    findProducts(searchInputText, products);
+  }, [searchInputText]);
 
   async function fetchAllProducts() {
     const response = await fetch(apiURL);
     const data = await response.json();
     setProducts(data.products);
   }
-
-  function findProducts() {
+  function findProducts(searchInputText, products) {
     const filterProducts = products.filter((product) => {
       const maxLength = 60; // Set the maximum length for the hint text
       const name = product.product_name;
@@ -38,25 +46,18 @@ function MyApp({ Component, pageProps }) {
         articleFullName.length > maxLength
           ? articleFullName.slice(0, maxLength) + "..."
           : articleFullName
-      ).includes(searchInputText.trim());
+      ).includes(searchInputText.toLocaleLowerCase().trim());
     });
+
     //if search input is empty, set filteredProducts to empty string
     setFilteredProducts(
       searchInputText.length === 0 ? "" : filterProducts
     );
   }
 
-  useEffect(() => {
-    try {
-      fetchAllProducts();
-    } catch (error) {
-      console.error("Fehler beim Abruf der Produkte" + error.message);
-    }
-  }, []);
-
-  useEffect(() => findProducts(), [searchInputText]);
-
-  if (!products) return <h2>Seite wird geladen</h2>;
+  function setSearchInputTextHandler(value) {
+    setSearchInputText(value);
+  }
 
   return (
     <>
@@ -66,7 +67,7 @@ function MyApp({ Component, pageProps }) {
           {...pageProps}
           allProducts={products}
           searchInputText={searchInputText}
-          setSearchInputText={setSearchInputText}
+          setSearchInputText={setSearchInputTextHandler}
           filteredProducts={filteredProducts}
         />
       </Layout>{" "}

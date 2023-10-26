@@ -11,6 +11,7 @@ const GlobalStyles = createGlobalStyle`
     --background-showSelection-color: #e9e9ec;
     --background-showSelection-border: #bcbcc5;
     --white: #ffffff;
+    --red: #ff0000;
     
  
 }

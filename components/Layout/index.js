@@ -9,6 +9,7 @@ import Navbar from "../Navbar";
 function Layout({ children }) {
   const [openContact, setOpenContact] = useState(false);
   const allProducts = children.props.allProducts;
+  const filteredProducts = children.props.filteredProducts;
   const setSearchInputText = children.props.setSearchInputText;
   const searchInputText = children.props.searchInputText;
 
