@@ -90,16 +90,17 @@ const StyledLink = styled(Link)`
     variant === "active" &&
     css`
       /* text-decoration: underline; */
-      border-bottom: 2px solid black;
+      border-bottom: 2px solid var(--font-color-hover);
+      color: var(--font-color-hover);
 
       &:hover,
+      :focus,
       :active {
-        color: var(--font-color-hover);
         border-bottom: 2px solid var(--font-color-hover);
       }
     `}
 
-  &:hover,
+  &:hover,:focus,
   :active {
     color: var(--font-color-hover);
   }
