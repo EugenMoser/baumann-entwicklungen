@@ -8,6 +8,13 @@ function Navbar() {
   const [isDisplayed, setIsDisplayed] = useState(true);
   const router = useRouter();
   const path = router.asPath;
+  const sections = [
+    "moebel",
+    "halterung",
+    "wasser",
+    "lueftung",
+    "elektro",
+  ];
 
   useEffect(() => {
     if (path === "/") {
@@ -15,66 +22,48 @@ function Navbar() {
     } else setIsDisplayed(true);
   }, [path]);
 
+  function createSections(sections) {
+    const list = sections.map((section) => {
+      let category = "";
+      switch (section) {
+        case "moebel":
+          category = "Möbelbereich";
+          break;
+        case "halterung":
+          category = "Halterung";
+          break;
+        case "wasser":
+          category = "Wasserbereich";
+          break;
+        case "elektro":
+          category = "Elektronikbereich";
+          break;
+        case "lueftung":
+          category = "Lüftungbereich";
+          break;
+      }
+
+      return (
+        <li>
+          <StyledLink
+            variant={
+              path.startsWith(`/products/${section}`)
+                ? "active"
+                : "inactive"
+            }
+            href={`/products/${section}`}
+          >
+            {category}
+          </StyledLink>
+        </li>
+      );
+    });
+    return list;
+  }
+
   return (
     <StyledNav>
-      {isDisplayed && (
-        <StyledList>
-          <li>
-            <StyledLink
-              variant={
-                path.startsWith("/products/moebel") ? "active" : "inactive"
-              }
-              href="/products/moebel"
-            >
-              Möbelbereich
-            </StyledLink>
-          </li>
-          <li>
-            <StyledLink
-              variant={
-                path.startsWith("/products/halterung")
-                  ? "active"
-                  : "inactive"
-              }
-              href="/products/halterung"
-            >
-              Halterungen
-            </StyledLink>
-          </li>
-          <li>
-            <StyledLink
-              variant={
-                path.startsWith("/products/wasser") ? "active" : "inactive"
-              }
-              href="/products/wasser"
-            >
-              Wasserbereich
-            </StyledLink>
-          </li>
-          <li>
-            <StyledLink
-              variant={
-                path.startsWith("/products/lueftung")
-                  ? "active"
-                  : "inactive"
-              }
-              href="/products/lueftung"
-            >
-              Lüftungsbereich
-            </StyledLink>
-          </li>
-          <li>
-            <StyledLink
-              variant={
-                path === "/products/elektro" ? "active" : "inactive"
-              }
-              href="/products/elektro"
-            >
-              Elektrobereich
-            </StyledLink>
-          </li>
-        </StyledList>
-      )}
+      {isDisplayed && <StyledList>{createSections(sections)}</StyledList>}
     </StyledNav>
   );
 }
