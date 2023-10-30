@@ -44,17 +44,10 @@ function MyApp({ Component, pageProps }) {
       const articleNumber = product.articles.find((article) =>
         article.article_number.startsWith(searchInput)
       );
-      console.log("articleNumber.", articleNumber, product);
       const productFullName = `${name} ${description1} ${description2}`
         .toLowerCase()
         .trim();
-      console.log(
-        "productFullName",
-        (productFullName.length > maxLength
-          ? productFullName.slice(0, maxLength) + "..."
-          : productFullName
-        ).includes(searchInput)
-      );
+
       return (
         (productFullName.length > maxLength
           ? productFullName.slice(0, maxLength) + "..."
@@ -63,7 +56,6 @@ function MyApp({ Component, pageProps }) {
       );
     });
 
-    console.log(filterProducts, "filterProducts !!!!!");
     //if search input is empty, set filteredProducts to empty string
     setFilteredProducts(
       searchInputText.length === 0 ? "" : filterProducts
