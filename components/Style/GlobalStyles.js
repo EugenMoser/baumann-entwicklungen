@@ -4,13 +4,14 @@ const GlobalStyles = createGlobalStyle`
 
 :root {
     --font-color: #000000;
-    --font-color-hover: #00BFFF;
+    --font-color-hover: #0068ad;
     --font-color-varant: #86868b;
     --background-category-color: #e9e9ec;
     --background-category-hover-color: #bcbcc5;
     --background-showSelection-color: #e9e9ec;
     --background-showSelection-border: #bcbcc5;
     --white: #ffffff;
+    --red: #ff0000;
     
  
 }

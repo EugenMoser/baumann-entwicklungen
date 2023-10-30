@@ -6,11 +6,18 @@ import styled from "styled-components";
 import ProductList from "../../../components/ProductList";
 import { productsByCategory } from "../../../helpers/services";
 
-function ProductCategory({ allProducts, searchInputText }) {
+function ProductCategory({
+  allProducts,
+  filteredProducts,
+  searchInputText,
+}) {
   const router = useRouter();
   const { category } = router.query;
-  const products = searchInputText ? searchInputText : allProducts;
-  const searchInputTextByCategory = productsByCategory(products, category);
+
+  const searchProductsByCategory =
+    searchInputText.length && filteredProducts
+      ? productsByCategory(filteredProducts, category)
+      : productsByCategory(allProducts, category);
 
   return (
     <>
@@ -27,11 +34,13 @@ function ProductCategory({ allProducts, searchInputText }) {
       ) : (
         <StyledH1>Keine Kategorie</StyledH1>
       )}
-      {searchInputTextByCategory && (
+      {searchProductsByCategory.length ? (
         <ProductList
-          products={searchInputTextByCategory}
+          products={searchProductsByCategory}
           category={category}
         />
+      ) : (
+        <StyledParagraph>kein Produkt gefunden</StyledParagraph>
       )}
     </>
   );
@@ -42,4 +51,10 @@ const StyledH1 = styled.h1`
   text-align: center;
   font-size: 2rem;
   margin: 1rem 0;
+`;
+const StyledParagraph = styled.p`
+  font-size: 1.5rem;
+  color: var(--red);
+  margin: 3rem 0;
+  text-align: center;
 `;
