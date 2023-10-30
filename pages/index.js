@@ -19,7 +19,6 @@ function Home({ allProducts, searchInputText, filteredProducts }) {
       {allProducts.length ? (
         filteredProducts.length && searchInputText.length ? (
           <>
-            <h1>test</h1>
             <ProductList
               products={filteredProducts}
               hrefProduct={"/products"}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useRouter } from "next/router";
 
@@ -30,7 +30,6 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
     setSearchInputText("");
   }, [category]);
 
-  console.log(displayProducts, "displayProducts");
   return (
     <Stack width={300}>
       <Autocomplete

@@ -1,3 +1,4 @@
+//find article and return name with description
 function findProductName(products) {
   const maxLength = 60; // Set the maximum length for the hint text
 
@@ -6,12 +7,24 @@ function findProductName(products) {
     const description1 = product.product_description1;
     const description2 = product.product_description2;
 
-    const articleFullName =
+    const productFullName =
       `${name} ${description1} ${description2}`.trim();
 
-    return articleFullName.length > maxLength
-      ? articleFullName.slice(0, maxLength) + "..."
-      : articleFullName;
+    return productFullName.length > maxLength
+      ? productFullName.slice(0, maxLength) + "..."
+      : productFullName;
+  });
+  return product;
+}
+
+//find id and return name with id
+function findArtikleId(products) {
+  const product = products.map((product) => {
+    const name = product.product_name;
+
+    const articleFullName = `${articleId} ${name}`.trim();
+
+    return articleFullName;
   });
   return product;
 }
@@ -24,4 +37,4 @@ function productsByCategory(products, category) {
   return filteredProduct;
 }
 
-export { findProductName, productsByCategory };
+export { findArtikleId, findProductName, productsByCategory };

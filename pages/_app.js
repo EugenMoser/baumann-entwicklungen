@@ -31,24 +31,39 @@ function MyApp({ Component, pageProps }) {
     const data = await response.json();
     setProducts(data.products);
   }
+
   function findProducts(searchInputText, products) {
+    const searchInput = searchInputText.toLowerCase().trim();
+
     const filterProducts = products.filter((product) => {
       const maxLength = 60; // Set the maximum length for the hint text
       const name = product.product_name;
       const description1 = product.product_description1;
       const description2 = product.product_description2;
 
-      const articleFullName = `${name} ${description1} ${description2}`
+      const articleNumber = product.articles.find((article) =>
+        article.article_number.startsWith(searchInput)
+      );
+      console.log("articleNumber.", articleNumber, product);
+      const productFullName = `${name} ${description1} ${description2}`
         .toLowerCase()
         .trim();
-
+      console.log(
+        "productFullName",
+        (productFullName.length > maxLength
+          ? productFullName.slice(0, maxLength) + "..."
+          : productFullName
+        ).includes(searchInput)
+      );
       return (
-        articleFullName.length > maxLength
-          ? articleFullName.slice(0, maxLength) + "..."
-          : articleFullName
-      ).includes(searchInputText.toLocaleLowerCase().trim());
+        (productFullName.length > maxLength
+          ? productFullName.slice(0, maxLength) + "..."
+          : productFullName
+        ).includes(searchInput) || articleNumber
+      );
     });
 
+    console.log(filterProducts, "filterProducts !!!!!");
     //if search input is empty, set filteredProducts to empty string
     setFilteredProducts(
       searchInputText.length === 0 ? "" : filterProducts
