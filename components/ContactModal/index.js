@@ -83,7 +83,7 @@ const ModalBackground = styled.div`
   background-color: rgba(0, 0, 0, 0.4);
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: 100;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

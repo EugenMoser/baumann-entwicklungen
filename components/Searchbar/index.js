@@ -26,6 +26,29 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
     setSearchInputText(value);
   }
 
+  function getLabel(category) {
+    let categoryLabel = "";
+    switch (category) {
+      case "moebel":
+        categoryLabel = "Möbelbereich";
+        break;
+      case "halterung":
+        categoryLabel = "Halterung";
+        break;
+      case "wasser":
+        categoryLabel = "Wasserbereich";
+        break;
+      case "elektro":
+        categoryLabel = "Elektronikbereich";
+        break;
+      case "lueftung":
+        categoryLabel = "Lüftungbereich";
+        break;
+    }
+    const label = category ? `${categoryLabel} durchsuchen` : "suchen";
+    return label;
+  }
+
   useEffect(() => {
     setSearchInputText("");
   }, [category]);
@@ -44,7 +67,7 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="suchen"
+            label={getLabel(category)}
           />
         )}
       />
