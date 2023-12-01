@@ -27,25 +27,25 @@ src: url("/fonts/Rubik-VariableFont_wght.ttf");}
     font-family: 'Rubik', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
 }
-  
-    body {
-        width: 980px;
-        padding: 0;
-        margin: 0 auto;       
-    }
+
+body {
+    padding: 0;
+    margin: 0 5rem;
+    max-width: 100%;
+}
 
 
 
 
-    main {
-      
-        align-self: center;
-        width: 980px;
-        padding-bottom: 1rem;
-        
-       
-        
-    }
+main {
+    align-self: center;
+    padding-bottom: 1rem;
+    
+}
+
+
+
+
 `;
 
 export default GlobalStyles;

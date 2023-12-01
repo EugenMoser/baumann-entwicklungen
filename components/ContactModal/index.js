@@ -21,7 +21,7 @@ function ContactModal({ openContact, setOpenContact }) {
       >
         <Svg
           variant="contact"
-          size="80%"
+          size="100%"
           max-size="50px"
         />
         Kontakt
@@ -78,6 +78,19 @@ function ContactModal({ openContact, setOpenContact }) {
 
 export default ContactModal;
 
+const StyledContactButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+  max-width: 70px;
+  max-height: 90px;
+  font-size: 100%;
+  border: none;
+`;
+
 const ModalBackground = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.4);
@@ -87,16 +100,6 @@ const ModalBackground = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`;
-
-const StyledContactButton = styled.button`
-  background-color: transparent;
-  cursor: pointer;
-  max-width: 70px;
-  max-height: 90px;
-  width: 30vw;
-  font-size: calc(12px + 0.5vw);
-  border: none;
 `;
 
 const Modal = styled.address`

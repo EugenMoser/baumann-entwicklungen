@@ -14,70 +14,50 @@ import ProductList from "../components/ProductList";
 import { strings } from "../helpers/strings";
 
 function Home({ allProducts, searchInputText, filteredProducts }) {
+  const sections = [
+    { label: "moebel", name: "Möbelbereich" },
+    { label: "halterung", name: "Halterungsbereich" },
+    { label: "wasser", name: "Wasserbereich" },
+    { label: "lueftung", name: "Lüftungsbereich" },
+    { label: "elektro", name: "Elektrobereich" },
+  ];
+
+  function createSection() {
+    const returnSection = sections.map((section) => {
+      return (
+        <li>
+          <StyledLink href={`/products/${section.label}`}>
+            <StyledButton>
+              <StyledIcon
+                path={mdiTableFurniture}
+                size={1.5}
+              />
+              {section.name}
+            </StyledButton>
+          </StyledLink>
+        </li>
+      );
+    });
+    return returnSection;
+  }
+
   return (
     <>
       {allProducts.length ? (
         filteredProducts.length && searchInputText.length ? (
-          <>
-            <ProductList
-              products={filteredProducts}
-              hrefProduct={"/products"}
-            />
-          </>
+          <ProductList
+            products={filteredProducts}
+            hrefProduct={"/products"}
+          />
         ) : !filteredProducts.length && searchInputText.length ? (
           <StyledMessage>Kein Produkt gefunden.</StyledMessage>
         ) : (
-          <StyledSection>
+          <>
             <StyledH1>{strings.companyWelcome}</StyledH1>
             <StyledParagraph>{strings.companyDescription}</StyledParagraph>
             <StyledH3>{strings.companyOurAreas}</StyledH3>
-            <StyledLink href="/products/moebel">
-              <StyledButton>
-                <StyledIcon
-                  path={mdiTableFurniture}
-                  size={1.5}
-                />
-                Möbelbereich{" "}
-              </StyledButton>
-            </StyledLink>
-            <StyledLink href="/products/halterung">
-              <StyledButton>
-                <StyledIcon
-                  path={mdiTournament}
-                  size={1.5}
-                />
-                Halterungen
-              </StyledButton>
-            </StyledLink>
-            <StyledLink href="/products/wasser">
-              <StyledButton>
-                {" "}
-                <StyledIcon
-                  path={mdiWaterOutline}
-                  size={1.5}
-                />
-                Wasserbereich
-              </StyledButton>
-            </StyledLink>{" "}
-            <StyledLink href="/products/lueftung">
-              <StyledButton>
-                <StyledIcon
-                  path={mdiAirFilter}
-                  size={1.5}
-                />
-                Lüftungsbereich
-              </StyledButton>
-            </StyledLink>
-            <StyledLink href="/products/elektro">
-              <StyledButton>
-                <StyledIcon
-                  path={mdiFlashOutline}
-                  size={1.5}
-                />
-                Elektrobereich
-              </StyledButton>
-            </StyledLink>
-          </StyledSection>
+            <StyledSection>{createSection()}</StyledSection>
+          </>
         )
       ) : (
         <StyledMessage>
@@ -108,6 +88,31 @@ const StyledIcon = styled(Icon)`
 const StyledSection = styled.section`
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+
+  li {
+    flex: 1 1 48%;
+
+    button {
+      height: 300px;
+    }
+  }
+
+  li:first-child {
+    min-width: 100%;
+    min-height: 40%;
+
+    button {
+      height: 150px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -123,7 +128,6 @@ const StyledButton = styled.button`
   background-color: var(--background-category-color);
   border: none;
   border-radius: 5px;
-  margin-bottom: 1rem;
   font-size: 1.5rem;
   cursor: pointer;
   &:hover,

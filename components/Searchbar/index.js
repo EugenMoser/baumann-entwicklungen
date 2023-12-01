@@ -61,9 +61,9 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
         freeSolo={true}
         id="search"
         value={searchInputText}
-        autoComplete={true}
+        autoComplete={false}
         onInputChange={changeHandler}
-        options={findProductName(displayProducts)}
+        options={[]}
         renderInput={(params) => (
           <TextField
             {...params}
