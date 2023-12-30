@@ -1,9 +1,12 @@
 import React from "react";
-import styled from "styled-components";
+
 import Link from "next/link";
-import Icon from "@mdi/react";
+import styled from "styled-components";
+
 import { mdiEmailOutline } from "@mdi/js";
-import { strings, getEmailBody } from "../../helpers/strings";
+import Icon from "@mdi/react";
+
+import { getEmailBody, strings } from "../../helpers/strings";
 
 export default function ShowSelection({ selectedArticle, selectedColor }) {
   const colorSuffix =
@@ -13,6 +16,24 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
 
   const fulllArticleNumber =
     selectedArticle && selectedArticle.article_number + colorSuffix;
+
+  console.log(
+    "description 1",
+    selectedArticle
+    // selectedArticle.article_description1 &&
+    //   selectedArticle.article_description1
+  );
+
+  // console.log(
+  //   "description 2",
+  //   selectedArticle.article_description2 &&
+  //     selectedArticle.article_description2
+  // );
+  // console.log(
+  //   "description 3",
+  //   selectedArticle.article_description3 &&
+  //     selectedArticle.article_description3
+  // );
 
   return (
     <StyledResultSection>
@@ -26,29 +47,41 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
               : " - " + selectedColor.suffix} */}
           </StyledArticleNumber>{" "}
           <StyledSpecials>
-            {selectedArticle.article_description && (
-              <>
-                <p>Besonderheiten:</p>
-                <p>{selectedArticle.article_description}</p>
-              </>
-            )}
-            {selectedArticle.article_description1 && (
-              <p>{selectedArticle.article_description1}</p>
-            )}
-            {selectedArticle.article_description2 && (
-              <p>{selectedArticle.article_description2}</p>
-            )}
-            {selectedArticle.article_description3 && (
-              <p>{selectedArticle.article_description3}</p>
-            )}
+            <>
+              <StyledLabel>Besonderheiten:</StyledLabel>
+              <StyledList>
+                {selectedArticle.article_description && (
+                  <li>{selectedArticle.article_description}</li>
+                )}
+                {selectedArticle.article_description1 && (
+                  <li>{selectedArticle.article_description1}</li>
+                )}
+                {selectedArticle.article_description2 && (
+                  <li>{selectedArticle.article_description2}</li>
+                )}
+                {selectedArticle.article_description3 && (
+                  <li>{selectedArticle.article_description3}</li>
+                )}
+              </StyledList>
+            </>
           </StyledSpecials>
-          <p>Mögliche Verpackungseinheiten (VPE):</p>
-          <StyledList>
-            {selectedArticle.vpe1 && <li>{selectedArticle.vpe1} Stück</li>}
-            {selectedArticle.vpe2 && <li>{selectedArticle.vpe2} Stück</li>}
-            {selectedArticle.vpe3 && <li>{selectedArticle.vpe3} Stück</li>}
-            {selectedArticle.vpe4 && <li>{selectedArticle.vpe4} Stück</li>}
-          </StyledList>
+          <StyledVpe>
+            <StyledLabel>Mögliche Verpackungseinheiten (VPE):</StyledLabel>
+            <StyledList>
+              {selectedArticle.vpe1 && (
+                <li>{selectedArticle.vpe1} Stück</li>
+              )}
+              {selectedArticle.vpe2 && (
+                <li>{selectedArticle.vpe2} Stück</li>
+              )}
+              {selectedArticle.vpe3 && (
+                <li>{selectedArticle.vpe3} Stück</li>
+              )}
+              {selectedArticle.vpe4 && (
+                <li>{selectedArticle.vpe4} Stück</li>
+              )}
+            </StyledList>
+          </StyledVpe>
           <StyledForm
             action={`mailto:${strings.mailAddress}?subject=${
               strings.subject
@@ -93,8 +126,18 @@ const StyledSpecials = styled.div`
   margin-bottom: 1rem;
 `;
 
-const StyledList = styled.ul`
+const StyledLabel = styled.label`
+  display: block;
+  margin-bottom: 0%.5;
+  text-decoration: underline;
+`;
+
+const StyledVpe = styled.div`
   margin-bottom: 1rem;
+`;
+
+const StyledList = styled.ul`
+  list-style: none;
 `;
 
 const StyledParagraph = styled.p`
