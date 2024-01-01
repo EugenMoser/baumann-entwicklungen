@@ -28,6 +28,7 @@ function ProductDetails({ allProducts, searchInputText }) {
     product_description1: description1,
     product_description2: description2,
     product_description3: description3,
+    product_description4: description4,
     product_material: material,
     product_imagepath_big1: image1,
     product_imagepath_big2: image2,
@@ -69,7 +70,6 @@ function ProductDetails({ allProducts, searchInputText }) {
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
-      // (article) => article.article_id.toString() === articleId
       (article) => article.article_id === articleId
     );
     setSelectedArticle(articleObject);
@@ -85,8 +85,11 @@ function ProductDetails({ allProducts, searchInputText }) {
       <Descripton1>{description1}</Descripton1>
       <Wrapper>
         <ProductWrapper>
-          {description2 && <p>{description2}</p>}
-          {description3 && <p>{description3}</p>}
+          <DescriptionWrapper>
+            {description2 && <p>{description2}</p>}
+            {description3 && <p>{description3}</p>}
+            {description4 && <p>{description4}</p>}
+          </DescriptionWrapper>
 
           <p>Material: {material}</p>
           <StyledImageGalleryWrapper>
@@ -100,14 +103,6 @@ function ProductDetails({ allProducts, searchInputText }) {
               showNav={image2 || image3 ? true : false}
             />
           </StyledImageGalleryWrapper>
-
-          {/* <StyledImage
-            src={image1 ? image1 : "/images/placeholder.jpg"}
-            alt={`Ein Bild von ${name}`}
-            width={459}
-            height={204}
-            sizes="60vw"
-          /> */}
         </ProductWrapper>
 
         <ArticleWrapper>
@@ -155,6 +150,11 @@ const ProductWrapper = styled.div`
   flex-direction: column;
   flex: 1 0;
   gap: 1.75rem;
+`;
+
+const DescriptionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledImageGalleryWrapper = styled.div`
