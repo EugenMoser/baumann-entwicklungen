@@ -1,6 +1,8 @@
-import styled from "styled-components";
-import { strings } from "../helpers/strings";
 import Link from "next/link";
+import styled from "styled-components";
+
+import { strings } from "../helpers/strings";
+
 function Imprint() {
   return (
     <>
@@ -41,7 +43,7 @@ function Imprint() {
       <p>
         <h4>Steuernummer</h4>
         USt-IdNr.: DE 247 636 303 <br />
-        Steuer-Nr.: 134/203/10670
+        Steuer-Nr.: 134/203/10387
       </p>
       <br />
       <StyledCite>
