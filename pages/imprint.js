@@ -1,6 +1,8 @@
-import styled from "styled-components";
-import { strings } from "../helpers/strings";
 import Link from "next/link";
+import styled from "styled-components";
+
+import { strings } from "../helpers/strings";
+
 function Imprint() {
   return (
     <>
@@ -43,11 +45,6 @@ function Imprint() {
         USt-IdNr.: DE 247 636 303 <br />
         Steuer-Nr.: 134/203/10670
       </p>
-      <br />
-      <StyledCite>
-        Quelle: Disclaimer von eRecht24, dem Portal zum Internetrecht von
-        Rechtsanwalt Sören Siebert.
-      </StyledCite>
     </>
   );
 }
