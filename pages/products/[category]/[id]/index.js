@@ -91,7 +91,7 @@ function ProductDetails({ allProducts, searchInputText }) {
             {description4 && <p>{description4}</p>}
           </DescriptionWrapper>
 
-          <p>Material: {material}</p>
+          {material && <p>Material: {material}</p>}
           <StyledImageGalleryWrapper>
             <ImageGallery
               items={images}
