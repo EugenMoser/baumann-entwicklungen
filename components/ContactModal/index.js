@@ -81,11 +81,10 @@ export default ContactModal;
 const StyledContactButton = styled.button`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-self: self-end;
   background-color: transparent;
   cursor: pointer;
-  max-width: 70px;
+  max-width: 50px;
   max-height: 90px;
   font-size: 100%;
   border: none;
