@@ -16,7 +16,7 @@ import { strings } from "../helpers/strings";
 function Home({ allProducts, searchInputText, filteredProducts }) {
   return (
     <>
-      {allProducts.length ? (
+      {allProducts && allProducts.length ? (
         filteredProducts.length && searchInputText.length ? (
           <>
             <ProductList
