@@ -1,11 +1,11 @@
 //products by category
 
-import Image from "next/image";
-import Link from "next/link";
-// import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
 import styled from "styled-components";
 
 import ProductList from "../../../components/ProductList";
+import { productsByCategory } from "../../../helpers/services";
 
 //******** */
 
@@ -38,20 +38,50 @@ export async function getStaticProps(context) {
 
 //********** */
 
-function ProductCategory({ staticProducts }) {
-  // const router = useRouter();
-  // const { category } = router.query;
-
+function ProductCategory({ staticProducts, searchInputText }) {
   const category = staticProducts[0].category;
-  // const filteredProducts = productsByCategory(products.category);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // //filter products by category
-  // function productsByCategory(category) {
-  //   const filteredProduct = products.filter(
-  //     (product) => product.category === category
-  //   );
-  //   return filteredProduct;
-  // }
+  //for static site generation (for dynamic site function is in _app.js )
+  function findProducts(searchInputText, products) {
+    const searchInput = searchInputText.toLowerCase().trim();
+
+    const filterProducts = products.filter((product) => {
+      const maxLength = 60; // Set the maximum length for the hint text
+      const name = product.product_name;
+      const description1 = product.product_description1;
+      const description2 = product.product_description2;
+
+      const articleNumber = product.articles.find((article) =>
+        article.article_number.startsWith(searchInput)
+      );
+      const productFullName = `${name} ${description1} ${description2}`
+        .toLowerCase()
+        .trim();
+
+      return (
+        (productFullName.length > maxLength
+          ? productFullName.slice(0, maxLength) + "..."
+          : productFullName
+        ).includes(searchInput) || articleNumber
+      );
+    });
+
+    //if search input is empty, set filteredProducts to empty string
+    setFilteredProducts(
+      searchInputText.length === 0 ? "" : filterProducts
+    );
+  }
+
+  useEffect(() => {
+    findProducts(searchInputText, staticProducts);
+  }, [searchInputText]);
+
+  const searchProductsByCategory =
+    searchInputText.length && filteredProducts
+      ? productsByCategory(filteredProducts, category)
+      : productsByCategory(staticProducts, category);
+
   return (
     <>
       {category === "moebel" ? (
@@ -70,8 +100,7 @@ function ProductCategory({ staticProducts }) {
 
       {staticProducts ? (
         <ProductList
-          // products={searchInputTextByCategory}
-          products={staticProducts}
+          products={searchProductsByCategory}
           category={category}
         />
       ) : (
