@@ -68,12 +68,14 @@ function ProductCategory({ staticProducts }) {
         <StyledH1>Keine Kategorie</StyledH1>
       )}
 
-      {staticProducts && (
+      {staticProducts ? (
         <ProductList
           // products={searchInputTextByCategory}
           products={staticProducts}
           category={category}
         />
+      ) : (
+        <StyledParagraph>kein Produkt gefunden</StyledParagraph>
       )}
     </>
   );
@@ -85,56 +87,9 @@ const StyledH1 = styled.h1`
   font-size: 2rem;
   margin: 1rem 0;
 `;
-
-//***************** */
-const StyledListItem = styled.li`
-  width: 100%;
-  height: 100px;
-  background-color: var(--background-category-color);
-  border: none;
-  border-radius: 5px;
-  margin-bottom: 1rem;
+const StyledParagraph = styled.p`
   font-size: 1.5rem;
-  cursor: pointer;
-  &:hover,
-  &:focus {
-    background-color: var(--background-category-hover-color);
-  }
+  color: var(--red);
+  margin: 3rem 0;
+  text-align: center;
 `;
-const StyledLink = styled(Link)`
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 20% 1fr;
-  gap: 2rem;
-  align-items: center;
-  text-decoration: none;
-  color: var(--font-color);
-`;
-
-const TextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledP = styled.p`
-  font-size: 1.25rem;
-`;
-
-const ImageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 50%;
-  margin-left: 1rem;
-  width: 80px;
-  height: 80px;
-`;
-
-const StyledImage = styled(Image)`
-  font-size: 0.5rem;
-  border-radius: 50%;
-  overflow: hidden;
-`;
-//***************** */

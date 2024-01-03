@@ -5,7 +5,6 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import * as React from "react";
 import { useState } from "react";
 
-import Image from "next/image";
 import { useRouter } from "next/router";
 import ImageGallery from "react-image-gallery";
 import styled from "styled-components";
@@ -67,6 +66,7 @@ function ProductDetails({ staticProduct }) {
     product_description1: description1,
     product_description2: description2,
     product_description3: description3,
+    product_description4: description4,
     product_material: material,
     product_imagepath_big1: image1,
     product_imagepath_big2: image2,
@@ -108,7 +108,6 @@ function ProductDetails({ staticProduct }) {
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
-      // (article) => article.article_id.toString() === articleId
       (article) => article.article_id === articleId
     );
     setSelectedArticle(articleObject);
@@ -124,10 +123,13 @@ function ProductDetails({ staticProduct }) {
       <Descripton1>{description1}</Descripton1>
       <Wrapper>
         <ProductWrapper>
-          {description2 && <p>{description2}</p>}
-          {description3 && <p>{description3}</p>}
+          <DescriptionWrapper>
+            {description2 && <p>{description2}</p>}
+            {description3 && <p>{description3}</p>}
+            {description4 && <p>{description4}</p>}
+          </DescriptionWrapper>
 
-          <p>Material: {material}</p>
+          {material && <p>Material: {material}</p>}
           <StyledImageGalleryWrapper>
             <ImageGallery
               items={images}
@@ -199,6 +201,11 @@ const ProductWrapper = styled.div`
   flex-direction: column;
   flex: 1 0;
   gap: 1.75rem;
+`;
+
+const DescriptionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledImageGalleryWrapper = styled.div`

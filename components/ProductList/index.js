@@ -18,7 +18,7 @@ function ProductList(props) {
   return (
     <ul>
       {sortedProducts.map((product, index) => (
-        <StyledListItem key={product.product_id + index}>
+        <StyledListItem key={product.product_id}>
           <Product
             product={product}
             category={category || product.category}
