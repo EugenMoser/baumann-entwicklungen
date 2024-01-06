@@ -10,6 +10,7 @@ function ProductCategory({
   allProducts,
   filteredProducts,
   searchInputText,
+  setSearchInputText,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -38,6 +39,7 @@ function ProductCategory({
         <ProductList
           products={searchProductsByCategory}
           category={category}
+          setSearchInputText={setSearchInputText}
         />
       ) : (
         <StyledParagraph>kein Produkt gefunden</StyledParagraph>
