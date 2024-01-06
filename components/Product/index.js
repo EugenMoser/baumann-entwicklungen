@@ -60,6 +60,10 @@ const StyledButton = styled.button`
 
   gap: 2rem;
   cursor: pointer;
+  &:hover,
+  &:focus {
+    background-color: var(--background-category-hover-color);
+  }
 `;
 const StyledLink = styled(Link)`
   width: 100%;
