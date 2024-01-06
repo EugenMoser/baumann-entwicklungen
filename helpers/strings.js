@@ -18,6 +18,13 @@ const strings = {
   colorLabel: "Farbe.",
   chooseColor: "In welcher Farbe benötigen Sie das Produkt?",
   request: "unvberbindlich anfragen",
+  sections: [
+    { label: "moebel", name: "Möbelbereich" },
+    { label: "halterung", name: "Halterungsbereich" },
+    { label: "wasser", name: "Wasserbereich" },
+    { label: "lueftung", name: "Lüftungsbereich" },
+    { label: "elektro", name: "Elektrobereich" },
+  ],
 };
 
 function getEmailBody(articleName, articleNumber, colorName) {

@@ -11,11 +11,18 @@ import styled from "styled-components";
 
 import Articles from "../../../../components/Articles";
 import ColorButtons from "../../../../components/ColorButtons";
+import ProductList from "../../../../components/ProductList";
 import ShowSelection from "../../../../components/ShowSelection";
+import { productsByCategory } from "../../../../helpers/services";
 
-function ProductDetails({ allProducts, searchInputText }) {
+function ProductDetails({
+  allProducts,
+  searchInputText,
+  filteredProducts,
+  setSearchInputText,
+}) {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, category } = router.query;
   const product = productById(id);
   if (!allProducts || !product) {
     return <h2>Produkte werden geladen</h2>;
@@ -79,54 +86,72 @@ function ProductDetails({ allProducts, searchInputText }) {
     setSelectedColor(color);
   }
 
+  const searchProductsByCategory =
+    searchInputText.length && filteredProducts
+      ? productsByCategory(filteredProducts, category)
+      : productsByCategory(allProducts, category);
   return (
     <>
-      <StyledH1>{name}</StyledH1>
-      <Descripton1>{description1}</Descripton1>
-      <Wrapper>
-        <ProductWrapper>
-          <DescriptionWrapper>
-            {description2 && <p>{description2}</p>}
-            {description3 && <p>{description3}</p>}
-            {description4 && <p>{description4}</p>}
-          </DescriptionWrapper>
-
-          {material && <p>Material: {material}</p>}
-          <StyledImageGalleryWrapper>
-            <ImageGallery
-              items={images}
-              showBullets={false}
-              showThumbnails={image2 || image3 ? true : false}
-              showPlayButton={false}
-              slideDuration={300}
-              showFullscreenButton={false}
-              showNav={image2 || image3 ? true : false}
-            />
-          </StyledImageGalleryWrapper>
-        </ProductWrapper>
-
-        <ArticleWrapper>
-          {product.articles && (
-            <Articles
-              articles={product.articles}
-              selectedArticleSetter={selectedArticleSetter}
-            />
-          )}
-
-          {product.colors && (
-            <ColorButtons
-              colors={product.colors}
-              selectedColor={selectedColor}
-              selectedColorSetter={selectedColorSetter}
-              firstColorName={selectFirstColor.color_name}
-            />
-          )}
-          <ShowSelection
-            selectedArticle={selectedArticle}
-            selectedColor={selectedColor}
+      {searchInputText.length ? (
+        searchProductsByCategory.length ? (
+          <ProductList
+            products={searchProductsByCategory}
+            setSearchInputText={setSearchInputText}
+            category={"productDetails"}
           />
-        </ArticleWrapper>
-      </Wrapper>
+        ) : (
+          <StyledParagraph>kein Produkt gefunden</StyledParagraph>
+        )
+      ) : (
+        <>
+          <StyledH1>{name}</StyledH1>
+          <Descripton1>{description1}</Descripton1>
+          <Wrapper>
+            <ProductWrapper>
+              <DescriptionWrapper>
+                {description2 && <p>{description2}</p>}
+                {description3 && <p>{description3}</p>}
+                {description4 && <p>{description4}</p>}
+              </DescriptionWrapper>
+
+              {material && <p>Material: {material}</p>}
+              <StyledImageGalleryWrapper>
+                <ImageGallery
+                  items={images}
+                  showBullets={false}
+                  showThumbnails={image2 || image3 ? true : false}
+                  showPlayButton={false}
+                  slideDuration={300}
+                  showFullscreenButton={false}
+                  showNav={image2 || image3 ? true : false}
+                />
+              </StyledImageGalleryWrapper>
+            </ProductWrapper>
+
+            <ArticleWrapper>
+              {product.articles && (
+                <Articles
+                  articles={product.articles}
+                  selectedArticleSetter={selectedArticleSetter}
+                />
+              )}
+
+              {product.colors && (
+                <ColorButtons
+                  colors={product.colors}
+                  selectedColor={selectedColor}
+                  selectedColorSetter={selectedColorSetter}
+                  firstColorName={selectFirstColor.color_name}
+                />
+              )}
+              <ShowSelection
+                selectedArticle={selectedArticle}
+                selectedColor={selectedColor}
+              />
+            </ArticleWrapper>
+          </Wrapper>
+        </>
+      )}
     </>
   );
 }
@@ -177,4 +202,11 @@ const ArticleWrapper = styled.div`
   flex-direction: column;
   flex: 1 0;
   gap: 1.75rem;
+`;
+
+const StyledParagraph = styled.p`
+  font-size: 1.5rem;
+  color: var(--red);
+  margin: 3rem 0;
+  text-align: center;
 `;

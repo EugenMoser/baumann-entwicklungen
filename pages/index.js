@@ -13,17 +13,22 @@ import Icon from "@mdi/react";
 import ProductList from "../components/ProductList";
 import { strings } from "../helpers/strings";
 
-function Home({ allProducts, searchInputText, filteredProducts }) {
+function Home({
+  allProducts,
+  searchInputText,
+  filteredProducts,
+  setSearchInputText,
+}) {
   return (
     <>
       {allProducts && allProducts.length ? (
         filteredProducts.length && searchInputText.length ? (
-          <>
-            <ProductList
-              products={filteredProducts}
-              hrefProduct={"/products"}
-            />
-          </>
+          <ProductList
+            products={filteredProducts}
+            hrefProduct={"/products"}
+            category={"startPage"}
+            setSearchInputText={setSearchInputText}
+          />
         ) : !filteredProducts.length && searchInputText.length ? (
           <StyledMessage>Kein Produkt gefunden.</StyledMessage>
         ) : (
