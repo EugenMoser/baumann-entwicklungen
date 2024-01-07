@@ -23,7 +23,7 @@ function Header({
     <StyledHeader>
       <StyledLogo
         alt="Logo-Baumann-Entwicklungen"
-        src="/images/baumann_logo_optimiert.png"
+        src="/images/logo-baumann.webp"
         width={749}
         height={103}
         onClick={() => navHome()}
