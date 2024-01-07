@@ -16,8 +16,6 @@ const getProducts = async () => {
 };
 
 export async function getStaticPaths() {
-  // const res = await fetch("http://localhost:3000/api/getdata");
-  // const data = await res.json();
   const products = await getProducts();
   const paths = products.map((product) => {
     return { params: { category: product.category } };
@@ -27,8 +25,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   const category = context.params.category;
-  // const res = await fetch(`http://localhost:3000/api/getdata`);
-  // const data = await res.json();
   const products = await getProducts();
   const filteredProducts = products.filter(
     (product) => product.category === category
@@ -38,7 +34,11 @@ export async function getStaticProps(context) {
 
 //********** */
 
-function ProductCategory({ staticProducts, searchInputText }) {
+function ProductCategory({
+  staticProducts,
+  searchInputText,
+  setSearchInputText,
+}) {
   const category = staticProducts[0].category;
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -102,6 +102,7 @@ function ProductCategory({ staticProducts, searchInputText }) {
         <ProductList
           products={searchProductsByCategory}
           category={category}
+          setSearchInputText={setSearchInputText}
         />
       ) : (
         <StyledParagraph>kein Produkt gefunden</StyledParagraph>

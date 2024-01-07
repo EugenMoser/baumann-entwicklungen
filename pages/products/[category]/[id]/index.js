@@ -3,15 +3,16 @@
 import "react-image-gallery/styles/css/image-gallery.css";
 
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useRouter } from "next/router";
 import ImageGallery from "react-image-gallery";
 import styled from "styled-components";
 
 import Articles from "../../../../components/Articles";
 import ColorButtons from "../../../../components/ColorButtons";
+import ProductList from "../../../../components/ProductList";
 import ShowSelection from "../../../../components/ShowSelection";
+import { productsByCategory } from "../../../../helpers/services";
 
 //******** */
 
@@ -22,8 +23,6 @@ const getProducts = async () => {
 };
 
 export async function getStaticPaths() {
-  // const res = await fetch("http://localhost:3000/api/getdata");
-  // const data = await res.json();
   const products = await getProducts();
   const paths = products.map((product) => {
     return {
@@ -38,22 +37,33 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   const id = context.params.id;
-  // const category = context.params.category;
-  // const res = await fetch(`http://localhost:3000/api/getdata`);
-  // const data = await res.json();
+  const category = context.params.category;
   const products = await getProducts();
-  const result = products.filter(
+  const filterdProduct = products.filter(
     (product) => product.product_id.toString() === id
   );
-  return { props: { staticProduct: result } };
+  const filteredProducts = products.filter(
+    (product) => product.category === category
+  );
+  return {
+    props: {
+      staticProduct: filterdProduct,
+      staticProducts: filteredProducts,
+      category: category,
+    },
+  };
 }
 //********** */
 
-function ProductDetails({ staticProduct }) {
-  // const router = useRouter();
-  // const { id } = router.query;
-  // const product = productById(id);
-
+function ProductDetails({
+  staticProduct,
+  staticProducts,
+  searchInputText,
+  category,
+  setSearchInputText,
+}) {
+  console.log("staticProducts222", staticProducts);
+  console.log("staticProduct1111", staticProduct);
   const product = staticProduct[0];
   if (!product) {
     return <h2>Produkte werden geladen</h2>;
@@ -74,6 +84,42 @@ function ProductDetails({ staticProduct }) {
   } = product;
 
   const images = [];
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  // filter products by search input
+  useEffect(() => {
+    findProducts(searchInputText, staticProducts);
+  }, [searchInputText]);
+
+  function findProducts(searchInputText, products) {
+    const searchInput = searchInputText.toLowerCase().trim();
+
+    const filterProducts = products.filter((product) => {
+      const maxLength = 60; // Set the maximum length for the hint text
+      const name = product.product_name;
+      const description1 = product.product_description1;
+      const description2 = product.product_description2;
+
+      const articleNumber = product.articles.find((article) =>
+        article.article_number.startsWith(searchInput)
+      );
+      const productFullName = `${name} ${description1} ${description2}`
+        .toLowerCase()
+        .trim();
+
+      return (
+        (productFullName.length > maxLength
+          ? productFullName.slice(0, maxLength) + "..."
+          : productFullName
+        ).includes(searchInput) || articleNumber
+      );
+    });
+
+    //if search input is empty, set filteredProducts to empty string
+    setFilteredProducts(
+      searchInputText.length === 0 ? "" : filterProducts
+    );
+  }
 
   if (image1) {
     images.push({
@@ -98,14 +144,6 @@ function ProductDetails({ staticProduct }) {
     });
   }
 
-  //filter products by id
-  // function productById(id) {
-  //   const filteredProduct = products.find(
-  //     (product) => product.product_id.toString() === id
-  //   );
-  //   return filteredProduct;
-  // }
-
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
       (article) => article.article_id === articleId
@@ -117,70 +155,77 @@ function ProductDetails({ staticProduct }) {
     setSelectedColor(color);
   }
 
+  const searchProductsByCategory =
+    searchInputText.length && filteredProducts
+      ? productsByCategory(filteredProducts, category)
+      : productsByCategory(staticProduct, category);
+
   return (
     <>
-      <StyledH1>{name}</StyledH1>
-      <Descripton1>{description1}</Descripton1>
-      <Wrapper>
-        <ProductWrapper>
-          <DescriptionWrapper>
-            {description2 && <p>{description2}</p>}
-            {description3 && <p>{description3}</p>}
-            {description4 && <p>{description4}</p>}
-          </DescriptionWrapper>
-
-          {material && <p>Material: {material}</p>}
-          <StyledImageGalleryWrapper>
-            <ImageGallery
-              items={images}
-              showBullets={false}
-              showThumbnails={image2 || image3 ? true : false}
-              showPlayButton={false}
-              slideDuration={300}
-              showFullscreenButton={false}
-              showNav={image2 || image3 ? true : false}
-            />
-          </StyledImageGalleryWrapper>
-        </ProductWrapper>
-
-        <ArticleWrapper>
-          {product.articles && (
-            <Articles
-              articles={product.articles}
-              selectedArticleSetter={selectedArticleSetter}
-            />
-          )}
-
-          {product.colors && (
-            <ColorButtons
-              colors={product.colors}
-              selectedColor={selectedColor}
-              selectedColorSetter={selectedColorSetter}
-              firstColorName={selectFirstColor.color_name}
-            />
-          )}
-          <ShowSelection
-            selectedArticle={selectedArticle}
-            selectedColor={selectedColor}
+      {searchInputText.length ? (
+        searchProductsByCategory.length ? (
+          <ProductList
+            products={searchProductsByCategory}
+            setSearchInputText={setSearchInputText}
+            category={"productDetails"}
           />
-        </ArticleWrapper>
-      </Wrapper>
+        ) : (
+          <StyledParagraph>kein Produkt gefunden</StyledParagraph>
+        )
+      ) : (
+        <>
+          <StyledH1>{name}</StyledH1>
+          <Descripton1>{description1}</Descripton1>
+          <Wrapper>
+            <ProductWrapper>
+              <DescriptionWrapper>
+                {description2 && <p>{description2}</p>}
+                {description3 && <p>{description3}</p>}
+                {description4 && <p>{description4}</p>}
+              </DescriptionWrapper>
+
+              {material && <p>Material: {material}</p>}
+              <StyledImageGalleryWrapper>
+                <ImageGallery
+                  items={images}
+                  showBullets={false}
+                  showThumbnails={image2 || image3 ? true : false}
+                  showPlayButton={false}
+                  slideDuration={300}
+                  showFullscreenButton={false}
+                  showNav={image2 || image3 ? true : false}
+                />
+              </StyledImageGalleryWrapper>
+            </ProductWrapper>
+
+            <ArticleWrapper>
+              {product.articles && (
+                <Articles
+                  articles={product.articles}
+                  selectedArticleSetter={selectedArticleSetter}
+                />
+              )}
+
+              {product.colors && (
+                <ColorButtons
+                  colors={product.colors}
+                  selectedColor={selectedColor}
+                  selectedColorSetter={selectedColorSetter}
+                  firstColorName={selectFirstColor.color_name}
+                />
+              )}
+              <ShowSelection
+                selectedArticle={selectedArticle}
+                selectedColor={selectedColor}
+              />
+            </ArticleWrapper>
+          </Wrapper>
+        </>
+      )}
     </>
   );
 }
 //*************
-//*************
-// export const getStaticPaths = async () => {
-//   const paths = products.map((product) => ({
-//     params: { id: product.product_id },
-//   }));
-//   return { paths, fallback: false };
-// };
-// export const getStaticProps = async () => {
-//   const products = products;
-//   return { props: { products } };
-// };
-//****** */
 
 export default ProductDetails;
 
@@ -228,4 +273,11 @@ const ArticleWrapper = styled.div`
   flex-direction: column;
   flex: 1 0;
   gap: 1.75rem;
+`;
+
+const StyledParagraph = styled.p`
+  font-size: 1.5rem;
+  color: var(--red);
+  margin: 3rem 0;
+  text-align: center;
 `;

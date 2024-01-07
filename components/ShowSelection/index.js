@@ -1,10 +1,6 @@
 import React from "react";
 
-import Link from "next/link";
 import styled from "styled-components";
-
-import { mdiEmailOutline } from "@mdi/js";
-import Icon from "@mdi/react";
 
 import { getEmailBody, strings } from "../../helpers/strings";
 
@@ -17,34 +13,12 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
   const fulllArticleNumber =
     selectedArticle && selectedArticle.article_number + colorSuffix;
 
-  console.log(
-    "description 1",
-    selectedArticle
-    // selectedArticle.article_description1 &&
-    //   selectedArticle.article_description1
-  );
-
-  // console.log(
-  //   "description 2",
-  //   selectedArticle.article_description2 &&
-  //     selectedArticle.article_description2
-  // );
-  // console.log(
-  //   "description 3",
-  //   selectedArticle.article_description3 &&
-  //     selectedArticle.article_description3
-  // );
-
   return (
     <StyledResultSection>
       {selectedArticle && selectedColor ? (
         <>
           <StyledArticleNumber>
             Artikelnummer: {fulllArticleNumber}
-            {/* {selectedArticle.article_number}
-            {selectedColor.suffix === 0
-              ? ""
-              : " - " + selectedColor.suffix} */}
           </StyledArticleNumber>{" "}
           <StyledSpecials>
             <>

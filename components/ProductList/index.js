@@ -10,19 +10,20 @@ function ProductList(props) {
   const products = props.products;
 
   const category = props?.category;
-
+  const setSearchInputText = props?.setSearchInputText;
   const hrefProduct = props.hrefProduct ? props.hrefProduct : "";
   //sort the products by column prio
   const sortedProducts = products.sort((a, b) => a.prio - b.prio);
 
   return (
     <ul>
-      {sortedProducts.map((product, index) => (
+      {sortedProducts.map((product) => (
         <StyledListItem key={product.product_id}>
           <Product
             product={product}
-            category={category || product.category}
+            category={category}
             hrefProduct={hrefProduct}
+            setSearchInputText={setSearchInputText}
           />
         </StyledListItem>
       ))}
@@ -41,6 +42,8 @@ const StyledListItem = styled.li`
   margin-bottom: 1rem;
   font-size: 1.5rem;
   cursor: pointer;
+  text-decoration: none;
+
   &:hover,
   &:focus {
     background-color: var(--background-category-hover-color);
