@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -13,82 +15,123 @@ import Icon from "@mdi/react";
 import ProductList from "../components/ProductList";
 import { strings } from "../helpers/strings";
 
-function Home({
-  allProducts,
-  searchInputText,
-  filteredProducts,
-  setSearchInputText,
-}) {
+//******** für static website */
+
+const getProducts = async () => {
+  const res = await fetch("http://localhost:3000/api/getdata");
+  const data = await res.json();
+  return data.products;
+};
+
+export async function getStaticProps(context) {
+  const products = await getProducts();
+
+  return { props: { staticProducts: products } };
+}
+
+//********** */
+
+function Home({ staticProducts, searchInputText, setSearchInputText }) {
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  //for static site generation (for dynamic site function is in _app.js )
+  function findProducts(searchInputText, products) {
+    const searchInput = searchInputText.toLowerCase().trim();
+
+    const filterProducts = products.filter((product) => {
+      const maxLength = 60; // Set the maximum length for the hint text
+      const name = product.product_name;
+      const description1 = product.product_description1;
+      const description2 = product.product_description2;
+
+      const articleNumber = product.articles.find((article) =>
+        article.article_number.startsWith(searchInput)
+      );
+      const productFullName = `${name} ${description1} ${description2}`
+        .toLowerCase()
+        .trim();
+
+      return (
+        (productFullName.length > maxLength
+          ? productFullName.slice(0, maxLength) + "..."
+          : productFullName
+        ).includes(searchInput) || articleNumber
+      );
+    });
+
+    //if search input is empty, set filteredProducts to empty string
+    setFilteredProducts(
+      searchInputText.length === 0 ? "" : filterProducts
+    );
+  }
+
+  useEffect(() => {
+    findProducts(searchInputText, staticProducts);
+  }, [searchInputText]);
+
   return (
     <>
-      {allProducts && allProducts.length ? (
-        filteredProducts.length && searchInputText.length ? (
-          <ProductList
-            products={filteredProducts}
-            hrefProduct={"/products"}
-            category={"startPage"}
-            setSearchInputText={setSearchInputText}
-          />
-        ) : !filteredProducts.length && searchInputText.length ? (
-          <StyledMessage>Kein Produkt gefunden.</StyledMessage>
-        ) : (
-          <StyledSection>
-            <StyledH1>{strings.companyWelcome}</StyledH1>
-            <StyledParagraph>{strings.companyDescription}</StyledParagraph>
-            <StyledH3>{strings.companyOurAreas}</StyledH3>
-            <StyledLink href="/products/moebel">
-              <StyledButton>
-                <StyledIcon
-                  path={mdiTableFurniture}
-                  size={1.5}
-                />
-                Möbelbereich{" "}
-              </StyledButton>
-            </StyledLink>
-            <StyledLink href="/products/halterung">
-              <StyledButton>
-                <StyledIcon
-                  path={mdiTournament}
-                  size={1.5}
-                />
-                Halterungen
-              </StyledButton>
-            </StyledLink>
-            <StyledLink href="/products/wasser">
-              <StyledButton>
-                {" "}
-                <StyledIcon
-                  path={mdiWaterOutline}
-                  size={1.5}
-                />
-                Wasserbereich
-              </StyledButton>
-            </StyledLink>{" "}
-            <StyledLink href="/products/lueftung">
-              <StyledButton>
-                <StyledIcon
-                  path={mdiAirFilter}
-                  size={1.5}
-                />
-                Lüftungsbereich
-              </StyledButton>
-            </StyledLink>
-            <StyledLink href="/products/elektro">
-              <StyledButton>
-                <StyledIcon
-                  path={mdiFlashOutline}
-                  size={1.5}
-                />
-                Elektrobereich
-              </StyledButton>
-            </StyledLink>
-          </StyledSection>
-        )
+      {filteredProducts.length && searchInputText.length ? (
+        <ProductList
+          products={filteredProducts}
+          hrefProduct={"/products"}
+          category={"startPage"}
+          setSearchInputText={setSearchInputText}
+        />
+      ) : !filteredProducts.length && searchInputText.length ? (
+        <StyledMessage>Kein Produkt gefunden.</StyledMessage>
       ) : (
-        <StyledMessage>
-          Seite konnte nicht geladen werden. Bitte versuchen Sie es später
-          nochmal.
-        </StyledMessage>
+        <StyledSection>
+          <StyledH1>{strings.companyWelcome}</StyledH1>
+          <StyledParagraph>{strings.companyDescription}</StyledParagraph>
+          <StyledH3>{strings.companyOurAreas}</StyledH3>
+          <StyledLink href="/products/moebel">
+            <StyledButton>
+              <StyledIcon
+                path={mdiTableFurniture}
+                size={1.5}
+              />
+              Möbelbereich{" "}
+            </StyledButton>
+          </StyledLink>
+          <StyledLink href="/products/halterung">
+            <StyledButton>
+              <StyledIcon
+                path={mdiTournament}
+                size={1.5}
+              />
+              Halterungen
+            </StyledButton>
+          </StyledLink>
+          <StyledLink href="/products/wasser">
+            <StyledButton>
+              {" "}
+              <StyledIcon
+                path={mdiWaterOutline}
+                size={1.5}
+              />
+              Wasserbereich
+            </StyledButton>
+          </StyledLink>{" "}
+          <StyledLink href="/products/lueftung">
+            <StyledButton>
+              <StyledIcon
+                path={mdiAirFilter}
+                size={1.5}
+              />
+              Lüftungsbereich
+            </StyledButton>
+          </StyledLink>
+          <StyledLink href="/products/elektro">
+            <StyledButton>
+              <StyledIcon
+                path={mdiFlashOutline}
+                size={1.5}
+              />
+              Elektrobereich
+            </StyledButton>
+          </StyledLink>
+        </StyledSection>
       )}
     </>
   );

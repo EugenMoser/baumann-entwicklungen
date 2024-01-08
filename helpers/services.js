@@ -31,9 +31,9 @@ function findArtikleId(products) {
 
 //filter all products or searched products by category
 function productsByCategory(products, category) {
-  const filteredProduct = products.filter(
-    (product) => product.category === category
-  );
+  const filteredProduct =
+    products &&
+    products.filter((product) => product.category === category);
   return filteredProduct;
 }
 

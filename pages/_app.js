@@ -74,7 +74,7 @@ function MyApp({ Component, pageProps }) {
       <Layout>
         <Component
           {...pageProps}
-          allProducts={products}
+          // allProducts={products}
           searchInputText={searchInputText}
           setSearchInputText={setSearchInputTextHandler}
           filteredProducts={filteredProducts}

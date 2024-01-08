@@ -7,7 +7,7 @@ import styled from "styled-components";
 import ProductList from "../../../components/ProductList";
 import { productsByCategory } from "../../../helpers/services";
 
-//******** */
+//******** für static website */
 
 const getProducts = async () => {
   const res = await fetch("http://localhost:3000/api/getdata");

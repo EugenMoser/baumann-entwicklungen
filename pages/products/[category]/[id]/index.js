@@ -14,7 +14,7 @@ import ProductList from "../../../../components/ProductList";
 import ShowSelection from "../../../../components/ShowSelection";
 import { productsByCategory } from "../../../../helpers/services";
 
-//******** */
+//******** für static website */
 
 const getProducts = async () => {
   const res = await fetch("http://localhost:3000/api/getdata");
@@ -62,8 +62,6 @@ function ProductDetails({
   category,
   setSearchInputText,
 }) {
-  console.log("staticProducts222", staticProducts);
-  console.log("staticProduct1111", staticProduct);
   const product = staticProduct[0];
   if (!product) {
     return <h2>Produkte werden geladen</h2>;
@@ -114,7 +112,6 @@ function ProductDetails({
         ).includes(searchInput) || articleNumber
       );
     });
-
     //if search input is empty, set filteredProducts to empty string
     setFilteredProducts(
       searchInputText.length === 0 ? "" : filterProducts
@@ -158,7 +155,7 @@ function ProductDetails({
   const searchProductsByCategory =
     searchInputText.length && filteredProducts
       ? productsByCategory(filteredProducts, category)
-      : productsByCategory(staticProduct, category);
+      : productsByCategory(staticProducts, category);
 
   return (
     <>
