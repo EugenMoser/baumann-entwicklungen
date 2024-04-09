@@ -1,21 +1,21 @@
 //find article and return name with description
-function findProductName(products) {
-  const maxLength = 60; // Set the maximum length for the hint text
+// function findProductName(products) {
+//   const maxLength = 60; // Set the maximum length for the hint text
 
-  const product = products.map((product) => {
-    const name = product.product_name;
-    const description1 = product.product_description1;
-    const description2 = product.product_description2;
+//   const product = products.map((product) => {
+//     const name = product.product_name;
+//     const description1 = product.product_description1;
+//     const description2 = product.product_description2;
 
-    const productFullName =
-      `${name} ${description1} ${description2}`.trim();
+//     const productFullName =
+//       `${name} ${description1} ${description2}`.trim();
 
-    return productFullName.length > maxLength
-      ? productFullName.slice(0, maxLength) + "..."
-      : productFullName;
-  });
-  return product;
-}
+//     return productFullName.length > maxLength
+//       ? productFullName.slice(0, maxLength) + "..."
+//       : productFullName;
+//   });
+//   return product;
+// }
 
 //find id and return name with id
 function findArtikleId(products) {
@@ -37,4 +37,4 @@ function productsByCategory(products, category) {
   return filteredProduct;
 }
 
-export { findArtikleId, findProductName, productsByCategory };
+export { findArtikleId, productsByCategory };

@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 
 import { useRouter } from "next/router";
+import styled from "styled-components";
 
 // import { createFilterOptions } from "@material-ui/lab";
-import Autocomplete from "@mui/material/Autocomplete";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
+// import Autocomplete from "@mui/material/Autocomplete";
+import { Autocomplete, Stack, TextField } from "@mui/material";
 
+// import TextField from "@mui/material/TextField";
 import {
   findProductName,
   productsByCategory,
@@ -54,7 +55,7 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
   }, [category]);
 
   return (
-    <Stack width={300}>
+    <StyledStack>
       <Autocomplete
         disablePortal
         autoHighlight={true}
@@ -71,7 +72,16 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
           />
         )}
       />
-    </Stack>
+    </StyledStack>
   );
 }
 export default Searchbar;
+
+const StyledStack = styled(Stack)`
+  width: 100%;
+  display: flex;
+  max-width: 500px;
+  @media (max-width: 550px) {
+    width: 60% !important;
+  }
+`;

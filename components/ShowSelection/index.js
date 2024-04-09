@@ -1,6 +1,10 @@
 import React from "react";
 
+import Link from "next/link";
 import styled from "styled-components";
+
+import { mdiEmailOutline } from "@mdi/js";
+import Icon from "@mdi/react";
 
 import { getEmailBody, strings } from "../../helpers/strings";
 
@@ -68,10 +72,9 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
             )} `}
             method="post"
           >
-            <StyledInputButton
-              type="submit"
-              value={strings.request}
-            />
+            <StyledInputButton type="submit">
+              {strings.request}
+            </StyledInputButton>
           </StyledForm>
         </>
       ) : (
@@ -123,16 +126,16 @@ const StyledForm = styled.form`
   justify-content: flex-end;
 `;
 
-const StyledInputButton = styled.input`
+const StyledInputButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   border-style: none;
-  width: 40%;
   height: 2rem;
   border-radius: 4px;
   background-color: black;
   color: var(--white);
+  padding: 0.5rem 1rem;
 
   &:hover,
   :active {

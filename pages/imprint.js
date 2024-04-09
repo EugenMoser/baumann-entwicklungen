@@ -45,11 +45,6 @@ function Imprint() {
         USt-IdNr.: DE 247 636 303 <br />
         Steuer-Nr.: 134/203/10387
       </p>
-      <br />
-      <StyledCite>
-        Quelle: Disclaimer von eRecht24, dem Portal zum Internetrecht von
-        Rechtsanwalt Sören Siebert.
-      </StyledCite>
     </>
   );
 }

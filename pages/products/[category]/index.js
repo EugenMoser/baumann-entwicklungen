@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 
 import ProductList from "../../../components/ProductList";
+import { sections } from "../../../helpers/constants";
 import { productsByCategory } from "../../../helpers/services";
 
 function ProductCategory({
@@ -22,19 +23,10 @@ function ProductCategory({
 
   return (
     <>
-      {category === "moebel" ? (
-        <StyledH1>Möbelbereich</StyledH1>
-      ) : category === "halterung" ? (
-        <StyledH1>Halterungen</StyledH1>
-      ) : category === "wasser" ? (
-        <StyledH1>Wasserbereich</StyledH1>
-      ) : category === "lueftung" ? (
-        <StyledH1>Lüftungsbereich</StyledH1>
-      ) : category === "elektro" ? (
-        <StyledH1>Elektrobereich</StyledH1>
-      ) : (
-        <StyledH1>Keine Kategorie</StyledH1>
-      )}
+      {sections.map((section) => {
+        category === section.label && <StyledH1>{section.name}</StyledH1>;
+      })}
+
       {searchProductsByCategory.length ? (
         <ProductList
           products={searchProductsByCategory}

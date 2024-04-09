@@ -2,74 +2,38 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 
-import { strings } from "../../helpers/strings";
-
 export default function Product({
   product,
   category,
   hrefProduct,
-  setSearchInputText,
+  scrollValue,
 }) {
-  let hrefLink = "";
-  //check if category have a section value
-  if (strings.sections.some((section) => section.label === category)) {
-    hrefLink = `.${hrefProduct}/${category}/${product.product_id}`;
-    //check if is search from start page
-  } else if (category === "startPage") {
-    hrefLink = `.${hrefProduct}/${product.category}/${product.product_id}`;
-    //check if is search from product details page
-  } else if (category === "productDetails") {
-    hrefLink = `../${product.category}/${product.product_id}`;
-  }
-
   return (
-    <StyledButton
-      onClick={() => setSearchInputText && setSearchInputText("")}
-    >
-      <StyledLink
-        href={`${hrefLink}`}
-        // scroll={false}
-      >
-        <ImageWrapper>
-          <StyledImage
-            src={
-              product.product_imagepath_small
-                ? product.product_imagepath_small
-                : "/images/placeholder.jpg"
-            }
-            alt={product.product_name}
-            width={80}
-            height={80}
-            // sizes="60vw"
-          />
-        </ImageWrapper>
+    <StyledLink href={`.${hrefProduct}/${category}/${product.product_id}`}>
+      <ImageWrapper>
+        <StyledImage
+          src={
+            product.product_imagepath_small
+              ? product.product_imagepath_small
+              : "/images/placeholder.jpg"
+          }
+          alt={product.product_name}
+          width={80}
+          height={80}
+        />
+      </ImageWrapper>
 
-        <TextWrapper>
-          <StyledH2>{product.product_name}</StyledH2>
-          <p>{product.product_description1}</p>
-        </TextWrapper>
-      </StyledLink>
-    </StyledButton>
+      <TextWrapper>
+        <h3>{product.product_name}</h3>
+        <p>{product.product_description1}</p>
+      </TextWrapper>
+    </StyledLink>
   );
 }
 
-const StyledButton = styled.button`
-  width: 100%;
-  height: 100%;
-  border: none;
-
-  gap: 2rem;
-  cursor: pointer;
-  &:hover,
-  &:focus {
-    background-color: var(--background-category-hover-color);
-  }
-`;
 const StyledLink = styled(Link)`
-  width: 100%;
+  min-width: 90%;
   height: 100%;
-  display: flex;
-  text-decoration: none;
   display: grid;
   grid-template-columns: 20% 1fr;
   align-items: center;
@@ -79,13 +43,32 @@ const StyledLink = styled(Link)`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: start;
-  p {
-    font-size: 1.25rem;
+
+  h3 {
+    font-size: var(--medium-product-headline);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
-`;
-const StyledH2 = styled.h2`
-  font-size: 1.5rem;
+  p {
+    font-size: var(--medium-product-description);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    padding-right: 1rem;
+  }
+  @media (max-width: 480px) {
+    h3 {
+      font-size: var(--small-product-headline);
+    }
+    p {
+      font-size: var(--small-product-description);
+    }
+  }
 `;
 
 const ImageWrapper = styled.div`
