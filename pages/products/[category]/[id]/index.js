@@ -9,9 +9,13 @@ import { useRouter } from "next/router";
 import ImageGallery from "react-image-gallery";
 import styled from "styled-components";
 
+import { mdiChevronLeft } from "@mdi/js";
+import Icon from "@mdi/react";
+
 import Articles from "../../../../components/Articles";
 import ColorButtons from "../../../../components/ColorButtons";
 import ShowSelection from "../../../../components/ShowSelection";
+import { strings } from "../../../../helpers/strings";
 
 function ProductDetails({ allProducts, searchInputText }) {
   const router = useRouter();
@@ -78,10 +82,21 @@ function ProductDetails({ allProducts, searchInputText }) {
   function selectedColorSetter(color) {
     setSelectedColor(color);
   }
-
+  function goBack() {
+    router.back();
+  }
   return (
     <>
-      <StyledH1>{name}</StyledH1>
+      <StyledHeadlineWrapper>
+        <StyledH1>{name}</StyledH1>
+        <StyledBackButton onClick={() => goBack()}>
+          <Icon
+            path={mdiChevronLeft}
+            size={1}
+          />
+          {strings.backButton}
+        </StyledBackButton>
+      </StyledHeadlineWrapper>
       <Descripton1>{description1}</Descripton1>
       <Wrapper>
         <ProductWrapper>
@@ -100,14 +115,6 @@ function ProductDetails({ allProducts, searchInputText }) {
               showNav={image2 || image3 ? true : false}
             />
           </StyledImageGalleryWrapper>
-
-          {/* <StyledImage
-            src={image1 ? image1 : "/images/placeholder.jpg"}
-            alt={`Ein Bild von ${name}`}
-            width={459}
-            height={204}
-            sizes="60vw"
-          /> */}
         </ProductWrapper>
 
         <ArticleWrapper>
@@ -142,12 +149,48 @@ const Wrapper = styled.div`
   display: flex;
   gap: 3rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 780px) {
+    flex-direction: column;
+  }
+`;
+
+const StyledHeadlineWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const StyledH1 = styled.h1`
   text-align: start;
   font-size: 2rem;
   margin: 1rem 0;
+
+  @media (max-width: 780px) {
+    font-size: 1.5rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+`;
+
+const StyledBackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  background-color: transparent;
+  /* border: 1px solid var(--background-showSelection-border); */
+  border-radius: 4px;
+
+  cursor: pointer;
+  font-size: 1rem;
+
+  :hover,
+  :focus {
+    font-weight: bold;
+  }
 `;
 
 const ProductWrapper = styled.div`

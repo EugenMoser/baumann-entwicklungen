@@ -2,7 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 
-export default function Product({ product, category, hrefProduct }) {
+export default function Product({
+  product,
+  category,
+  hrefProduct,
+  scrollValue,
+}) {
   return (
     <StyledLink href={`.${hrefProduct}/${category}/${product.product_id}`}>
       <ImageWrapper>
@@ -15,20 +20,19 @@ export default function Product({ product, category, hrefProduct }) {
           alt={product.product_name}
           width={80}
           height={80}
-          // sizes="60vw"
         />
       </ImageWrapper>
 
       <TextWrapper>
-        <h4>{product.product_name}</h4>
-        <StyledP>{product.product_description1}</StyledP>
+        <h3>{product.product_name}</h3>
+        <p>{product.product_description1}</p>
       </TextWrapper>
     </StyledLink>
   );
 }
 
 const StyledLink = styled(Link)`
-  width: 100%;
+  min-width: 90%;
   height: 100%;
   display: grid;
   grid-template-columns: 20% 1fr;
@@ -41,10 +45,32 @@ const StyledLink = styled(Link)`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
 
-const StyledP = styled.p`
-  font-size: 1.25rem;
+  h3 {
+    font-size: var(--medium-product-headline);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  p {
+    font-size: var(--medium-product-description);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    padding-right: 1rem;
+  }
+  @media (max-width: 480px) {
+    h3 {
+      font-size: var(--small-product-headline);
+    }
+    p {
+      font-size: var(--small-product-description);
+    }
+  }
 `;
 
 const ImageWrapper = styled.div`

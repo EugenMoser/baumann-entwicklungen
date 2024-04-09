@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
+
 import ContactModal from "../ContactModal";
 
 function Footer({ openContact, setOpenContact }) {
@@ -36,8 +37,10 @@ const StyledFooter = styled.footer`
   border-top: 1px solid var(--font-color);
   color: var(--font-color);
   justify-content: center;
-
   height: 3rem;
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const StyledList = styled.ul`

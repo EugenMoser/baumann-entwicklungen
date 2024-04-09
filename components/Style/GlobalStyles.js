@@ -12,7 +12,18 @@ const GlobalStyles = createGlobalStyle`
     --background-showSelection-border: #bcbcc5;
     --white: #ffffff;
     --red: #ff0000;
+    --large-device-width: 1200px;
+    --medium-device-width: 768px;
+    --small-device-width: 480px;
+
+    --small-product-headline: 1rem;
+    --small-product-description: 0.8rem;
+
+    --medium-product-headline: 1.5rem;
+    --medium-product-description: 1.25rem;
+
     
+   
  
 }
 @font-face {
@@ -32,19 +43,20 @@ body {
     padding: 0;
     margin: 0 5rem;
     max-width: 100%;
+    @media (max-width: 768px) {
+        margin: 0 2rem;
+    }
+    @media (max-width: 480px) {
+        margin: 0 1rem;
+    }
 }
 
-
-
-
 main {
+    width: 100%;
     align-self: center;
     padding-bottom: 1rem;
     
 }
-
-
-
 
 `;
 

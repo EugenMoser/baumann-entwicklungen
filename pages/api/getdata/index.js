@@ -2,10 +2,11 @@ import { createDbConnection } from "../../../helpers/dbconnection";
 
 async function handlerByCategory(req, res) {
   try {
-    //TODO: fix typo in db = article.artcle_prio,
+    //TODO: fix typo in db = article.artcle_prio,!!!! Done 03.01.2024
 
     const dbconnection = await createDbConnection();
     const query = `
+    
     SELECT product.*,
     (
         SELECT JSON_ARRAYAGG(
@@ -16,6 +17,9 @@ async function handlerByCategory(req, res) {
               'article_number', article.article_number,
               'article_name', article.article_name,
               'article_description', article.article_description,
+              'article_description1', article.article_description1,
+              'article_description2', article.article_description2,
+              'article_description3', article.article_description3,
               'vpe1', article.vpe1,
               'vpe2', article.vpe2,
               'vpe3', article.vpe3,
@@ -36,7 +40,7 @@ async function handlerByCategory(req, res) {
       )AS colors
     FROM product
    
-    GROUP BY product.product_id
+   
     
 `;
     const [data] = await dbconnection.execute(query);
@@ -47,3 +51,5 @@ async function handlerByCategory(req, res) {
   }
 }
 export default handlerByCategory;
+
+// GROUP BY product.product_id , product.prio, product.category

@@ -1,20 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import Link from "next/link";
 import { useRouter } from "next/router";
 import styled, { css } from "styled-components";
 
+import { sections } from "../../helpers/constants";
+import BurgerMenu from "./Burger";
+import Menu from "./Menu";
+
 function Navbar() {
   const [isDisplayed, setIsDisplayed] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const path = router.asPath;
-  const sections = [
-    "moebel",
-    "halterung",
-    "wasser",
-    "lueftung",
-    "elektro",
-  ];
+
+  // Window width check
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  // Effect for resizing window
+  useEffect(() => {
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (path === "/") {
@@ -22,49 +34,33 @@ function Navbar() {
     } else setIsDisplayed(true);
   }, [path]);
 
-  function createSections(sections) {
-    const list = sections.map((section) => {
-      let category = "";
-      switch (section) {
-        case "moebel":
-          category = "Möbelbereich";
-          break;
-        case "halterung":
-          category = "Halterung";
-          break;
-        case "wasser":
-          category = "Wasserbereich";
-          break;
-        case "elektro":
-          category = "Elektronikbereich";
-          break;
-        case "lueftung":
-          category = "Lüftungbereich";
-          break;
-      }
-
-      return (
-        <li>
-          <StyledLink
-            variant={
-              path.startsWith(`/products/${section}`)
-                ? "active"
-                : "inactive"
-            }
-            href={`/products/${section}`}
-          >
-            {category}
-          </StyledLink>
-        </li>
-      );
-    });
-    return list;
-  }
-
   return (
-    <StyledNav>
-      {isDisplayed && <StyledList>{createSections(sections)}</StyledList>}
-    </StyledNav>
+    <>
+      <StyledNav
+        isMobile={isMobile}
+        isDisplayed={isDisplayed}
+      >
+        {!isMobile && (
+          <Menu
+            sections={sections}
+            path={path}
+          />
+        )}
+        {isMobile && (
+          <>
+            <h2>
+              {sections.map(
+                (section) => path.includes(section.label) && section.name
+              )}
+            </h2>
+            <BurgerMenu
+              sections={sections}
+              path={path}
+            />
+          </>
+        )}
+      </StyledNav>
+    </>
   );
 }
 
@@ -74,34 +70,22 @@ const StyledNav = styled.nav`
   background-color: var(--white);
   position: sticky;
   top: 0;
-`;
-
-const StyledList = styled.ul`
-  display: flex;
-  justify-content: space-around;
   margin: 2rem 0;
-`;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: var(--font-color);
-
-  ${({ variant }) =>
-    variant === "active" &&
+  z-index: 50;
+  ${(props) =>
+    props.isMobile &&
     css`
-      /* text-decoration: underline; */
-      border-bottom: 2px solid var(--font-color-hover);
-      color: var(--font-color-hover);
-
-      &:hover,
-      :focus,
-      :active {
-        border-bottom: 2px solid var(--font-color-hover);
-      }
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     `}
-
-  &:hover,:focus,
-  :active {
-    color: var(--font-color-hover);
+  ${(props) =>
+    !props.isDisplayed &&
+    css`
+      display: none;
+    `}
+  @media (max-width: 768px) {
+    margin: 1rem 0;
   }
 `;

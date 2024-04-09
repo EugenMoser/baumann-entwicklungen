@@ -1,9 +1,12 @@
 import React from "react";
-import styled from "styled-components";
+
 import Link from "next/link";
-import Icon from "@mdi/react";
+import styled from "styled-components";
+
 import { mdiEmailOutline } from "@mdi/js";
-import { strings, getEmailBody } from "../../helpers/strings";
+import Icon from "@mdi/react";
+
+import { getEmailBody, strings } from "../../helpers/strings";
 
 export default function ShowSelection({ selectedArticle, selectedColor }) {
   const colorSuffix =
@@ -20,10 +23,6 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
         <>
           <StyledArticleNumber>
             Artikelnummer: {fulllArticleNumber}
-            {/* {selectedArticle.article_number}
-            {selectedColor.suffix === 0
-              ? ""
-              : " - " + selectedColor.suffix} */}
           </StyledArticleNumber>{" "}
           <StyledSpecials>
             {selectedArticle.article_description && (
@@ -61,10 +60,9 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
             )} `}
             method="post"
           >
-            <StyledInputButton
-              type="submit"
-              value={strings.request}
-            />
+            <StyledInputButton type="submit">
+              {strings.request}
+            </StyledInputButton>
           </StyledForm>
         </>
       ) : (
@@ -106,16 +104,16 @@ const StyledForm = styled.form`
   justify-content: flex-end;
 `;
 
-const StyledInputButton = styled.input`
+const StyledInputButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   border-style: none;
-  width: 40%;
   height: 2rem;
   border-radius: 4px;
   background-color: black;
   color: var(--white);
+  padding: 0.5rem 1rem;
 
   &:hover,
   :active {

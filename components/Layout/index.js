@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styled from "styled-components";
 
@@ -16,6 +16,19 @@ function Layout({ children }) {
   function openContactModal() {
     setOpenContact(!openContact);
   }
+
+  //delete Local Storage item by reload page
+
+  useEffect(() => {
+    function deleteSessionStorage() {
+      sessionStorage.removeItem("TILO_scrollPosition");
+    }
+    window.addEventListener("beforeunload", deleteSessionStorage);
+    return () => {
+      window.removeEventListener("beforeunload", deleteSessionStorage);
+    };
+  }, []);
+
   return (
     <StyledWrapper>
       <Header

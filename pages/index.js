@@ -1,39 +1,29 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-import {
-  mdiAirFilter,
-  mdiFlashOutline,
-  mdiTableFurniture,
-  mdiTournament,
-  mdiWaterOutline,
-} from "@mdi/js";
 import Icon from "@mdi/react";
 
 import ProductList from "../components/ProductList";
+import { sections } from "../helpers/constants";
 import { strings } from "../helpers/strings";
 
 function Home({ allProducts, searchInputText, filteredProducts }) {
-  const sections = [
-    { label: "moebel", name: "Möbelbereich" },
-    { label: "halterung", name: "Halterungsbereich" },
-    { label: "wasser", name: "Wasserbereich" },
-    { label: "lueftung", name: "Lüftungsbereich" },
-    { label: "elektro", name: "Elektrobereich" },
-  ];
+  function deleteSessionStorage() {
+    sessionStorage.removeItem("TILO_scrollPosition");
+  }
 
   function createSection() {
-    const returnSection = sections.map((section) => {
+    const returnSection = sections.map((section, index) => {
       return (
-        <li>
+        <li key={index}>
           <StyledLink href={`/products/${section.label}`}>
-            <StyledButton>
+            <button onClick={deleteSessionStorage()}>
               <StyledIcon
-                path={mdiTableFurniture}
+                path={section.icon}
                 size={1.5}
               />
               {section.name}
-            </StyledButton>
+            </button>
           </StyledLink>
         </li>
       );
@@ -60,10 +50,7 @@ function Home({ allProducts, searchInputText, filteredProducts }) {
           </>
         )
       ) : (
-        <StyledMessage>
-          Seite konnte nicht geladen werden. Bitte versuchen Sie es später
-          nochmal.
-        </StyledMessage>
+        <StyledMessage>{strings.errorMsgSiteLoading}</StyledMessage>
       )}
     </>
   );
@@ -78,7 +65,7 @@ const StyledH1 = styled.h1`
 const StyledH3 = styled.h3`
   display: flex;
   font-size: 1.75rem;
-  margin: 2rem 0 0.5rem;
+  margin: 2rem 0 1.25rem;
 `;
 
 const StyledIcon = styled(Icon)`
@@ -90,28 +77,29 @@ const StyledSection = styled.section`
   flex-direction: column;
   gap: 2rem;
 
+  a {
+    width: 100%;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100px;
+      background-color: var(--background-category-color);
+      border: none;
+      border-radius: 5px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      &:hover,
+      &:focus {
+        background-color: var(--background-category-hover-color);
+      }
+    }
+  }
+
   li {
-    flex: 1 1 48%;
-
-    button {
-      height: 300px;
-    }
-  }
-
-  li:first-child {
-    min-width: 100%;
-    min-height: 40%;
-
-    button {
-      height: 150px;
-    }
-  }
-
-  @media (min-width: 1200px) {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 1rem;
+    display: flex;
   }
 `;
 
@@ -119,25 +107,11 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-const StyledButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100px;
-  background-color: var(--background-category-color);
-  border: none;
-  border-radius: 5px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  &:hover,
-  &:focus {
-    background-color: var(--background-category-hover-color);
-  }
-`;
-
 const StyledParagraph = styled.p`
   line-height: 1.5;
+
+  @media (max-width: var( --breakpoint-small)) {
+  }
 `;
 
 const StyledMessage = styled.p`
