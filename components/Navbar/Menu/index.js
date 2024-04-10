@@ -30,6 +30,8 @@ export default Menu;
 const StyledList = styled.ul`
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  height: 2rem;
 `;
 const StyledLink = styled(Link)`
   text-decoration: none;

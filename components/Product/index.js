@@ -36,6 +36,7 @@ const StyledLink = styled(Link)`
   height: 100%;
   display: grid;
   grid-template-columns: 20% 1fr;
+  gap: 1rem;
   align-items: center;
   color: var(--font-color);
 `;
@@ -80,6 +81,10 @@ const ImageWrapper = styled.div`
   margin-left: 1rem;
   width: 80px;
   height: 80px;
+  @media (max-width: 480px) {
+    width: 60px;
+    height: 60px;
+  }
 `;
 
 const StyledImage = styled(Image)`

@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 
 import styled from "styled-components";
 
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import Option from "@mui/joy/Option";
+import Select, { selectClasses } from "@mui/joy/Select";
+
 import { strings } from "../../helpers/strings";
 import Article from "./Article";
 
@@ -24,8 +28,8 @@ export default function Articles({ articles, selectedArticleSetter }) {
     }
   }, []);
 
-  function handleOnChange(articleId) {
-    selectedArticleSetter(articleId);
+  function handleOnRenderValue(value) {
+    selectedArticleSetter(value.value);
   }
 
   //sort the articles by column prio
@@ -41,21 +45,23 @@ export default function Articles({ articles, selectedArticleSetter }) {
         {strings.articleVaraintLabel}
         <StyledSpan> {strings.articleVariant}</StyledSpan>
       </StyledLabel>
+
       <StyledSelect
         id="article"
         name="article"
-        onChange={(option) => handleOnChange(Number(option.target.value))}
-        defaultValue={defaultArticle && defaultArticle}
+        placeholder="Bitte wählen"
+        indicator={<KeyboardArrowDown />}
+        renderValue={(value) => {
+          handleOnRenderValue(value);
+          return value.label;
+        }}
+        slotProps={{
+          listbox: {
+            sx: { minWidth: 180 },
+          },
+        }}
         required
       >
-        {defaultArticle === 9999 && (
-          <option
-            value="9999"
-            disabled
-          >
-            Bitte wählen
-          </option>
-        )}
         {sortedArticles.map((article, index) => (
           <Article
             article={article}
@@ -90,7 +96,7 @@ const StyledSpan = styled.span`
   color: var(--font-color-varant);
 `;
 
-const StyledSelect = styled.select`
+const StyledSelect = styled(Select)`
   width: 100%;
   height: 2rem;
   padding: 0 0.5rem;

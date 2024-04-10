@@ -23,6 +23,12 @@ const strings = {
     "Seite konnte nicht geladen werden. Bitte versuchen Sie es später nochmal.",
 
   backButton: "Zurück",
+
+  articleNumberLabel: "Artikelnummer:",
+  specialsLabel: "Besonderheiten:",
+  vpeLabel: "Mögliche Verpackungseinheiten (VPE):",
+
+  chooseProductAndColor: " Bitte Produkt-Variante und Farbe auswählen.",
 };
 
 function getEmailBody(articleName, articleNumber, colorName) {

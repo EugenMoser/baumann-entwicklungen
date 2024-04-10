@@ -1,10 +1,6 @@
 import React from "react";
 
-import Link from "next/link";
 import styled from "styled-components";
-
-import { mdiEmailOutline } from "@mdi/js";
-import Icon from "@mdi/react";
 
 import { getEmailBody, strings } from "../../helpers/strings";
 
@@ -22,11 +18,11 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
       {selectedArticle && selectedColor ? (
         <>
           <StyledArticleNumber>
-            Artikelnummer: {fulllArticleNumber}
+            {strings.articleNumberLabel} {fulllArticleNumber}
           </StyledArticleNumber>{" "}
           <StyledSpecials>
             <>
-              <StyledLabel>Besonderheiten:</StyledLabel>
+              <StyledLabel>{strings.specialsLabel}</StyledLabel>
               <StyledList>
                 {selectedArticle.article_description && (
                   <li>{selectedArticle.article_description}</li>
@@ -44,7 +40,7 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
             </>
           </StyledSpecials>
           <StyledVpe>
-            <StyledLabel>Mögliche Verpackungseinheiten (VPE):</StyledLabel>
+            <StyledLabel>{strings.vpeLabel}</StyledLabel>
             <StyledList>
               {selectedArticle.vpe1 && (
                 <li>{selectedArticle.vpe1} Stück</li>
@@ -78,9 +74,7 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
           </StyledForm>
         </>
       ) : (
-        <StyledParagraph>
-          Bitte Produkt-Variante und Farbe auswählen.
-        </StyledParagraph>
+        <StyledParagraph>{strings.chooseProductAndColor}</StyledParagraph>
       )}
     </StyledResultSection>
   );
@@ -94,7 +88,7 @@ const StyledResultSection = styled.section`
   padding: 1rem 1rem;
 `;
 
-const StyledArticleNumber = styled.p`
+const StyledArticleNumber = styled.h2`
   font-size: 1.25rem;
   font-weight: bold;
   margin: 0 0 1rem;

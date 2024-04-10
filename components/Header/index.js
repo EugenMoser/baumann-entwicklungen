@@ -60,6 +60,7 @@ const StyledHeader = styled.header`
     justify-content: space-around;
     flex-direction: column;
     gap: 1rem;
+    margin: 1rem 0 0.5rem;
   }
 `;
 

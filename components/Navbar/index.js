@@ -48,11 +48,6 @@ function Navbar() {
         )}
         {isMobile && (
           <>
-            <h2>
-              {sections.map(
-                (section) => path.includes(section.label) && section.name
-              )}
-            </h2>
             <BurgerMenu
               sections={sections}
               path={path}
@@ -70,22 +65,19 @@ const StyledNav = styled.nav`
   background-color: var(--white);
   position: sticky;
   top: 0;
-  margin: 2rem 0;
-
+  padding: 1rem 0;
+  align-items: center;
   z-index: 50;
   ${(props) =>
     props.isMobile &&
     css`
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      padding: 0.5rem 0;
     `}
   ${(props) =>
     !props.isDisplayed &&
     css`
       display: none;
     `}
-  @media (max-width: 768px) {
-    margin: 1rem 0;
-  }
 `;
