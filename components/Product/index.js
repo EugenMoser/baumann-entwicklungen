@@ -82,12 +82,14 @@ const ImageWrapper = styled.div`
   width: 80px;
   height: 80px;
   @media (max-width: 480px) {
-    width: 60px;
-    height: 60px;
+    max-width: 60px;
+    max-height: 60px;
   }
 `;
 
 const StyledImage = styled(Image)`
+  width: 100%;
+  height: 100%;
   font-size: 0.5rem;
   border-radius: 50%;
   overflow: hidden;

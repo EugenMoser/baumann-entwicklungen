@@ -43,8 +43,8 @@ export default function Articles({ articles, selectedArticleSetter }) {
     >
       <StyledLabel htmlFor="article">
         {strings.articleVaraintLabel}
-        <StyledSpan> {strings.articleVariant}</StyledSpan>
       </StyledLabel>
+      <StyledSpan> {strings.articleVariant}</StyledSpan>
 
       <StyledSelect
         id="article"
@@ -77,7 +77,7 @@ export default function Articles({ articles, selectedArticleSetter }) {
 }
 
 const StyledArticleSection = styled.section`
-  /* display: flex; */
+  display: flex;
   display: ${(props) =>
     props.isArticleDescriptionAvailable === false && "none"};
 
@@ -89,10 +89,11 @@ const StyledArticleSection = styled.section`
 const StyledLabel = styled.label`
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 0.75rem;
 `;
 
 const StyledSpan = styled.span`
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
   color: var(--font-color-varant);
 `;
 

@@ -17,13 +17,13 @@ function Home({ allProducts, searchInputText, filteredProducts }) {
       return (
         <li key={index}>
           <StyledLink href={`/products/${section.label}`}>
-            <button onClick={deleteSessionStorage()}>
-              <StyledIcon
+            <StyledButton onClick={deleteSessionStorage()}>
+              <Icon
                 path={section.icon}
                 size={1.5}
               />
               {section.name}
-            </button>
+            </StyledButton>
           </StyledLink>
         </li>
       );
@@ -64,12 +64,9 @@ const StyledH1 = styled.h1`
 `;
 const StyledH3 = styled.h3`
   display: flex;
+  justify-content: center;
   font-size: 1.75rem;
   margin: 2rem 0 1.25rem;
-`;
-
-const StyledIcon = styled(Icon)`
-  margin: auto 1rem auto;
 `;
 
 const StyledSection = styled.section`
@@ -119,4 +116,9 @@ const StyledMessage = styled.p`
   color: var(--red);
   margin: 3rem 0;
   text-align: center;
+`;
+
+const StyledButton = styled.button`
+  font-size: 2rem !important;
+  gap: 1rem;
 `;

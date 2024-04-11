@@ -1,22 +1,22 @@
 //products details
 
-import 'react-image-gallery/styles/css/image-gallery.css';
+import "react-image-gallery/styles/css/image-gallery.css";
 
-import * as React from 'react';
-import { useState } from 'react';
+import * as React from "react";
+import { useState } from "react";
 
-import { useRouter } from 'next/router';
-import ImageGallery from 'react-image-gallery';
-import styled from 'styled-components';
+import { useRouter } from "next/router";
+import ImageGallery from "react-image-gallery";
+import styled from "styled-components";
 
-import { mdiChevronLeft } from '@mdi/js';
-import Icon from '@mdi/react';
+import { mdiChevronLeft } from "@mdi/js";
+import Icon from "@mdi/react";
 
-import Articles from '../../../../components/Articles';
-import ColorButtons from '../../../../components/ColorButtons';
-import ProductList from '../../../../components/ProductList';
-import ShowSelection from '../../../../components/ShowSelection';
-import { strings } from '../../../../helpers/strings';
+import Articles from "../../../../components/Articles";
+import ColorButtons from "../../../../components/ColorButtons";
+import ProductList from "../../../../components/ProductList";
+import ShowSelection from "../../../../components/ShowSelection";
+import { strings } from "../../../../helpers/strings";
 
 function ProductDetails({
   allProducts,
@@ -123,30 +123,28 @@ function ProductDetails({
           </StyledImageGalleryWrapper>
         </ProductWrapper>
 
-            <ArticleWrapper>
-              {product.articles && (
-                <Articles
-                  articles={product.articles}
-                  selectedArticleSetter={selectedArticleSetter}
-                />
-              )}
+        <ArticleWrapper>
+          {product.articles && (
+            <Articles
+              articles={product.articles}
+              selectedArticleSetter={selectedArticleSetter}
+            />
+          )}
 
-              {product.colors && (
-                <ColorButtons
-                  colors={product.colors}
-                  selectedColor={selectedColor}
-                  selectedColorSetter={selectedColorSetter}
-                  firstColorName={selectFirstColor.color_name}
-                />
-              )}
-              <ShowSelection
-                selectedArticle={selectedArticle}
-                selectedColor={selectedColor}
-              />
-            </ArticleWrapper>
-          </Wrapper>
-        </>
-      )}
+          {product.colors && (
+            <ColorButtons
+              colors={product.colors}
+              selectedColor={selectedColor}
+              selectedColorSetter={selectedColorSetter}
+              firstColorName={selectFirstColor.color_name}
+            />
+          )}
+          <ShowSelection
+            selectedArticle={selectedArticle}
+            selectedColor={selectedColor}
+          />
+        </ArticleWrapper>
+      </Wrapper>
     </>
   );
 }

@@ -13,9 +13,8 @@ export default function ColorButtons({
 }) {
   return (
     <StyledColorSection>
-      <StyledLabel>
-        {strings.colorLabel} <StyledSpan>{strings.chooseColor}</StyledSpan>
-      </StyledLabel>
+      <StyledLabel>{strings.colorLabel}</StyledLabel>{" "}
+      <StyledSpan>{strings.chooseColor}</StyledSpan>
       <StyledParagraph>{selectedColor.color_name}</StyledParagraph>
       {selectedColor && (
         <ButtonWrapper>
@@ -52,11 +51,12 @@ const ButtonWrapper = styled.ul`
 const StyledLabel = styled.label`
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 0.75rem;
 `;
 
 const StyledSpan = styled.span`
   color: var(--font-color-varant);
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
 `;
 
 const StyledParagraph = styled.p`
