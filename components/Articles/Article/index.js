@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect } from "react";
 
-import Option from "@mui/joy/Option";
+import { Option } from "@mui/joy";
 
 export default function Article({
   article,

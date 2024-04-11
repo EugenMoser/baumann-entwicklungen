@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import Option from "@mui/joy/Option";
-import Select, { selectClasses } from "@mui/joy/Select";
+import { Select } from "@mui/joy";
 
 import { strings } from "../../helpers/strings";
 import Article from "./Article";

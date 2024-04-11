@@ -53,6 +53,7 @@ function ProductList(props) {
             category={category}
             hrefProduct={hrefProduct}
             scrollValue={scrollValue}
+            setSearchInputText={setSearchInputText}
           />
         </StyledListItem>
       ))}

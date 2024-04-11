@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -7,9 +9,78 @@ import ProductList from "../components/ProductList";
 import { sections } from "../helpers/constants";
 import { strings } from "../helpers/strings";
 
-function Home({ allProducts, searchInputText, filteredProducts }) {
+//******** für static website */
+
+const getProducts = async () => {
+  const res = await fetch("http://localhost:3000/api/getdata");
+  const data = await res.json();
+  return data.products;
+};
+
+export async function getStaticProps(context) {
+  const products = await getProducts();
+
+  return { props: { staticProducts: products } };
+}
+
+//********** */
+
+function Home({
+  //******** für static website */
+  staticProducts,
+  //allProducts,
+  searchInputText,
+  //filteredProducts,
+}) {
+  //******** für static website */
+  const allProducts = staticProducts;
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  //for static site generation (for dynamic site function is in _app.js )
+  function findProducts(searchInputText, products) {
+    const searchInput = searchInputText.toLowerCase().trim();
+
+    const filterProducts = products.filter((product) => {
+      const maxLength = 60; // Set the maximum length for the hint text
+      const name = product.product_name;
+      const description1 = product.product_description1;
+      const description2 = product.product_description2;
+
+      const articleNumber =
+        product &&
+        product.articles &&
+        product.articles.find((article) =>
+          article.article_number.startsWith(searchInput)
+        );
+      const productFullName = `${name} ${description1} ${description2}`
+        .toLowerCase()
+        .trim();
+
+      return (
+        (productFullName.length > maxLength
+          ? productFullName.slice(0, maxLength) + "..."
+          : productFullName
+        ).includes(searchInput) || articleNumber
+      );
+    });
+
+    //if search input is empty, set filteredProducts to empty string
+    setFilteredProducts(
+      searchInputText.length === 0 ? "" : filterProducts
+    );
+  }
+
+  useEffect(() => {
+    findProducts(searchInputText, allProducts);
+  }, [searchInputText]);
+
+  //********** */
+
   function deleteSessionStorage() {
-    sessionStorage.removeItem("TILO_scrollPosition");
+    //fix issus "localStorage is not defined"
+    if (typeof window !== "undefined") {
+      sessionStorage && sessionStorage.removeItem("TILO_scrollPosition");
+    }
   }
 
   function createSection() {

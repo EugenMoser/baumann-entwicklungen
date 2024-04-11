@@ -7,6 +7,7 @@ import styled from "styled-components";
 // import Autocomplete from "@mui/material/Autocomplete";
 import { Autocomplete, Stack, TextField } from "@mui/material";
 
+import { sections } from "../../helpers/constants";
 // import TextField from "@mui/material/TextField";
 import {
   findProductName,
@@ -17,35 +18,20 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
   const router = useRouter();
   const { category } = router.query;
 
-  //dis[display]play all products or searched products at autocomplete
-  const displayProducts =
-    category && searchInputText
-      ? productsByCategory(allProducts, category)
-      : allProducts;
+  //display all products or searched products at autocomplete
+  // const displayProducts =
+  //   category && searchInputText
+  //     ? productsByCategory(allProducts, category)
+  //     : allProducts;
 
   function changeHandler(event, value) {
     setSearchInputText(value);
   }
 
   function getLabel(category) {
-    let categoryLabel = "";
-    switch (category) {
-      case "moebel":
-        categoryLabel = "Möbelbereich";
-        break;
-      case "halterung":
-        categoryLabel = "Halterung";
-        break;
-      case "wasser":
-        categoryLabel = "Wasserbereich";
-        break;
-      case "elektro":
-        categoryLabel = "Elektronikbereich";
-        break;
-      case "lueftung":
-        categoryLabel = "Lüftungbereich";
-        break;
-    }
+    const categoryLabel = sections.find(
+      (section) => section.label === category
+    )?.name;
     const label = category ? `${categoryLabel} durchsuchen` : "suchen";
     return label;
   }

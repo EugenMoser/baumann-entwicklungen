@@ -17,7 +17,6 @@ function Layout({ children }) {
   }
 
   //delete Local Storage item by reload page
-
   useEffect(() => {
     function deleteSessionStorage() {
       sessionStorage.removeItem("TILO_scrollPosition");

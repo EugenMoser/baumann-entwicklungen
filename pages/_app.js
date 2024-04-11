@@ -41,9 +41,12 @@ function MyApp({ Component, pageProps }) {
       const description1 = product.product_description1;
       const description2 = product.product_description2;
 
-      const articleNumber = product.articles.find((article) =>
-        article.article_number.startsWith(searchInput)
-      );
+      const articleNumber =
+        product &&
+        product.articles &&
+        product.articles.find((article) =>
+          article.article_number.startsWith(searchInput)
+        );
       const productFullName = `${name} ${description1} ${description2}`
         .toLowerCase()
         .trim();
@@ -72,7 +75,7 @@ function MyApp({ Component, pageProps }) {
       <Layout>
         <Component
           {...pageProps}
-          allProducts={products}
+          //allProducts={products}
           searchInputText={searchInputText}
           setSearchInputText={setSearchInputTextHandler}
           filteredProducts={filteredProducts}

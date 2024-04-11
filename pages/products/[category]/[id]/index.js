@@ -3,7 +3,7 @@
 import "react-image-gallery/styles/css/image-gallery.css";
 
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 import ImageGallery from "react-image-gallery";
@@ -16,18 +16,65 @@ import Articles from "../../../../components/Articles";
 import ColorButtons from "../../../../components/ColorButtons";
 import ProductList from "../../../../components/ProductList";
 import ShowSelection from "../../../../components/ShowSelection";
+import { productsByCategory } from "../../../../helpers/services";
 import { strings } from "../../../../helpers/strings";
 
+//******** für static website */
+
+const getProducts = async () => {
+  const res = await fetch("http://localhost:3000/api/getdata");
+  const data = await res.json();
+  return data.products;
+};
+
+export async function getStaticPaths() {
+  const products = await getProducts();
+  const paths = products.map((product) => {
+    return {
+      params: {
+        category: product.category,
+        id: product.product_id.toString(),
+      },
+    };
+  });
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const id = context.params.id;
+  const category = context.params.category;
+  const products = await getProducts();
+  const filterdProduct = products.filter(
+    (product) => product.product_id.toString() === id
+  );
+  const filteredProducts = products.filter(
+    (product) => product.category === category
+  );
+  return {
+    props: {
+      staticProduct: filterdProduct,
+      staticProducts: filteredProducts,
+      category: category,
+    },
+  };
+}
+//********** */
+
 function ProductDetails({
-  allProducts,
+  staticProduct,
+  staticProducts,
   searchInputText,
-  filteredProducts,
+  category,
   setSearchInputText,
+  //allProducts,
 }) {
   const router = useRouter();
-  const { id, category } = router.query;
-  const product = productById(id);
-  if (!allProducts || !product) {
+  // const { id } = router.query;
+  // const product = productById(id);
+
+  const product = staticProduct[0];
+
+  if (!staticProducts || !product) {
     return <h2>Produkte werden geladen</h2>;
   }
   const selectFirstColor = product?.colors[0];
@@ -46,6 +93,50 @@ function ProductDetails({
   } = product;
 
   const images = [];
+
+  //******** für static website */
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  // filter products by search input
+  useEffect(() => {
+    findProducts(searchInputText, staticProducts);
+  }, [searchInputText]);
+
+  function findProducts(searchInputText, products) {
+    const searchInput = searchInputText.toLowerCase().trim();
+
+    const filterProducts = products.filter((product) => {
+      const maxLength = 60; // Set the maximum length for the hint text
+      const name = product.product_name;
+      const description1 = product.product_description1;
+      const description2 = product.product_description2;
+
+      const articleNumber = product.articles.find((article) =>
+        article.article_number.startsWith(searchInput)
+      );
+      const productFullName = `${name} ${description1} ${description2}`
+        .toLowerCase()
+        .trim();
+
+      return (
+        (productFullName.length > maxLength
+          ? productFullName.slice(0, maxLength) + "..."
+          : productFullName
+        ).includes(searchInput) || articleNumber
+      );
+    });
+    //if search input is empty, set filteredProducts to empty string
+    setFilteredProducts(
+      searchInputText.length === 0 ? "" : filterProducts
+    );
+  }
+
+  const searchProductsByCategory =
+    searchInputText.length && filteredProducts
+      ? productsByCategory(filteredProducts, category)
+      : productsByCategory(staticProducts, category);
+
+  //***************************************** */
 
   if (image1) {
     images.push({
@@ -71,12 +162,12 @@ function ProductDetails({
   }
 
   //filter products by id
-  function productById(id) {
-    const filteredProduct = allProducts.find(
-      (product) => product.product_id.toString() === id
-    );
-    return filteredProduct;
-  }
+  // function productById(id) {
+  //   const filteredProduct = allProducts.find(
+  //     (product) => product.product_id.toString() === id
+  //   );
+  //   return filteredProduct;
+  // }
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
@@ -93,58 +184,73 @@ function ProductDetails({
   }
   return (
     <>
-      <StyledHeadlineWrapper>
-        <StyledH1>{name}</StyledH1>
-        <StyledBackButton onClick={() => goBack()}>
-          <Icon
-            path={mdiChevronLeft}
-            size={1}
+      {searchInputText.length ? (
+        searchProductsByCategory.length ? (
+          <ProductList
+            products={searchProductsByCategory}
+            setSearchInputText={setSearchInputText}
+            category={"productDetails"}
           />
-          {strings.backButton}
-        </StyledBackButton>
-      </StyledHeadlineWrapper>
-      <Descripton1>{description1}</Descripton1>
-      <Wrapper>
-        <ProductWrapper>
-          {description2 && <p>{description2}</p>}
-          {description3 && <p>{description3}</p>}
+        ) : (
+          <StyledParagraph>kein Produkt gefunden</StyledParagraph>
+        )
+      ) : (
+        <>
+          <StyledHeadlineWrapper>
+            <StyledH1>{name}</StyledH1>
+            <StyledBackButton onClick={() => goBack()}>
+              <Icon
+                path={mdiChevronLeft}
+                size={1}
+              />
+              {strings.backButton}
+            </StyledBackButton>
+          </StyledHeadlineWrapper>
+          <Descripton1>{description1}</Descripton1>
+          <Wrapper>
+            <ProductWrapper>
+              {description2 && <p>{description2}</p>}
+              {description3 && <p>{description3}</p>}
+              {description4 && <p>{description4}</p>}
 
-          <p>Material: {material}</p>
-          <StyledImageGalleryWrapper>
-            <ImageGallery
-              items={images}
-              showBullets={false}
-              showThumbnails={image2 || image3 ? true : false}
-              showPlayButton={false}
-              slideDuration={300}
-              showFullscreenButton={false}
-              showNav={image2 || image3 ? true : false}
-            />
-          </StyledImageGalleryWrapper>
-        </ProductWrapper>
+              <p>Material: {material}</p>
+              <StyledImageGalleryWrapper>
+                <ImageGallery
+                  items={images}
+                  showBullets={false}
+                  showThumbnails={image2 || image3 ? true : false}
+                  showPlayButton={false}
+                  slideDuration={300}
+                  showFullscreenButton={false}
+                  showNav={image2 || image3 ? true : false}
+                />
+              </StyledImageGalleryWrapper>
+            </ProductWrapper>
 
-        <ArticleWrapper>
-          {product.articles && (
-            <Articles
-              articles={product.articles}
-              selectedArticleSetter={selectedArticleSetter}
-            />
-          )}
+            <ArticleWrapper>
+              {product.articles && (
+                <Articles
+                  articles={product.articles}
+                  selectedArticleSetter={selectedArticleSetter}
+                />
+              )}
 
-          {product.colors && (
-            <ColorButtons
-              colors={product.colors}
-              selectedColor={selectedColor}
-              selectedColorSetter={selectedColorSetter}
-              firstColorName={selectFirstColor.color_name}
-            />
-          )}
-          <ShowSelection
-            selectedArticle={selectedArticle}
-            selectedColor={selectedColor}
-          />
-        </ArticleWrapper>
-      </Wrapper>
+              {product.colors && (
+                <ColorButtons
+                  colors={product.colors}
+                  selectedColor={selectedColor}
+                  selectedColorSetter={selectedColorSetter}
+                  firstColorName={selectFirstColor.color_name}
+                />
+              )}
+              <ShowSelection
+                selectedArticle={selectedArticle}
+                selectedColor={selectedColor}
+              />
+            </ArticleWrapper>
+          </Wrapper>
+        </>
+      )}
     </>
   );
 }

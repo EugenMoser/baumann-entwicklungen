@@ -2,35 +2,68 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 
+import { sections } from "../../helpers/constants";
+
 export default function Product({
   product,
   category,
   hrefProduct,
-  scrollValue,
+  setSearchInputText,
 }) {
-  return (
-    <StyledLink href={`.${hrefProduct}/${category}/${product.product_id}`}>
-      <ImageWrapper>
-        <StyledImage
-          src={
-            product.product_imagepath_small
-              ? product.product_imagepath_small
-              : "/images/placeholder.jpg"
-          }
-          alt={product.product_name}
-          width={80}
-          height={80}
-        />
-      </ImageWrapper>
+  //******** für static website */
 
-      <TextWrapper>
-        <h3>{product.product_name}</h3>
-        <p>{product.product_description1}</p>
-      </TextWrapper>
-    </StyledLink>
+  let hrefLink = "";
+  //check if category have a section value
+  if (sections.some((section) => section.label === category)) {
+    hrefLink = `.${hrefProduct}/${category}/${product.product_id}`;
+    //check if is search from start page
+  } else if (category === "startPage") {
+    hrefLink = `.${hrefProduct}/${product.category}/${product.product_id}`;
+    //check if is search from product details page
+  } else if (category === "productDetails") {
+    hrefLink = `../${product.category}/${product.product_id}`;
+  }
+
+  //********************************  */
+
+  return (
+    <StyledButton
+      onClick={() => setSearchInputText && setSearchInputText("")}
+    >
+      <StyledLink href={`${hrefLink}`}>
+        <ImageWrapper>
+          <StyledImage
+            src={
+              product.product_imagepath_small
+                ? product.product_imagepath_small
+                : "/images/placeholder.jpg"
+            }
+            alt={product.product_name}
+            width={80}
+            height={80}
+          />
+        </ImageWrapper>
+
+        <TextWrapper>
+          <h3>{product.product_name}</h3>
+          <p>{product.product_description1}</p>
+        </TextWrapper>
+      </StyledLink>
+    </StyledButton>
   );
 }
+const StyledButton = styled.button`
+  width: 100%;
+  height: 100%;
+  border: none;
 
+  gap: 2rem;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    background-color: var(--background-category-hover-color);
+  }
+`;
 const StyledLink = styled(Link)`
   min-width: 90%;
   height: 100%;
