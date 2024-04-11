@@ -180,7 +180,7 @@ function ProductDetails({
     setSelectedColor(color);
   }
   function goBack() {
-    router.back();
+    router.push(`/products/${category}`);
   }
   return (
     <>

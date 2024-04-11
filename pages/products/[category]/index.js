@@ -45,7 +45,6 @@ function ProductCategory({
   setSearchInputText,
 }) {
   //******** für static website */
-  const allProducts = staticProducts;
 
   const category = staticProducts[0].category;
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -92,7 +91,7 @@ function ProductCategory({
   const searchProductsByCategory =
     searchInputText.length && filteredProducts
       ? productsByCategory(filteredProducts, category)
-      : productsByCategory(allProducts, category);
+      : productsByCategory(staticProducts, category);
 
   return (
     <>
