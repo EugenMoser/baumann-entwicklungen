@@ -30,11 +30,40 @@ function findArtikleId(products) {
 }
 
 //filter all products or searched products by category
-function productsByCategory(products, category) {
+function getProductsByCategory(products, category) {
   const filteredProduct = products.filter(
     (product) => product.category === category
   );
   return filteredProduct;
 }
 
-export { findArtikleId, productsByCategory };
+//for static site generation (for dynamic site function is in _app.js )
+function findProducts(searchInputText, products) {
+  const searchInput = searchInputText.toLowerCase().trim();
+
+  const filterProducts = products?.filter((product) => {
+    const maxLength = 60; // Set the maximum length for the hint text
+    const name = product?.product_name;
+    const description1 = product?.product_description1;
+    const description2 = product?.product_description2;
+
+    const articleNumber = product?.articles?.find((article) =>
+      article.article_number.startsWith(searchInput)
+    );
+    const productFullName = `${name} ${description1} ${description2}`
+      .toLowerCase()
+      .trim();
+
+    return (
+      (productFullName.length > maxLength
+        ? productFullName.slice(0, maxLength) + "..."
+        : productFullName
+      ).includes(searchInput) || articleNumber
+    );
+  });
+
+  //if search input is empty, set filteredProducts to empty string
+  return searchInputText.length === 0 ? "" : filterProducts;
+}
+
+export { findArtikleId, findProducts, getProductsByCategory };

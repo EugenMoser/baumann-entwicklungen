@@ -1,12 +1,18 @@
 //products by category
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useRouter } from "next/router";
-import styled from "styled-components";
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
-import ProductList from "../../../components/ProductList";
-import { sections } from "../../../helpers/constants";
-import { productsByCategory } from "../../../helpers/services";
+import ProductList from '../../../components/ProductList';
+import { sections } from '../../../helpers/constants';
+import {
+  findProducts,
+  getProductsByCategory,
+} from '../../../helpers/services';
 
 //******** für static website */
 
@@ -47,61 +53,64 @@ function ProductCategory({
   //******** für static website */
 
   const category = staticProducts[0].category;
+  console.log("category @category", category);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  //for static site generation (for dynamic site function is in _app.js )
-  function findProducts(searchInputText, products) {
-    const searchInput = searchInputText.toLowerCase().trim();
+  // for static site generation (for dynamic site function is in _app.js )
+  // function findProducts(searchInputText, products) {
+  //   const searchInput = searchInputText.toLowerCase().trim();
 
-    const filterProducts = products.filter((product) => {
-      const maxLength = 60; // Set the maximum length for the hint text
-      const name = product.product_name;
-      const description1 = product.product_description1;
-      const description2 = product.product_description2;
+  //   const filterProducts = products.filter((product) => {
+  //     const maxLength = 60; // Set the maximum length for the hint text
+  //     const name = product.product_name;
+  //     const description1 = product.product_description1;
+  //     const description2 = product.product_description2;
 
-      const articleNumber = product.articles.find((article) =>
-        article.article_number.startsWith(searchInput)
-      );
-      const productFullName = `${name} ${description1} ${description2}`
-        .toLowerCase()
-        .trim();
+  //     const articleNumber = product.articles.find((article) =>
+  //       article.article_number.startsWith(searchInput)
+  //     );
+  //     const productFullName = `${name} ${description1} ${description2}`
+  //       .toLowerCase()
+  //       .trim();
 
-      return (
-        (productFullName.length > maxLength
-          ? productFullName.slice(0, maxLength) + "..."
-          : productFullName
-        ).includes(searchInput) || articleNumber
-      );
-    });
+  //     return (
+  //       (productFullName.length > maxLength
+  //         ? productFullName.slice(0, maxLength) + "..."
+  //         : productFullName
+  //       ).includes(searchInput) || articleNumber
+  //     );
+  //   });
 
-    //if search input is empty, set filteredProducts to empty string
-    setFilteredProducts(
-      searchInputText.length === 0 ? "" : filterProducts
-    );
-  }
+  //   if search input is empty, set filteredProducts to empty string
+  //   setFilteredProducts(
+  //     searchInputText.length === 0 ? "" : filterProducts
+  //   );
+  // }
 
   useEffect(() => {
-    findProducts(searchInputText, staticProducts);
+    setFilteredProducts(findProducts(searchInputText, staticProducts));
   }, [searchInputText]);
 
   //***************************** */
 
   // const router = useRouter();
   // const { category } = router.query;
-  const searchProductsByCategory =
+  const searchgetProductsByCategory =
     searchInputText.length && filteredProducts
-      ? productsByCategory(filteredProducts, category)
-      : productsByCategory(staticProducts, category);
+      ? getProductsByCategory(filteredProducts, category)
+      : getProductsByCategory(staticProducts, category);
 
   return (
     <>
       {sections.map((section) => {
-        category === section.label && <StyledH1>{section.name}</StyledH1>;
+        category === section.category && (
+          <StyledH1>{section.name}</StyledH1>
+        );
       })}
 
-      {searchProductsByCategory.length ? (
+      {searchgetProductsByCategory.length ? (
         <ProductList
-          products={searchProductsByCategory}
+          products={searchgetProductsByCategory}
           category={category}
           setSearchInputText={setSearchInputText}
         />

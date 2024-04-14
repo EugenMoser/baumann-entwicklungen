@@ -1,23 +1,29 @@
 //products details
 
-import "react-image-gallery/styles/css/image-gallery.css";
+import 'react-image-gallery/styles/css/image-gallery.css';
 
-import * as React from "react";
-import { useEffect, useState } from "react";
+import * as React from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useRouter } from "next/router";
-import ImageGallery from "react-image-gallery";
-import styled from "styled-components";
+import { useRouter } from 'next/router';
+import ImageGallery from 'react-image-gallery';
+import styled from 'styled-components';
 
-import { mdiChevronLeft } from "@mdi/js";
-import Icon from "@mdi/react";
+import { mdiChevronLeft } from '@mdi/js';
+import Icon from '@mdi/react';
 
-import Articles from "../../../../components/Articles";
-import ColorButtons from "../../../../components/ColorButtons";
-import ProductList from "../../../../components/ProductList";
-import ShowSelection from "../../../../components/ShowSelection";
-import { productsByCategory } from "../../../../helpers/services";
-import { strings } from "../../../../helpers/strings";
+import Articles from '../../../../components/Articles';
+import ColorButtons from '../../../../components/ColorButtons';
+import ProductList from '../../../../components/ProductList';
+import ShowSelection from '../../../../components/ShowSelection';
+import {
+  findProducts,
+  getProductsByCategory,
+} from '../../../../helpers/services';
+import { strings } from '../../../../helpers/strings';
 
 //******** für static website */
 
@@ -99,42 +105,46 @@ function ProductDetails({
 
   // filter products by search input
   useEffect(() => {
-    findProducts(searchInputText, staticProducts);
+    setFilteredProducts(findProducts(searchInputText, staticProducts));
   }, [searchInputText]);
 
-  function findProducts(searchInputText, products) {
-    const searchInput = searchInputText.toLowerCase().trim();
+  // function findProducts(searchInputText, products) {
+  //   const searchInput = searchInputText.toLowerCase().trim();
 
-    const filterProducts = products.filter((product) => {
-      const maxLength = 60; // Set the maximum length for the hint text
-      const name = product.product_name;
-      const description1 = product.product_description1;
-      const description2 = product.product_description2;
+  //   const filterProducts = products.filter((product) => {
+  //     const maxLength = 60; // Set the maximum length for the hint text
+  //     const name = product.product_name;
+  //     const description1 = product.product_description1;
+  //     const description2 = product.product_description2;
 
-      const articleNumber = product.articles.find((article) =>
-        article.article_number.startsWith(searchInput)
-      );
-      const productFullName = `${name} ${description1} ${description2}`
-        .toLowerCase()
-        .trim();
+  //     const articleNumber = product.articles.find((article) =>
+  //       article.article_number.startsWith(searchInput)
+  //     );
+  //     const productFullName = `${name} ${description1} ${description2}`
+  //       .toLowerCase()
+  //       .trim();
 
-      return (
-        (productFullName.length > maxLength
-          ? productFullName.slice(0, maxLength) + "..."
-          : productFullName
-        ).includes(searchInput) || articleNumber
-      );
-    });
-    //if search input is empty, set filteredProducts to empty string
-    setFilteredProducts(
-      searchInputText.length === 0 ? "" : filterProducts
-    );
-  }
+  //     return (
+  //       (productFullName.length > maxLength
+  //         ? productFullName.slice(0, maxLength) + "..."
+  //         : productFullName
+  //       ).includes(searchInput) || articleNumber
+  //     );
+  //   });
+  //   //if search input is empty, set filteredProducts to empty string
+  //   setFilteredProducts(
+  //     searchInputText.length === 0 ? "" : filterProducts
+  //   );
+  // }
 
-  const searchProductsByCategory =
+  // function goBack() {
+  //   window.location.replace(`/products/${category}`);
+  // }
+
+  const searchgetProductsByCategory =
     searchInputText.length && filteredProducts
-      ? productsByCategory(filteredProducts, category)
-      : productsByCategory(staticProducts, category);
+      ? getProductsByCategory(filteredProducts, category)
+      : getProductsByCategory(staticProducts, category);
 
   //***************************************** */
 
@@ -182,12 +192,13 @@ function ProductDetails({
   function goBack() {
     router.push(`/products/${category}`);
   }
+
   return (
     <>
       {searchInputText.length ? (
-        searchProductsByCategory.length ? (
+        searchgetProductsByCategory.length ? (
           <ProductList
-            products={searchProductsByCategory}
+            products={searchgetProductsByCategory}
             setSearchInputText={setSearchInputText}
             category={"productDetails"}
           />

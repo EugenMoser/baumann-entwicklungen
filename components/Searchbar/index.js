@@ -1,18 +1,22 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { useRouter } from "next/router";
-import styled from "styled-components";
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
 // import { createFilterOptions } from "@material-ui/lab";
 // import Autocomplete from "@mui/material/Autocomplete";
-import { Autocomplete, Stack, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Stack,
+  TextField,
+} from '@mui/material';
 
-import { sections } from "../../helpers/constants";
+import { sections } from '../../helpers/constants';
 // import TextField from "@mui/material/TextField";
 import {
   findProductName,
-  productsByCategory,
-} from "../../helpers/services";
+  getProductsByCategory,
+} from '../../helpers/services';
 
 function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
   const router = useRouter();
@@ -21,7 +25,7 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
   //display all products or searched products at autocomplete
   // const displayProducts =
   //   category && searchInputText
-  //     ? productsByCategory(allProducts, category)
+  //     ? getProductsByCategory(allProducts, category)
   //     : allProducts;
 
   function changeHandler(event, value) {
@@ -30,7 +34,7 @@ function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
 
   function getLabel(category) {
     const categoryLabel = sections.find(
-      (section) => section.label === category
+      (section) => section.category === category
     )?.name;
     const label = category ? `${categoryLabel} durchsuchen` : "suchen";
     return label;

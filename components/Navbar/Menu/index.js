@@ -1,7 +1,7 @@
-import Link from "next/link";
-import styled, { css } from "styled-components";
+import Link from 'next/link';
+import styled, { css } from 'styled-components';
 
-import { createSections } from "../../../helpers/services";
+import { createSections } from '../../../helpers/services';
 
 function Menu({ sections, path }) {
   return (
@@ -11,11 +11,11 @@ function Menu({ sections, path }) {
           <li key={index}>
             <StyledLink
               variant={
-                path.startsWith(`/products/${section.label}`)
+                path.startsWith(`/products/${section.category}`)
                   ? "active"
                   : "inactive"
               }
-              href={`/products/${section.label}`}
+              href={`/products/${section.category}`}
             >
               {section.name}
             </StyledLink>

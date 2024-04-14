@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import Image from "next/image";
-import Link from "next/link";
-import styled from "styled-components";
+import Image from 'next/image';
+import Link from 'next/link';
+import styled from 'styled-components';
 
-import { sections } from "../../helpers/constants";
+import { sections } from '../../helpers/constants';
 
 export default function Product({
   product,
@@ -16,7 +16,7 @@ export default function Product({
 
   let hrefLink = "";
   //check if category have a section value
-  if (sections.some((section) => section.label === category)) {
+  if (sections.some((section) => section.category === category)) {
     hrefLink = `.${hrefProduct}/${category}/${product.product_id}`;
     //check if is search from start page
   } else if (category === "startPage") {

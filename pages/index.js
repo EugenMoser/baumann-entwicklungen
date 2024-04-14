@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import Link from "next/link";
-import styled from "styled-components";
+import Link from 'next/link';
+import styled from 'styled-components';
 
-import Icon from "@mdi/react";
+import Icon from '@mdi/react';
 
-import ProductList from "../components/ProductList";
-import { sections } from "../helpers/constants";
-import { strings } from "../helpers/strings";
+import ProductList from '../components/ProductList';
+import { sections } from '../helpers/constants';
+import { findProducts } from '../helpers/services';
+import { strings } from '../helpers/strings';
 
 //******** für static website */
 
@@ -37,41 +41,41 @@ function Home({
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   //for static site generation (for dynamic site function is in _app.js )
-  function findProducts(searchInputText, products) {
-    const searchInput = searchInputText.toLowerCase().trim();
+  // function findProducts(searchInputText, products) {
+  //   const searchInput = searchInputText.toLowerCase().trim();
 
-    const filterProducts = products.filter((product) => {
-      const maxLength = 60; // Set the maximum length for the hint text
-      const name = product.product_name;
-      const description1 = product.product_description1;
-      const description2 = product.product_description2;
+  //   const filterProducts = products.filter((product) => {
+  //     const maxLength = 60; // Set the maximum length for the hint text
+  //     const name = product.product_name;
+  //     const description1 = product.product_description1;
+  //     const description2 = product.product_description2;
 
-      const articleNumber =
-        product &&
-        product.articles &&
-        product.articles.find((article) =>
-          article.article_number.startsWith(searchInput)
-        );
-      const productFullName = `${name} ${description1} ${description2}`
-        .toLowerCase()
-        .trim();
+  //     const articleNumber =
+  //       product &&
+  //       product.articles &&
+  //       product.articles.find((article) =>
+  //         article.article_number.startsWith(searchInput)
+  //       );
+  //     const productFullName = `${name} ${description1} ${description2}`
+  //       .toLowerCase()
+  //       .trim();
 
-      return (
-        (productFullName.length > maxLength
-          ? productFullName.slice(0, maxLength) + "..."
-          : productFullName
-        ).includes(searchInput) || articleNumber
-      );
-    });
+  //     return (
+  //       (productFullName.length > maxLength
+  //         ? productFullName.slice(0, maxLength) + "..."
+  //         : productFullName
+  //       ).includes(searchInput) || articleNumber
+  //     );
+  //   });
 
-    //if search input is empty, set filteredProducts to empty string
-    setFilteredProducts(
-      searchInputText.length === 0 ? "" : filterProducts
-    );
-  }
+  //   //if search input is empty, set filteredProducts to empty string
+  //   setFilteredProducts(
+  //     searchInputText.length === 0 ? "" : filterProducts
+  //   );
+  // }
 
   useEffect(() => {
-    findProducts(searchInputText, allProducts);
+    setFilteredProducts(findProducts(searchInputText, allProducts));
   }, [searchInputText]);
 
   //********** */
@@ -87,7 +91,7 @@ function Home({
     const returnSection = sections.map((section, index) => {
       return (
         <li key={index}>
-          <StyledLink href={`/products/${section.label}`}>
+          <StyledLink href={`/products/${section.category}`}>
             <StyledButton onClick={deleteSessionStorage()}>
               <Icon
                 path={section.icon}
@@ -105,12 +109,18 @@ function Home({
   return (
     <>
       {allProducts && allProducts.length ? (
-        filteredProducts.length && searchInputText.length ? (
+        filteredProducts &&
+        filteredProducts.length &&
+        searchInputText &&
+        searchInputText.length ? (
           <ProductList
             products={filteredProducts}
             hrefProduct={"/products"}
           />
-        ) : !filteredProducts.length && searchInputText.length ? (
+        ) : filteredProducts &&
+          !filteredProducts.length &&
+          searchInputText &&
+          searchInputText.length ? (
           <StyledMessage>Kein Produkt gefunden.</StyledMessage>
         ) : (
           <>
