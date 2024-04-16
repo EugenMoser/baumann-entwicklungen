@@ -1,17 +1,17 @@
-import { createDbConnection } from "../../../helpers/dbconnection";
+import { createDbConnection } from '../../../helpers/dbconnection';
 
 async function handlerByCategory(req, res) {
   try {
     const dbconnection = await createDbConnection();
     const query = `
-    
+
     SELECT product.*,
     (
         SELECT JSON_ARRAYAGG(
           JSON_OBJECT(
               'article_id', article.article_id,
               'product_id', article.product_id,
-              'article_prio', article.article_prio, 
+              'article_prio', article.article_prio,
               'article_number', article.article_number,
               'article_name', article.article_name,
               'article_description', article.article_description,
@@ -37,9 +37,7 @@ async function handlerByCategory(req, res) {
        order by product_color_connection.color_suffix
       )AS colors
     FROM product
-   
-   
-    
+
 `;
     const [data] = await dbconnection.execute(query);
     dbconnection.end();

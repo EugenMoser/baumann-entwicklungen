@@ -1,13 +1,46 @@
-import Link from 'next/link';
-import styled from 'styled-components';
+import { useEffect, useState } from "react";
 
-import Icon from '@mdi/react';
+import Link from "next/link";
+import styled from "styled-components";
 
-import ProductList from '../components/ProductList';
-import { sections } from '../helpers/constants';
-import { strings } from '../helpers/strings';
+import Icon from "@mdi/react";
 
-function Home({ allProducts, searchInputText, filteredProducts }) {
+import ProductList from "../components/ProductList";
+import { sections } from "../helpers/constants";
+import { findProducts } from "../helpers/services";
+import { strings } from "../helpers/strings";
+
+//**************** für static website */
+
+const getProducts = async () => {
+  const res = await fetch("http://localhost:3000/api/getdata");
+  const data = await res.json();
+  return data.products;
+};
+
+export async function getStaticProps(context) {
+  const products = await getProducts();
+
+  return { props: { staticProducts: products } };
+}
+
+//****************************** */
+
+function Home({
+  //**************** für static website */
+  staticProducts,
+  //allProducts,
+  //filteredProducts,
+  searchInputText,
+}) {
+  //**************** für static website */
+  const allProducts = staticProducts;
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  useEffect(() => {
+    setFilteredProducts(findProducts(searchInputText, allProducts));
+  }, [searchInputText]);
+  //****************************** */
+
   function deleteSessionStorage() {
     //fix issus "localStorage is not defined"
     if (typeof window !== "undefined") {

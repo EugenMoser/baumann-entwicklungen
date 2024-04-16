@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import Product from "../Product";
+import Product from '../Product';
 
 function ProductList(props) {
   const products = props.products;
   const category = props?.category;
   const setSearchInputText = props?.setSearchInputText;
-  const hrefProduct = props.hrefProduct ? props.hrefProduct : "";
+  const hrefProduct = props.hrefProduct ? props.hrefProduct : '';
 
   //sort the products by column prio
   const sortedProducts = products.sort((a, b) => a.prio - b.prio);
@@ -19,17 +19,17 @@ function ProductList(props) {
     const onScroll = (e) => {
       setScrollValue(e.target.documentElement.scrollTop);
     };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, [scrollValue]);
 
   //get saved scroll position or delete it if page is reloaded
   useEffect(() => {
     window.scrollTo({
       top: JSON.parse(
-        sessionStorage.getItem("TILO_scrollPosition") ?? "0"
+        sessionStorage.getItem('TILO_scrollPosition') ?? '0'
       ),
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   }, []);
 
@@ -37,7 +37,7 @@ function ProductList(props) {
 
   function saveScrollPosition() {
     sessionStorage.setItem(
-      "TILO_scrollPosition",
+      'TILO_scrollPosition',
       JSON.stringify(scrollValue)
     );
   }
@@ -53,6 +53,7 @@ function ProductList(props) {
             category={category}
             hrefProduct={hrefProduct}
             scrollValue={scrollValue}
+            setSearchInputText={setSearchInputText}
           />
         </StyledListItem>
       ))}

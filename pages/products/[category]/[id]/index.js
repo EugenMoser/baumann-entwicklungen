@@ -3,10 +3,7 @@
 import 'react-image-gallery/styles/css/image-gallery.css';
 
 import * as React from 'react';
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import ImageGallery from 'react-image-gallery';
@@ -20,13 +17,70 @@ import ColorButtons from '../../../../components/ColorButtons';
 import ShowSelection from '../../../../components/ShowSelection';
 import { strings } from '../../../../helpers/strings';
 
-function ProductDetails({ allProducts, searchInputText }) {
+//**************** für static website */
+const getProducts = async () => {
+  const res = await fetch('http://localhost:3000/api/getdata');
+  const data = await res.json();
+  return data.products;
+};
+
+export async function getStaticPaths() {
+  const products = await getProducts();
+  const paths = products.map((product) => {
+    return {
+      params: {
+        category: product.category,
+        id: product.product_id.toString(),
+      },
+    };
+  });
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps(context) {
+  const id = context.params.id;
+  const category = context.params.category;
+  const products = await getProducts();
+  const filterdProduct = products.filter(
+    (product) => product.product_id.toString() === id
+  );
+  const filteredProducts = products.filter(
+    (product) => product.category === category
+  );
+  return {
+    props: {
+      staticProduct: filterdProduct,
+      staticProducts: filteredProducts,
+      category: category,
+    },
+  };
+}
+
+//****************************** */
+
+function ProductDetails({
+  //******** für static website */
+  staticProduct,
+  //allProducts,
+  searchInputText,
+}) {
+  //**************** für static website */
+  const product = staticProduct[0];
   const router = useRouter();
-  const { id } = router.query;
-  const product = productById(id);
-  if (!allProducts || !product) {
-    return <h2>Produkte werden geladen</h2>;
-  }
+  const { category } = router.query;
+
+  // const { id } = router.query;
+  // const product = productById(id);
+  //#################### */
+  // const [filteredProducts, setFilteredProducts] = useState([]);
+  // useEffect(() => {
+  //   setFilteredProducts(findProducts(searchInputText, product));
+  // }, [searchInputText]);
+  //****************************** */
+
+  // if (!allProducts || !product) {
+  //   return <h2>Produkte werden geladen</h2>;
+  // }
 
   const selectFirstColor = product?.colors[0];
   const [selectedArticle, setSelectedArticle] = useState(undefined);
@@ -44,12 +98,10 @@ function ProductDetails({ allProducts, searchInputText }) {
   } = product;
 
   const images = [];
-  console.log("searchInputText", searchInputText);
 
   useEffect(() => {
     if (searchInputText.length > 0) {
-      console.log("searchInputText", searchInputText);
-      router.back();
+      router.push(`/products/${category}`);
     }
   }, [searchInputText]);
 
@@ -76,13 +128,13 @@ function ProductDetails({ allProducts, searchInputText }) {
     });
   }
 
-  //filter products by id
-  function productById(id) {
-    const filteredProduct = allProducts.find(
-      (product) => product.product_id.toString() === id
-    );
-    return filteredProduct;
-  }
+  // //filter products by id
+  // function productById(id) {
+  //   const filteredProduct = allProducts.find(
+  //     (product) => product.product_id.toString() === id
+  //   );
+  //   return filteredProduct;
+  // }
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
