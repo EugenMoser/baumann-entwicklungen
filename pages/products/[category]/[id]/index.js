@@ -1,23 +1,25 @@
 //products details
 
-import "react-image-gallery/styles/css/image-gallery.css";
+import 'react-image-gallery/styles/css/image-gallery.css';
 
-import * as React from "react";
-import { useEffect, useState } from "react";
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 
-import ImageGallery from "react-image-gallery";
-import styled from "styled-components";
+import { useRouter } from 'next/router';
+import ImageGallery from 'react-image-gallery';
+import styled from 'styled-components';
 
-import Articles from "../../../../components/Articles";
-import ColorButtons from "../../../../components/ColorButtons";
-import ProductList from "../../../../components/ProductList";
-import ShowSelection from "../../../../components/ShowSelection";
-import { productsByCategory } from "../../../../helpers/services";
+import { mdiChevronLeft } from '@mdi/js';
+import Icon from '@mdi/react';
 
-//******** für static website */
+import Articles from '../../../../components/Articles';
+import ColorButtons from '../../../../components/ColorButtons';
+import ShowSelection from '../../../../components/ShowSelection';
+import { strings } from '../../../../helpers/strings';
 
+//**************** für static website */
 const getProducts = async () => {
-  const res = await fetch("http://localhost:3000/api/getdata");
+  const res = await fetch('http://localhost:3000/api/getdata');
   const data = await res.json();
   return data.products;
 };
@@ -53,19 +55,33 @@ export async function getStaticProps(context) {
     },
   };
 }
-//********** */
+
+//****************************** */
 
 function ProductDetails({
+  //******** für static website */
   staticProduct,
-  staticProducts,
+  //allProducts,
   searchInputText,
-  category,
-  setSearchInputText,
 }) {
+  //**************** für static website */
   const product = staticProduct[0];
-  if (!product) {
-    return <h2>Produkte werden geladen</h2>;
-  }
+  const router = useRouter();
+  const { category } = router.query;
+
+  // const { id } = router.query;
+  // const product = productById(id);
+  //#################### */
+  // const [filteredProducts, setFilteredProducts] = useState([]);
+  // useEffect(() => {
+  //   setFilteredProducts(findProducts(searchInputText, product));
+  // }, [searchInputText]);
+  //****************************** */
+
+  // if (!allProducts || !product) {
+  //   return <h2>Produkte werden geladen</h2>;
+  // }
+
   const selectFirstColor = product?.colors[0];
   const [selectedArticle, setSelectedArticle] = useState(undefined);
   const [selectedColor, setSelectedColor] = useState(selectFirstColor);
@@ -82,41 +98,12 @@ function ProductDetails({
   } = product;
 
   const images = [];
-  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // filter products by search input
   useEffect(() => {
-    findProducts(searchInputText, staticProducts);
+    if (searchInputText.length > 0) {
+      router.push(`/products/${category}`);
+    }
   }, [searchInputText]);
-
-  function findProducts(searchInputText, products) {
-    const searchInput = searchInputText.toLowerCase().trim();
-
-    const filterProducts = products.filter((product) => {
-      const maxLength = 60; // Set the maximum length for the hint text
-      const name = product.product_name;
-      const description1 = product.product_description1;
-      const description2 = product.product_description2;
-
-      const articleNumber = product.articles.find((article) =>
-        article.article_number.startsWith(searchInput)
-      );
-      const productFullName = `${name} ${description1} ${description2}`
-        .toLowerCase()
-        .trim();
-
-      return (
-        (productFullName.length > maxLength
-          ? productFullName.slice(0, maxLength) + "..."
-          : productFullName
-        ).includes(searchInput) || articleNumber
-      );
-    });
-    //if search input is empty, set filteredProducts to empty string
-    setFilteredProducts(
-      searchInputText.length === 0 ? "" : filterProducts
-    );
-  }
 
   if (image1) {
     images.push({
@@ -141,6 +128,14 @@ function ProductDetails({
     });
   }
 
+  // //filter products by id
+  // function productById(id) {
+  //   const filteredProduct = allProducts.find(
+  //     (product) => product.product_id.toString() === id
+  //   );
+  //   return filteredProduct;
+  // }
+
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
       (article) => article.article_id === articleId
@@ -151,78 +146,68 @@ function ProductDetails({
   function selectedColorSetter(color) {
     setSelectedColor(color);
   }
-
-  const searchProductsByCategory =
-    searchInputText.length && filteredProducts
-      ? productsByCategory(filteredProducts, category)
-      : productsByCategory(staticProducts, category);
+  function goBack() {
+    router.back();
+  }
 
   return (
     <>
-      {searchInputText.length ? (
-        searchProductsByCategory.length ? (
-          <ProductList
-            products={searchProductsByCategory}
-            setSearchInputText={setSearchInputText}
-            category={"productDetails"}
+      <StyledHeadlineWrapper>
+        <StyledH1>{name}</StyledH1>
+        <StyledBackButton onClick={() => goBack()}>
+          <Icon
+            path={mdiChevronLeft}
+            size={1}
           />
-        ) : (
-          <StyledParagraph>kein Produkt gefunden</StyledParagraph>
-        )
-      ) : (
-        <>
-          <StyledH1>{name}</StyledH1>
-          <Descripton1>{description1}</Descripton1>
-          <Wrapper>
-            <ProductWrapper>
-              <DescriptionWrapper>
-                {description2 && <p>{description2}</p>}
-                {description3 && <p>{description3}</p>}
-                {description4 && <p>{description4}</p>}
-              </DescriptionWrapper>
+          {strings.backButton}
+        </StyledBackButton>
+      </StyledHeadlineWrapper>
+      <Descripton1>{description1}</Descripton1>
+      <Wrapper>
+        <ProductWrapper>
+          {description2 && <p>{description2}</p>}
+          {description3 && <p>{description3}</p>}
+          {description4 && <p>{description4}</p>}
 
-              {material && <p>Material: {material}</p>}
-              <StyledImageGalleryWrapper>
-                <ImageGallery
-                  items={images}
-                  showBullets={false}
-                  showThumbnails={image2 || image3 ? true : false}
-                  showPlayButton={false}
-                  slideDuration={300}
-                  showFullscreenButton={false}
-                  showNav={image2 || image3 ? true : false}
-                />
-              </StyledImageGalleryWrapper>
-            </ProductWrapper>
+          <p>Material: {material}</p>
+          <StyledImageGalleryWrapper>
+            <ImageGallery
+              items={images}
+              showBullets={false}
+              showThumbnails={image2 || image3 ? true : false}
+              showPlayButton={false}
+              slideDuration={300}
+              showFullscreenButton={false}
+              showNav={image2 || image3 ? true : false}
+            />
+          </StyledImageGalleryWrapper>
+        </ProductWrapper>
 
-            <ArticleWrapper>
-              {product.articles && (
-                <Articles
-                  articles={product.articles}
-                  selectedArticleSetter={selectedArticleSetter}
-                />
-              )}
+        <ArticleWrapper>
+          {product.articles && (
+            <Articles
+              articles={product.articles}
+              selectedArticleSetter={selectedArticleSetter}
+            />
+          )}
 
-              {product.colors && (
-                <ColorButtons
-                  colors={product.colors}
-                  selectedColor={selectedColor}
-                  selectedColorSetter={selectedColorSetter}
-                  firstColorName={selectFirstColor.color_name}
-                />
-              )}
-              <ShowSelection
-                selectedArticle={selectedArticle}
-                selectedColor={selectedColor}
-              />
-            </ArticleWrapper>
-          </Wrapper>
-        </>
-      )}
+          {product.colors && (
+            <ColorButtons
+              colors={product.colors}
+              selectedColor={selectedColor}
+              selectedColorSetter={selectedColorSetter}
+              firstColorName={selectFirstColor.color_name}
+            />
+          )}
+          <ShowSelection
+            selectedArticle={selectedArticle}
+            selectedColor={selectedColor}
+          />
+        </ArticleWrapper>
+      </Wrapper>
     </>
   );
 }
-//*************
 
 export default ProductDetails;
 
@@ -230,12 +215,48 @@ const Wrapper = styled.div`
   display: flex;
   gap: 3rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 780px) {
+    flex-direction: column;
+  }
+`;
+
+const StyledHeadlineWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const StyledH1 = styled.h1`
   text-align: start;
   font-size: 2rem;
   margin: 1rem 0;
+
+  @media (max-width: 780px) {
+    font-size: 1.5rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+`;
+
+const StyledBackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  background-color: transparent;
+  /* border: 1px solid var(--background-showSelection-border); */
+  border-radius: 4px;
+
+  cursor: pointer;
+  font-size: 1rem;
+
+  :hover,
+  :focus {
+    font-weight: bold;
+  }
 `;
 
 const ProductWrapper = styled.div`

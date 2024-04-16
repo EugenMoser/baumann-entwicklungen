@@ -1,24 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import Link from "next/link";
-import styled from "styled-components";
+import Link from 'next/link';
+import styled from 'styled-components';
 
-import {
-  mdiAirFilter,
-  mdiFlashOutline,
-  mdiTableFurniture,
-  mdiTournament,
-  mdiWaterOutline,
-} from "@mdi/js";
-import Icon from "@mdi/react";
+import Icon from '@mdi/react';
 
-import ProductList from "../components/ProductList";
-import { strings } from "../helpers/strings";
+import ProductList from '../components/ProductList';
+import { sections } from '../helpers/constants';
+import { findProducts } from '../helpers/services';
+import { strings } from '../helpers/strings';
 
-//******** für static website */
+//**************** für static website */
 
 const getProducts = async () => {
-  const res = await fetch("http://localhost:3000/api/getdata");
+  const res = await fetch('http://localhost:3000/api/getdata');
   const data = await res.json();
   return data.products;
 };
@@ -29,109 +24,84 @@ export async function getStaticProps(context) {
   return { props: { staticProducts: products } };
 }
 
-//********** */
+//****************************** */
 
-function Home({ staticProducts, searchInputText, setSearchInputText }) {
-  const [filteredProducts, setFilteredProducts] = useState([]);
-
-  //for static site generation (for dynamic site function is in _app.js )
-  function findProducts(searchInputText, products) {
-    const searchInput = searchInputText.toLowerCase().trim();
-
-    const filterProducts = products.filter((product) => {
-      const maxLength = 60; // Set the maximum length for the hint text
-      const name = product.product_name;
-      const description1 = product.product_description1;
-      const description2 = product.product_description2;
-
-      const articleNumber = product.articles.find((article) =>
-        article.article_number.startsWith(searchInput)
-      );
-      const productFullName = `${name} ${description1} ${description2}`
-        .toLowerCase()
-        .trim();
-
-      return (
-        (productFullName.length > maxLength
-          ? productFullName.slice(0, maxLength) + "..."
-          : productFullName
-        ).includes(searchInput) || articleNumber
-      );
-    });
-
-    //if search input is empty, set filteredProducts to empty string
-    setFilteredProducts(
-      searchInputText.length === 0 ? "" : filterProducts
-    );
-  }
-
-  useEffect(() => {
-    findProducts(searchInputText, staticProducts);
-  }, [searchInputText]);
-
+function Home({
+  allProducts,
+  searchInputText,
+  filteredProducts,
+  setSearchInputText,
+}) {
   return (
     <>
-      {filteredProducts.length && searchInputText.length ? (
-        <ProductList
-          products={filteredProducts}
-          hrefProduct={"/products"}
-          category={"startPage"}
-          setSearchInputText={setSearchInputText}
-        />
-      ) : !filteredProducts.length && searchInputText.length ? (
-        <StyledMessage>Kein Produkt gefunden.</StyledMessage>
+      {allProducts && allProducts.length ? (
+        filteredProducts.length && searchInputText.length ? (
+          <ProductList
+            products={filteredProducts}
+            hrefProduct={'/products'}
+            category={'startPage'}
+            setSearchInputText={setSearchInputText}
+          />
+        ) : !filteredProducts.length && searchInputText.length ? (
+          <StyledMessage>Kein Produkt gefunden.</StyledMessage>
+        ) : (
+          <StyledSection>
+            <StyledH1>{strings.companyWelcome}</StyledH1>
+            <StyledParagraph>{strings.companyDescription}</StyledParagraph>
+            <StyledH3>{strings.companyOurAreas}</StyledH3>
+            <StyledLink href='/products/moebel'>
+              <StyledButton>
+                <StyledIcon
+                  path={mdiTableFurniture}
+                  size={1.5}
+                />
+                Möbelbereich{' '}
+              </StyledButton>
+            </StyledLink>
+            <StyledLink href='/products/halterung'>
+              <StyledButton>
+                <StyledIcon
+                  path={mdiTournament}
+                  size={1.5}
+                />
+                Halterungen
+              </StyledButton>
+            </StyledLink>
+            <StyledLink href='/products/wasser'>
+              <StyledButton>
+                {' '}
+                <StyledIcon
+                  path={mdiWaterOutline}
+                  size={1.5}
+                />
+                Wasserbereich
+              </StyledButton>
+            </StyledLink>{' '}
+            <StyledLink href='/products/lueftung'>
+              <StyledButton>
+                <StyledIcon
+                  path={mdiAirFilter}
+                  size={1.5}
+                />
+                Lüftungsbereich
+              </StyledButton>
+            </StyledLink>
+            <StyledLink href='/products/elektro'>
+              <StyledButton>
+                <StyledIcon
+                  path={mdiFlashOutline}
+                  size={1.5}
+                />
+                Elektrobereich
+              </StyledButton>
+            </StyledLink>
+          </StyledSection>
+        )
       ) : (
-        <StyledSection>
-          <StyledH1>{strings.companyWelcome}</StyledH1>
-          <StyledParagraph>{strings.companyDescription}</StyledParagraph>
-          <StyledH3>{strings.companyOurAreas}</StyledH3>
-          <StyledLink href="/products/moebel">
-            <StyledButton>
-              <StyledIcon
-                path={mdiTableFurniture}
-                size={1.5}
-              />
-              Möbelbereich{" "}
-            </StyledButton>
-          </StyledLink>
-          <StyledLink href="/products/halterung">
-            <StyledButton>
-              <StyledIcon
-                path={mdiTournament}
-                size={1.5}
-              />
-              Halterungen
-            </StyledButton>
-          </StyledLink>
-          <StyledLink href="/products/wasser">
-            <StyledButton>
-              {" "}
-              <StyledIcon
-                path={mdiWaterOutline}
-                size={1.5}
-              />
-              Wasserbereich
-            </StyledButton>
-          </StyledLink>{" "}
-          <StyledLink href="/products/lueftung">
-            <StyledButton>
-              <StyledIcon
-                path={mdiAirFilter}
-                size={1.5}
-              />
-              Lüftungsbereich
-            </StyledButton>
-          </StyledLink>
-          <StyledLink href="/products/elektro">
-            <StyledButton>
-              <StyledIcon
-                path={mdiFlashOutline}
-                size={1.5}
-              />
-              Elektrobereich
-            </StyledButton>
-          </StyledLink>
-        </StyledSection>
+        <StyledMessage>
+          Seite konnte nicht geladen werden. Bitte versuchen Sie es später
+          nochmal.
+        </StyledMessage>
       )}
     </>
   );
@@ -145,43 +115,51 @@ const StyledH1 = styled.h1`
 `;
 const StyledH3 = styled.h3`
   display: flex;
+  justify-content: center;
   font-size: 1.75rem;
-  margin: 2rem 0 0.5rem;
-`;
-
-const StyledIcon = styled(Icon)`
-  margin: auto 1rem auto;
+  margin: 2rem 0 1.25rem;
 `;
 
 const StyledSection = styled.section`
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+
+  a {
+    width: 100%;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100px;
+      background-color: var(--background-category-color);
+      border: none;
+      border-radius: 5px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      &:hover,
+      &:focus {
+        background-color: var(--background-category-hover-color);
+      }
+    }
+  }
+
+  li {
+    display: flex;
+  }
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-const StyledButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100px;
-  background-color: var(--background-category-color);
-  border: none;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  cursor: pointer;
-  &:hover,
-  &:focus {
-    background-color: var(--background-category-hover-color);
-  }
-`;
-
 const StyledParagraph = styled.p`
   line-height: 1.5;
+
+  @media (max-width: var( --breakpoint-small)) {
+  }
 `;
 
 const StyledMessage = styled.p`
@@ -189,4 +167,9 @@ const StyledMessage = styled.p`
   color: var(--red);
   margin: 3rem 0;
   text-align: center;
+`;
+
+const StyledButton = styled.button`
+  font-size: 2rem !important;
+  gap: 1rem;
 `;

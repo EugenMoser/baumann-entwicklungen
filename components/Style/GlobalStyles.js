@@ -12,7 +12,18 @@ const GlobalStyles = createGlobalStyle`
     --background-showSelection-border: #bcbcc5;
     --white: #ffffff;
     --red: #ff0000;
+    --large-device-width: 1200px;
+    --medium-device-width: 768px;
+    --small-device-width: 480px;
+
+    --small-product-headline: 1rem;
+    --small-product-description: 0.8rem;
+
+    --medium-product-headline: 1.5rem;
+    --medium-product-description: 1.25rem;
+
     
+   
  
 }
 @font-face {
@@ -27,25 +38,26 @@ src: url("/fonts/Rubik-VariableFont_wght.ttf");}
     font-family: 'Rubik', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
 }
-  
-    body {
-        width: 980px;
-        padding: 0;
-        margin: 0 auto;       
+
+body {
+    padding: 0;
+    margin: 0 5rem;
+    max-width: 100%;
+    @media (max-width: 768px) {
+        margin: 0 2rem;
     }
-
-
-
-
-    main {
-      
-        align-self: center;
-        width: 980px;
-        padding-bottom: 1rem;
-        
-       
-        
+    @media (max-width: 480px) {
+        margin: 0 1rem;
     }
+}
+
+main {
+    width: 100%;
+    align-self: center;
+    padding-bottom: 1rem;
+    
+}
+
 `;
 
 export default GlobalStyles;

@@ -2,6 +2,8 @@ import Link from "next/link";
 import styled from "styled-components";
 
 import {
+  mdiAccountBoxOutline,
+  mdiClose,
   mdiEmailOutline,
   mdiMailboxOpenOutline,
   mdiPhoneOutline,
@@ -9,9 +11,12 @@ import {
 import Icon from "@mdi/react";
 
 import { strings } from "../../helpers/strings";
-import Svg from "../Svg";
 
 function ContactModal({ openContact, setOpenContact }) {
+  function onClickBackground() {
+    setOpenContact(!openContact);
+  }
+
   return (
     <>
       <StyledContactButton
@@ -19,22 +24,21 @@ function ContactModal({ openContact, setOpenContact }) {
           setOpenContact(!openContact);
         }}
       >
-        <Svg
-          variant="contact"
-          size="80%"
-          max-size="50px"
-        />
-        Kontakt
+        <Icon path={mdiAccountBoxOutline} />
+        <p>Kontakt</p>
       </StyledContactButton>
       {openContact && (
-        <ModalBackground>
+        <ModalBackground onClick={onClickBackground}>
           <Modal>
             <StyledCloseButton
               onClick={() => {
                 setOpenContact(!openContact);
               }}
             >
-              <Svg variant="close" />
+              <Icon
+                path={mdiClose}
+                size={1.3}
+              />
             </StyledCloseButton>
             <h1>Kontaktdaten</h1>
             <StyledAdress>
@@ -78,25 +82,47 @@ function ContactModal({ openContact, setOpenContact }) {
 
 export default ContactModal;
 
+const StyledContactButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: self-end;
+  background-color: transparent;
+  cursor: pointer;
+  max-width: 50px;
+  max-height: 90px;
+  font-size: 100%;
+  border: none;
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  @media (max-width: 550px) {
+    font-size: 0.8rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+`;
+
 const ModalBackground = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.4);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: 100;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`;
-
-const StyledContactButton = styled.button`
-  background-color: transparent;
-  cursor: pointer;
-  max-width: 70px;
-  max-height: 90px;
-  width: 30vw;
-  font-size: calc(12px + 0.5vw);
-  border: none;
+  animation: fadein 0.5s;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const Modal = styled.address`
@@ -108,7 +134,7 @@ const Modal = styled.address`
   top: 50%;
   left: 50%;
   width: 60vw;
-  height: 40vh;
+  height: auto;
 
   max-width: 500px;
   max-height: 320px;
@@ -117,12 +143,22 @@ const Modal = styled.address`
   box-shadow: 0 0 10px rgb(0 0 0 / 6%), 0 5px 20px rgb(0 0 0 / 5%);
   transform: translate(-50%, -50%);
   padding: 30px 30px;
-
-  @media (max-width: 560px) {
+  transition: all 5.5s ease;
+  @media (max-width: 768px) {
     h1 {
-      font-size: 1rem;
+      font-size: 1.25rem;
     }
-    font-size: 0.75rem;
+    font-size: 1rem;
+    max-width: 100%;
+    max-height: auto;
+  }
+  @media (max-width: 480px) {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: auto;
+    top: 0;
+    transform: translate(-50%, 0);
   }
 `;
 

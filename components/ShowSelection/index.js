@@ -18,11 +18,11 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
       {selectedArticle && selectedColor ? (
         <>
           <StyledArticleNumber>
-            Artikelnummer: {fulllArticleNumber}
+            {strings.articleNumberLabel} {fulllArticleNumber}
           </StyledArticleNumber>{" "}
           <StyledSpecials>
             <>
-              <StyledLabel>Besonderheiten:</StyledLabel>
+              <StyledLabel>{strings.specialsLabel}</StyledLabel>
               <StyledList>
                 {selectedArticle.article_description && (
                   <li>{selectedArticle.article_description}</li>
@@ -40,7 +40,7 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
             </>
           </StyledSpecials>
           <StyledVpe>
-            <StyledLabel>Mögliche Verpackungseinheiten (VPE):</StyledLabel>
+            <StyledLabel>{strings.vpeLabel}</StyledLabel>
             <StyledList>
               {selectedArticle.vpe1 && (
                 <li>{selectedArticle.vpe1} Stück</li>
@@ -68,16 +68,13 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
             )} `}
             method="post"
           >
-            <StyledInputButton
-              type="submit"
-              value={strings.request}
-            />
+            <StyledInputButton type="submit">
+              {strings.request}
+            </StyledInputButton>
           </StyledForm>
         </>
       ) : (
-        <StyledParagraph>
-          Bitte Produkt-Variante und Farbe auswählen.
-        </StyledParagraph>
+        <StyledParagraph>{strings.chooseProductAndColor}</StyledParagraph>
       )}
     </StyledResultSection>
   );
@@ -91,7 +88,7 @@ const StyledResultSection = styled.section`
   padding: 1rem 1rem;
 `;
 
-const StyledArticleNumber = styled.p`
+const StyledArticleNumber = styled.h2`
   font-size: 1.25rem;
   font-weight: bold;
   margin: 0 0 1rem;
@@ -123,16 +120,16 @@ const StyledForm = styled.form`
   justify-content: flex-end;
 `;
 
-const StyledInputButton = styled.input`
+const StyledInputButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   border-style: none;
-  width: 40%;
   height: 2rem;
   border-radius: 4px;
   background-color: black;
   color: var(--white);
+  padding: 0.5rem 1rem;
 
   &:hover,
   :active {

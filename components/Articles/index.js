@@ -1,13 +1,18 @@
-import * as React from "react";
-import { useEffect, useState } from "react";
+import * as React from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { strings } from "../../helpers/strings";
-import Article from "./Article";
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import { Select } from '@mui/joy';
+
+import { strings } from '../../helpers/strings';
+import Article from './Article';
 
 export default function Articles({ articles, selectedArticleSetter }) {
-  const [defaultArticle, setDefaultArticle] = useState(9999);
   const [isArticleDescriptionAvailable, setIsArticleDescriptionAvailable] =
     useState(true);
 
@@ -17,15 +22,12 @@ export default function Articles({ articles, selectedArticleSetter }) {
 
   useEffect(() => {
     if (articles.length === 1) {
-      setDefaultArticle(articles[0].article_id);
       selectedArticleSetter(articles[0].article_id);
-    } else {
-      setDefaultArticle(9999);
     }
   }, []);
 
-  function handleOnChange(articleId) {
-    selectedArticleSetter(articleId);
+  function handleOnRenderValue(value) {
+    selectedArticleSetter(value.value);
   }
 
   //sort the articles by column prio
@@ -39,23 +41,25 @@ export default function Articles({ articles, selectedArticleSetter }) {
     >
       <StyledLabel htmlFor="article">
         {strings.articleVaraintLabel}
-        <StyledSpan> {strings.articleVariant}</StyledSpan>
       </StyledLabel>
+      <StyledSpan> {strings.articleVariant}</StyledSpan>
+
       <StyledSelect
         id="article"
         name="article"
-        onChange={(option) => handleOnChange(Number(option.target.value))}
-        defaultValue={defaultArticle && defaultArticle}
+        placeholder="Bitte wählen"
+        indicator={<KeyboardArrowDown />}
+        renderValue={(value) => {
+          handleOnRenderValue(value);
+          return value.label;
+        }}
+        slotProps={{
+          listbox: {
+            sx: { minWidth: 180 },
+          },
+        }}
         required
       >
-        {defaultArticle === 9999 && (
-          <option
-            value="9999"
-            disabled
-          >
-            Bitte wählen
-          </option>
-        )}
         {sortedArticles.map((article, index) => (
           <Article
             article={article}
@@ -71,7 +75,7 @@ export default function Articles({ articles, selectedArticleSetter }) {
 }
 
 const StyledArticleSection = styled.section`
-  /* display: flex; */
+  display: flex;
   display: ${(props) =>
     props.isArticleDescriptionAvailable === false && "none"};
 
@@ -83,14 +87,15 @@ const StyledArticleSection = styled.section`
 const StyledLabel = styled.label`
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 0.75rem;
 `;
 
 const StyledSpan = styled.span`
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
   color: var(--font-color-varant);
 `;
 
-const StyledSelect = styled.select`
+const StyledSelect = styled(Select)`
   width: 100%;
   height: 2rem;
   padding: 0 0.5rem;

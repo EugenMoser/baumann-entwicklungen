@@ -1,13 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import Link from "next/link";
 import { useRouter } from "next/router";
 import styled, { css } from "styled-components";
 
+import { sections } from "../../helpers/constants";
+import BurgerMenu from "./Burger";
+import Menu from "./Menu";
+
 function Navbar() {
   const [isDisplayed, setIsDisplayed] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const path = router.asPath;
+
+  // Window width check
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  // Effect for resizing window
+  useEffect(() => {
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (path === "/") {
@@ -16,66 +35,27 @@ function Navbar() {
   }, [path]);
 
   return (
-    <StyledNav>
-      {isDisplayed && (
-        <StyledList>
-          <li>
-            <StyledLink
-              variant={
-                path.startsWith("/products/moebel") ? "active" : "inactive"
-              }
-              href="/products/moebel"
-            >
-              Möbelbereich
-            </StyledLink>
-          </li>
-          <li>
-            <StyledLink
-              variant={
-                path.startsWith("/products/halterung")
-                  ? "active"
-                  : "inactive"
-              }
-              href="/products/halterung"
-            >
-              Halterungen
-            </StyledLink>
-          </li>
-          <li>
-            <StyledLink
-              variant={
-                path.startsWith("/products/wasser") ? "active" : "inactive"
-              }
-              href="/products/wasser"
-            >
-              Wasserbereich
-            </StyledLink>
-          </li>
-          <li>
-            <StyledLink
-              variant={
-                path.startsWith("/products/lueftung")
-                  ? "active"
-                  : "inactive"
-              }
-              href="/products/lueftung"
-            >
-              Lüftungsbereich
-            </StyledLink>
-          </li>
-          <li>
-            <StyledLink
-              variant={
-                path === "/products/elektro" ? "active" : "inactive"
-              }
-              href="/products/elektro"
-            >
-              Elektrobereich
-            </StyledLink>
-          </li>
-        </StyledList>
-      )}
-    </StyledNav>
+    <>
+      <StyledNav
+        isMobile={isMobile}
+        isDisplayed={isDisplayed}
+      >
+        {!isMobile && (
+          <Menu
+            sections={sections}
+            path={path}
+          />
+        )}
+        {isMobile && (
+          <>
+            <BurgerMenu
+              sections={sections}
+              path={path}
+            />
+          </>
+        )}
+      </StyledNav>
+    </>
   );
 }
 
@@ -85,33 +65,19 @@ const StyledNav = styled.nav`
   background-color: var(--white);
   position: sticky;
   top: 0;
-`;
-
-const StyledList = styled.ul`
-  display: flex;
-  justify-content: space-around;
-  margin: 2rem 0;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: var(--font-color);
-
-  ${({ variant }) =>
-    variant === "active" &&
+  padding: 1rem 0;
+  align-items: center;
+  z-index: 50;
+  ${(props) =>
+    props.isMobile &&
     css`
-      /* text-decoration: underline; */
-      border-bottom: 2px solid black;
-
-      &:hover,
-      :active {
-        color: var(--font-color-hover);
-        border-bottom: 2px solid var(--font-color-hover);
-      }
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
     `}
-
-  &:hover,
-  :active {
-    color: var(--font-color-hover);
-  }
+  ${(props) =>
+    !props.isDisplayed &&
+    css`
+      display: none;
+    `}
 `;

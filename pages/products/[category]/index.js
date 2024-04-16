@@ -1,16 +1,21 @@
 //products by category
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import styled from "styled-components";
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
-import ProductList from "../../../components/ProductList";
-import { productsByCategory } from "../../../helpers/services";
+import ProductList from '../../../components/ProductList';
+import { sections } from '../../../helpers/constants';
+import {
+  findProducts,
+  productsByCategory,
+} from '../../../helpers/services';
 
-//******** für static website */
+//**************** für static website */
 
 const getProducts = async () => {
-  const res = await fetch("http://localhost:3000/api/getdata");
+  const res = await fetch('http://localhost:3000/api/getdata');
   const data = await res.json();
   return data.products;
 };
@@ -32,73 +37,45 @@ export async function getStaticProps(context) {
   return { props: { staticProducts: filteredProducts } };
 }
 
-//********** */
+//****************** */
 
 function ProductCategory({
+  //******** für static website */
   staticProducts,
+  // allProducts,
+  // filteredProducts,
   searchInputText,
   setSearchInputText,
 }) {
+  //**************** für static website */
+  const allProducts = staticProducts;
   const category = staticProducts[0].category;
   const [filteredProducts, setFilteredProducts] = useState([]);
-
-  //for static site generation (for dynamic site function is in _app.js )
-  function findProducts(searchInputText, products) {
-    const searchInput = searchInputText.toLowerCase().trim();
-
-    const filterProducts = products.filter((product) => {
-      const maxLength = 60; // Set the maximum length for the hint text
-      const name = product.product_name;
-      const description1 = product.product_description1;
-      const description2 = product.product_description2;
-
-      const articleNumber = product.articles.find((article) =>
-        article.article_number.startsWith(searchInput)
-      );
-      const productFullName = `${name} ${description1} ${description2}`
-        .toLowerCase()
-        .trim();
-
-      return (
-        (productFullName.length > maxLength
-          ? productFullName.slice(0, maxLength) + "..."
-          : productFullName
-        ).includes(searchInput) || articleNumber
-      );
-    });
-
-    //if search input is empty, set filteredProducts to empty string
-    setFilteredProducts(
-      searchInputText.length === 0 ? "" : filterProducts
-    );
-  }
-
   useEffect(() => {
-    findProducts(searchInputText, staticProducts);
+    setFilteredProducts(findProducts(searchInputText, staticProducts));
   }, [searchInputText]);
+  // useEffect(() => {
+  //   setSearchInputText('');
+  // }, []);
+  // const router = useRouter();
+  // const { category } = router.query;
+
+  //****************** */
 
   const searchProductsByCategory =
     searchInputText.length && filteredProducts
       ? productsByCategory(filteredProducts, category)
-      : productsByCategory(staticProducts, category);
+      : productsByCategory(allProducts, category);
 
   return (
     <>
-      {category === "moebel" ? (
-        <StyledH1>Möbelbereich</StyledH1>
-      ) : category === "halterung" ? (
-        <StyledH1>Halterungen</StyledH1>
-      ) : category === "wasser" ? (
-        <StyledH1>Wasserbereich</StyledH1>
-      ) : category === "lueftung" ? (
-        <StyledH1>Lüftungsbereich</StyledH1>
-      ) : category === "elektro" ? (
-        <StyledH1>Elektrobereich</StyledH1>
-      ) : (
-        <StyledH1>Keine Kategorie</StyledH1>
-      )}
+      {sections.map((section) => {
+        category === section.category && (
+          <StyledH1>{section.name}</StyledH1>
+        );
+      })}
 
-      {staticProducts ? (
+      {searchProductsByCategory.length ? (
         <ProductList
           products={searchProductsByCategory}
           category={category}

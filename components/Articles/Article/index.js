@@ -1,5 +1,7 @@
-import * as React from "react";
-import { useEffect } from "react";
+import * as React from 'react';
+import { useEffect } from 'react';
+
+import { Option } from '@mui/joy';
 
 export default function Article({
   article,
@@ -11,8 +13,8 @@ export default function Article({
     }
   }, []);
   return (
-    <option value={article.article_id}>
+    <Option value={article.article_id}>
       {article.article_description}
-    </option>
+    </Option>
   );
 }
