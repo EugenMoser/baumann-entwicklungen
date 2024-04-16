@@ -1,52 +1,30 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { useRouter } from "next/router";
-import styled from "styled-components";
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
-// import { createFilterOptions } from "@material-ui/lab";
-// import Autocomplete from "@mui/material/Autocomplete";
-import { Autocomplete, Stack, TextField } from "@mui/material";
-
-// import TextField from "@mui/material/TextField";
 import {
-  findProductName,
-  productsByCategory,
-} from "../../helpers/services";
+  Autocomplete,
+  Stack,
+  TextField,
+} from '@mui/material';
 
-function Searchbar({ allProducts, searchInputText, setSearchInputText }) {
+import { sections } from '../../helpers/constants';
+
+function Searchbar({ searchInputText, setSearchInputText }) {
   const router = useRouter();
   const { category } = router.query;
-
-  //dis[display]play all products or searched products at autocomplete
-  const displayProducts =
-    category && searchInputText
-      ? productsByCategory(allProducts, category)
-      : allProducts;
 
   function changeHandler(event, value) {
     setSearchInputText(value);
   }
 
   function getLabel(category) {
-    let categoryLabel = "";
-    switch (category) {
-      case "moebel":
-        categoryLabel = "Möbelbereich";
-        break;
-      case "halterung":
-        categoryLabel = "Halterung";
-        break;
-      case "wasser":
-        categoryLabel = "Wasserbereich";
-        break;
-      case "elektro":
-        categoryLabel = "Elektronikbereich";
-        break;
-      case "lueftung":
-        categoryLabel = "Lüftungbereich";
-        break;
-    }
+    const categoryLabel = sections.find(
+      (section) => section.category === category
+    )?.name;
     const label = category ? `${categoryLabel} durchsuchen` : "suchen";
+
     return label;
   }
 

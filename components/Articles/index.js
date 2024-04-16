@@ -1,17 +1,18 @@
-import * as React from "react";
-import { useEffect, useState } from "react";
+import * as React from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import Option from "@mui/joy/Option";
-import Select, { selectClasses } from "@mui/joy/Select";
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import { Select } from '@mui/joy';
 
-import { strings } from "../../helpers/strings";
-import Article from "./Article";
+import { strings } from '../../helpers/strings';
+import Article from './Article';
 
 export default function Articles({ articles, selectedArticleSetter }) {
-  const [defaultArticle, setDefaultArticle] = useState(9999);
   const [isArticleDescriptionAvailable, setIsArticleDescriptionAvailable] =
     useState(true);
 
@@ -21,10 +22,7 @@ export default function Articles({ articles, selectedArticleSetter }) {
 
   useEffect(() => {
     if (articles.length === 1) {
-      setDefaultArticle(articles[0].article_id);
       selectedArticleSetter(articles[0].article_id);
-    } else {
-      setDefaultArticle(9999);
     }
   }, []);
 

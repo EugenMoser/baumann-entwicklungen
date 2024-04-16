@@ -1,17 +1,22 @@
-import * as React from "react";
+import * as React from 'react';
 
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
-import { mdiMenu } from "@mdi/js";
-import Icon from "@mdi/react";
-import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/joy";
+import { mdiMenu } from '@mdi/js';
+import Icon from '@mdi/react';
+import {
+  Dropdown,
+  Menu,
+  MenuButton,
+  MenuItem,
+} from '@mui/joy';
 
 function BurgerMenu({ sections, path }) {
   return (
     <>
       <h2>
         {sections.map(
-          (section) => path.includes(section.label) && section.name
+          (section) => path.includes(section.category) && section.name
         )}
       </h2>
       <StyledDropdown>
@@ -27,10 +32,10 @@ function BurgerMenu({ sections, path }) {
               <StyledMenuItem
                 key={index}
                 onClick={() =>
-                  (location.href = `/products/${section.label}`)
+                  (location.href = `/products/${section.category}`)
                 }
                 variant={
-                  path.startsWith(`/products/${section.label}`)
+                  path.startsWith(`/products/${section.category}`)
                     ? "active"
                     : "inactive"
                 }

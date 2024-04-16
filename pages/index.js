@@ -1,22 +1,25 @@
-import Link from "next/link";
-import styled from "styled-components";
+import Link from 'next/link';
+import styled from 'styled-components';
 
-import Icon from "@mdi/react";
+import Icon from '@mdi/react';
 
-import ProductList from "../components/ProductList";
-import { sections } from "../helpers/constants";
-import { strings } from "../helpers/strings";
+import ProductList from '../components/ProductList';
+import { sections } from '../helpers/constants';
+import { strings } from '../helpers/strings';
 
 function Home({ allProducts, searchInputText, filteredProducts }) {
   function deleteSessionStorage() {
-    sessionStorage.removeItem("TILO_scrollPosition");
+    //fix issus "localStorage is not defined"
+    if (typeof window !== "undefined") {
+      sessionStorage && sessionStorage.removeItem("TILO_scrollPosition");
+    }
   }
 
   function createSection() {
     const returnSection = sections.map((section, index) => {
       return (
         <li key={index}>
-          <StyledLink href={`/products/${section.label}`}>
+          <StyledLink href={`/products/${section.category}`}>
             <StyledButton onClick={deleteSessionStorage()}>
               <Icon
                 path={section.icon}

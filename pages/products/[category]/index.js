@@ -1,11 +1,11 @@
 //products by category
 
-import { useRouter } from "next/router";
-import styled from "styled-components";
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
-import ProductList from "../../../components/ProductList";
-import { sections } from "../../../helpers/constants";
-import { productsByCategory } from "../../../helpers/services";
+import ProductList from '../../../components/ProductList';
+import { sections } from '../../../helpers/constants';
+import { productsByCategory } from '../../../helpers/services';
 
 function ProductCategory({
   allProducts,
@@ -24,7 +24,9 @@ function ProductCategory({
   return (
     <>
       {sections.map((section) => {
-        category === section.label && <StyledH1>{section.name}</StyledH1>;
+        category === section.category && (
+          <StyledH1>{section.name}</StyledH1>
+        );
       })}
 
       {searchProductsByCategory.length ? (

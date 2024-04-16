@@ -1,35 +1,33 @@
 //products details
 
-import "react-image-gallery/styles/css/image-gallery.css";
+import 'react-image-gallery/styles/css/image-gallery.css';
 
-import * as React from "react";
-import { useState } from "react";
+import * as React from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useRouter } from "next/router";
-import ImageGallery from "react-image-gallery";
-import styled from "styled-components";
+import { useRouter } from 'next/router';
+import ImageGallery from 'react-image-gallery';
+import styled from 'styled-components';
 
-import { mdiChevronLeft } from "@mdi/js";
-import Icon from "@mdi/react";
+import { mdiChevronLeft } from '@mdi/js';
+import Icon from '@mdi/react';
 
-import Articles from "../../../../components/Articles";
-import ColorButtons from "../../../../components/ColorButtons";
-import ProductList from "../../../../components/ProductList";
-import ShowSelection from "../../../../components/ShowSelection";
-import { strings } from "../../../../helpers/strings";
+import Articles from '../../../../components/Articles';
+import ColorButtons from '../../../../components/ColorButtons';
+import ShowSelection from '../../../../components/ShowSelection';
+import { strings } from '../../../../helpers/strings';
 
-function ProductDetails({
-  allProducts,
-  searchInputText,
-  filteredProducts,
-  setSearchInputText,
-}) {
+function ProductDetails({ allProducts, searchInputText }) {
   const router = useRouter();
-  const { id, category } = router.query;
+  const { id } = router.query;
   const product = productById(id);
   if (!allProducts || !product) {
     return <h2>Produkte werden geladen</h2>;
   }
+
   const selectFirstColor = product?.colors[0];
   const [selectedArticle, setSelectedArticle] = useState(undefined);
   const [selectedColor, setSelectedColor] = useState(selectFirstColor);
@@ -46,6 +44,14 @@ function ProductDetails({
   } = product;
 
   const images = [];
+  console.log("searchInputText", searchInputText);
+
+  useEffect(() => {
+    if (searchInputText.length > 0) {
+      console.log("searchInputText", searchInputText);
+      router.back();
+    }
+  }, [searchInputText]);
 
   if (image1) {
     images.push({
@@ -91,6 +97,7 @@ function ProductDetails({
   function goBack() {
     router.back();
   }
+
   return (
     <>
       <StyledHeadlineWrapper>
@@ -108,6 +115,7 @@ function ProductDetails({
         <ProductWrapper>
           {description2 && <p>{description2}</p>}
           {description3 && <p>{description3}</p>}
+          {description4 && <p>{description4}</p>}
 
           <p>Material: {material}</p>
           <StyledImageGalleryWrapper>

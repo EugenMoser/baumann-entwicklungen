@@ -1,13 +1,9 @@
-import Image from "next/image";
-import Link from "next/link";
-import styled from "styled-components";
+import Image from 'next/image';
+import Link from 'next/link';
+import styled from 'styled-components';
 
-export default function Product({
-  product,
-  category,
-  hrefProduct,
-  scrollValue,
-}) {
+export default function Product({ product, category, hrefProduct }) {
+  console.log("@produkt", product, category, hrefProduct);
   return (
     <StyledLink href={`.${hrefProduct}/${category}/${product.product_id}`}>
       <ImageWrapper>

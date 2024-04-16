@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
-import styled from "styled-components";
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
-import ContactModal from "../ContactModal";
-import Searchbar from "../Searchbar";
+import ContactModal from '../ContactModal';
+import Searchbar from '../Searchbar';
 
 function Header({
   openContact,
@@ -32,7 +32,6 @@ function Header({
 
       <MobileContainer>
         <Searchbar
-          allProducts={allProducts}
           setSearchInputText={setSearchInputText}
           searchInputText={searchInputText}
         />
