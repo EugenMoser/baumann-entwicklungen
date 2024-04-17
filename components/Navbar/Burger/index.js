@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 
 import { mdiMenu } from '@mdi/js';
@@ -12,6 +13,7 @@ import {
 } from '@mui/joy';
 
 function BurgerMenu({ sections, path }) {
+  const router = useRouter();
   return (
     <>
       <h2>
@@ -32,12 +34,12 @@ function BurgerMenu({ sections, path }) {
               <StyledMenuItem
                 key={index}
                 onClick={() =>
-                  (location.href = `/products/${section.category}`)
+                  router.push(`/products/${section.category}`)
                 }
                 variant={
                   path.startsWith(`/products/${section.category}`)
-                    ? "active"
-                    : "inactive"
+                    ? 'active'
+                    : 'inactive'
                 }
               >
                 <Icon
@@ -75,7 +77,7 @@ const StyledMenuItem = styled(MenuItem)`
     background-color: var(--background-category-hover-color);
   }
   ${({ variant }) =>
-    variant === "active" &&
+    variant === 'active' &&
     css`
       color: var(--font-color-hover);
     `}
