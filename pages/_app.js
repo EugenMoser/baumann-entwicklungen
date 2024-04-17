@@ -11,19 +11,18 @@ function MyApp({ Component, pageProps }) {
   const [products, setProducts] = useState([]);
 
   //search text input
-  const [searchInputText, setSearchInputText] = useState("");
+  const [searchInputText, setSearchInputText] = useState('');
 
   //filtered products for search text input
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  console.log("filteredProducts", filteredProducts);
   const apiURL = `http://localhost:3000/api/getdata`;
 
   useEffect(() => {
     try {
       fetchAllProducts();
     } catch (error) {
-      console.error("Fehler beim Abruf der Produkte" + error.message);
+      console.error('Fehler beim Abruf der Produkte' + error.message);
     }
   }, []);
 
@@ -52,7 +51,7 @@ function MyApp({ Component, pageProps }) {
           searchInputText={searchInputText}
           setSearchInputText={setSearchInputTextHandler}
         />
-      </Layout>{" "}
+      </Layout>{' '}
     </>
   );
 }

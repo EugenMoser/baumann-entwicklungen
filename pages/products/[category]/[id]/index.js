@@ -44,11 +44,9 @@ function ProductDetails({ allProducts, searchInputText }) {
   } = product;
 
   const images = [];
-  console.log("searchInputText", searchInputText);
 
   useEffect(() => {
     if (searchInputText.length > 0) {
-      console.log("searchInputText", searchInputText);
       router.back();
     }
   }, [searchInputText]);

@@ -1,5 +1,5 @@
-import Link from "next/link";
-import styled from "styled-components";
+import Link from 'next/link';
+import styled from 'styled-components';
 
 import {
   mdiAccountBoxOutline,
@@ -7,10 +7,10 @@ import {
   mdiEmailOutline,
   mdiMailboxOpenOutline,
   mdiPhoneOutline,
-} from "@mdi/js";
-import Icon from "@mdi/react";
+} from '@mdi/js';
+import Icon from '@mdi/react';
 
-import { strings } from "../../helpers/strings";
+import { strings } from '../../helpers/strings';
 
 function ContactModal({ openContact, setOpenContact }) {
   function onClickBackground() {
@@ -25,7 +25,7 @@ function ContactModal({ openContact, setOpenContact }) {
         }}
       >
         <Icon path={mdiAccountBoxOutline} />
-        <p>Kontakt</p>
+        <p> {strings.contaktButtonlabel}</p>
       </StyledContactButton>
       {openContact && (
         <ModalBackground onClick={onClickBackground}>
@@ -40,7 +40,7 @@ function ContactModal({ openContact, setOpenContact }) {
                 size={1.3}
               />
             </StyledCloseButton>
-            <h1>Kontaktdaten</h1>
+            <h1> {strings.contactModalHeadline}</h1>
             <StyledAdress>
               <StyledAdressDiv>
                 <Icon
@@ -48,11 +48,13 @@ function ContactModal({ openContact, setOpenContact }) {
                   size={1}
                 />
                 <div>
-                  Tilo Baumann Spritzgussteile e.K.
+                  {strings.company}
                   <br />
-                  Brugg 39
+                  {strings.street}
                   <br />
-                  88167 Gestratz
+                  {strings.postalCode} {strings.city}
+                  <br />
+                  {strings.country}
                 </div>
               </StyledAdressDiv>
 
@@ -61,7 +63,7 @@ function ContactModal({ openContact, setOpenContact }) {
                 <Icon
                   path={mdiPhoneOutline}
                   size={1}
-                />{" "}
+                />{' '}
                 <span>{strings.displayPhoneNumber}</span>
               </StyledLink>
               <br />
@@ -114,15 +116,6 @@ const ModalBackground = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  animation: fadein 0.5s;
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
 `;
 
 const Modal = styled.address`
@@ -143,14 +136,13 @@ const Modal = styled.address`
   box-shadow: 0 0 10px rgb(0 0 0 / 6%), 0 5px 20px rgb(0 0 0 / 5%);
   transform: translate(-50%, -50%);
   padding: 30px 30px;
-  transition: all 5.5s ease;
   @media (max-width: 768px) {
     h1 {
       font-size: 1.25rem;
     }
     font-size: 1rem;
     max-width: 100%;
-    max-height: auto;
+    max-height: 100%;
   }
   @media (max-width: 480px) {
     width: 100%;

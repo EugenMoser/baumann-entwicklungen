@@ -8,7 +8,6 @@ export default function Product({
   hrefProduct,
   setSearchInputText,
 }) {
-  console.log('@produkt', product, category, hrefProduct);
   return (
     <StyledButton
       onClick={() => setSearchInputText && setSearchInputText('')}
