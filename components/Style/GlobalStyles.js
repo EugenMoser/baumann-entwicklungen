@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 
@@ -19,8 +19,11 @@ const GlobalStyles = createGlobalStyle`
     --small-product-headline: 1rem;
     --small-product-description: 0.8rem;
 
-    --medium-product-headline: 1.5rem;
-    --medium-product-description: 1.25rem;
+    --medium-product-headline: 1.25rem;
+    --medium-product-description: 1rem;
+
+    --large-product-headline: 1.5rem;
+    --large-product-description: 1.25rem;
 
     
    
