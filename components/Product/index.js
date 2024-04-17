@@ -27,7 +27,31 @@ export default function Product({
             height={80}
           />
         </ImageWrapper>
+        <StyledButton
+          onClick={() => setSearchInputText && setSearchInputText('')}
+        >
+          <StyledLink
+            href={`.${hrefProduct}/${category}/${product.product_id}`}
+          >
+            <ImageWrapper>
+              <StyledImage
+                src={
+                  product.product_imagepath_small
+                    ? product.product_imagepath_small
+                    : '/images/placeholder.jpg'
+                }
+                alt={product.product_name}
+                width={80}
+                height={80}
+              />
+            </ImageWrapper>
 
+            <TextWrapper>
+              <h3>{product.product_name}</h3>
+              <p>{product.product_description1}</p>
+            </TextWrapper>
+          </StyledLink>
+        </StyledButton>
         <TextWrapper>
           <h3>{product.product_name}</h3>
           <p>{product.product_description1}</p>
@@ -56,6 +80,7 @@ const StyledLink = styled(Link)`
   gap: 1rem;
   align-items: center;
   color: var(--font-color);
+  text-decoration: none;
 `;
 
 const TextWrapper = styled.div`
@@ -64,22 +89,12 @@ const TextWrapper = styled.div`
 
   h3 {
     font-size: var(--medium-product-headline);
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1; /* number of lines to show */
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
   }
   p {
     font-size: var(--medium-product-description);
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* number of lines to show */
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
     padding-right: 1rem;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1000px) {
     h3 {
       font-size: var(--small-product-headline);
     }
