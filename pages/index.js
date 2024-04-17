@@ -13,10 +13,10 @@ import { sections } from '../helpers/constants';
 import { findProducts } from '../helpers/services';
 import { strings } from '../helpers/strings';
 
-//******** für static website */
+//**************** für static website */
 
 const getProducts = async () => {
-  const res = await fetch("http://localhost:3000/api/getdata");
+  const res = await fetch('http://localhost:3000/api/getdata');
   const data = await res.json();
   return data.products;
 };
@@ -27,63 +27,27 @@ export async function getStaticProps(context) {
   return { props: { staticProducts: products } };
 }
 
-//********** */
+//****************************** */
 
 function Home({
-  //******** für static website */
+  //**************** für static website */
   staticProducts,
   //allProducts,
-  searchInputText,
   //filteredProducts,
+  searchInputText,
 }) {
-  //******** für static website */
+  //**************** für static website */
   const allProducts = staticProducts;
   const [filteredProducts, setFilteredProducts] = useState([]);
-
-  //for static site generation (for dynamic site function is in _app.js )
-  // function findProducts(searchInputText, products) {
-  //   const searchInput = searchInputText.toLowerCase().trim();
-
-  //   const filterProducts = products.filter((product) => {
-  //     const maxLength = 60; // Set the maximum length for the hint text
-  //     const name = product.product_name;
-  //     const description1 = product.product_description1;
-  //     const description2 = product.product_description2;
-
-  //     const articleNumber =
-  //       product &&
-  //       product.articles &&
-  //       product.articles.find((article) =>
-  //         article.article_number.startsWith(searchInput)
-  //       );
-  //     const productFullName = `${name} ${description1} ${description2}`
-  //       .toLowerCase()
-  //       .trim();
-
-  //     return (
-  //       (productFullName.length > maxLength
-  //         ? productFullName.slice(0, maxLength) + "..."
-  //         : productFullName
-  //       ).includes(searchInput) || articleNumber
-  //     );
-  //   });
-
-  //   //if search input is empty, set filteredProducts to empty string
-  //   setFilteredProducts(
-  //     searchInputText.length === 0 ? "" : filterProducts
-  //   );
-  // }
-
   useEffect(() => {
     setFilteredProducts(findProducts(searchInputText, allProducts));
   }, [searchInputText]);
-
-  //********** */
+  //****************************** */
 
   function deleteSessionStorage() {
     //fix issus "localStorage is not defined"
-    if (typeof window !== "undefined") {
-      sessionStorage && sessionStorage.removeItem("TILO_scrollPosition");
+    if (typeof window !== 'undefined') {
+      sessionStorage && sessionStorage.removeItem('TILO_scrollPosition');
     }
   }
 
@@ -115,7 +79,7 @@ function Home({
         searchInputText.length ? (
           <ProductList
             products={filteredProducts}
-            hrefProduct={"/products"}
+            hrefProduct={'/products'}
           />
         ) : filteredProducts &&
           !filteredProducts.length &&

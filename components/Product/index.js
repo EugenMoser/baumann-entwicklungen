@@ -1,10 +1,6 @@
-import { useEffect } from 'react';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
-
-import { sections } from '../../helpers/constants';
 
 export default function Product({
   product,
@@ -12,33 +8,19 @@ export default function Product({
   hrefProduct,
   setSearchInputText,
 }) {
-  //******** für static website */
-
-  let hrefLink = "";
-  //check if category have a section value
-  if (sections.some((section) => section.category === category)) {
-    hrefLink = `.${hrefProduct}/${category}/${product.product_id}`;
-    //check if is search from start page
-  } else if (category === "startPage") {
-    hrefLink = `.${hrefProduct}/${product.category}/${product.product_id}`;
-    //check if is search from product details page
-  } else if (category === "productDetails") {
-    hrefLink = `../${product.category}/${product.product_id}`;
-  }
-
-  //********************************  */
-
   return (
     <StyledButton
-      onClick={() => setSearchInputText && setSearchInputText("")}
+      onClick={() => setSearchInputText && setSearchInputText('')}
     >
-      <StyledLink href={`${hrefLink}`}>
+      <StyledLink
+        href={`.${hrefProduct}/${category}/${product.product_id}`}
+      >
         <ImageWrapper>
           <StyledImage
             src={
               product.product_imagepath_small
                 ? product.product_imagepath_small
-                : "/images/placeholder.jpg"
+                : '/images/placeholder.jpg'
             }
             alt={product.product_name}
             width={80}

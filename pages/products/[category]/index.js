@@ -14,10 +14,10 @@ import {
   getProductsByCategory,
 } from '../../../helpers/services';
 
-//******** für static website */
+//**************** für static website */
 
 const getProducts = async () => {
-  const res = await fetch("http://localhost:3000/api/getdata");
+  const res = await fetch('http://localhost:3000/api/getdata');
   const data = await res.json();
   return data.products;
 };
@@ -39,62 +39,31 @@ export async function getStaticProps(context) {
   return { props: { staticProducts: filteredProducts } };
 }
 
-//********** */
+//****************** */
 
 function ProductCategory({
   //******** für static website */
-
   staticProducts,
-  //allProducts,
-  //filteredProducts,
+  // allProducts,
+  // filteredProducts,
   searchInputText,
   setSearchInputText,
 }) {
-  //******** für static website */
-
+  //**************** für static website */
+  const allProducts = staticProducts;
   const category = staticProducts[0].category;
-  console.log("category @category", category);
   const [filteredProducts, setFilteredProducts] = useState([]);
-
-  // for static site generation (for dynamic site function is in _app.js )
-  // function findProducts(searchInputText, products) {
-  //   const searchInput = searchInputText.toLowerCase().trim();
-
-  //   const filterProducts = products.filter((product) => {
-  //     const maxLength = 60; // Set the maximum length for the hint text
-  //     const name = product.product_name;
-  //     const description1 = product.product_description1;
-  //     const description2 = product.product_description2;
-
-  //     const articleNumber = product.articles.find((article) =>
-  //       article.article_number.startsWith(searchInput)
-  //     );
-  //     const productFullName = `${name} ${description1} ${description2}`
-  //       .toLowerCase()
-  //       .trim();
-
-  //     return (
-  //       (productFullName.length > maxLength
-  //         ? productFullName.slice(0, maxLength) + "..."
-  //         : productFullName
-  //       ).includes(searchInput) || articleNumber
-  //     );
-  //   });
-
-  //   if search input is empty, set filteredProducts to empty string
-  //   setFilteredProducts(
-  //     searchInputText.length === 0 ? "" : filterProducts
-  //   );
-  // }
-
   useEffect(() => {
     setFilteredProducts(findProducts(searchInputText, staticProducts));
   }, [searchInputText]);
-
-  //***************************** */
-
+  // useEffect(() => {
+  //   setSearchInputText('');
+  // }, []);
   // const router = useRouter();
   // const { category } = router.query;
+
+  //****************** */
+
   const searchgetProductsByCategory =
     searchInputText.length && filteredProducts
       ? getProductsByCategory(filteredProducts, category)

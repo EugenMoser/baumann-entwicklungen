@@ -5,12 +5,13 @@ import {
 
 import Layout from '../components/Layout';
 import GlobalStyles from '../components/Style/GlobalStyles';
+import { findProducts } from '../helpers/services';
 
 function MyApp({ Component, pageProps }) {
   // const [products, setProducts] = useState([]);
 
   //search text input
-  const [searchInputText, setSearchInputText] = useState("");
+  const [searchInputText, setSearchInputText] = useState('');
 
   // //filtered products for search text input
   // const [filteredProducts, setFilteredProducts] = useState([]);
@@ -26,46 +27,13 @@ function MyApp({ Component, pageProps }) {
   // }, []);
 
   // useEffect(() => {
-  //   findProducts(searchInputText, products);
+  //   setFilteredProducts(findProducts(searchInputText, products));
   // }, [searchInputText]);
 
   // async function fetchAllProducts() {
   //   const response = await fetch(apiURL);
   //   const data = await response.json();
   //   setProducts(data.products);
-  // }
-
-  // function findProducts(searchInputText, products) {
-  //   const searchInput = searchInputText.toLowerCase().trim();
-
-  //   const filterProducts = products.filter((product) => {
-  //     const maxLength = 60; // Set the maximum length for the hint text
-  //     const name = product.product_name;
-  //     const description1 = product.product_description1;
-  //     const description2 = product.product_description2;
-
-  //     const articleNumber =
-  //       product &&
-  //       product.articles &&
-  //       product.articles.find((article) =>
-  //         article.article_number.startsWith(searchInput)
-  //       );
-  //     const productFullName = `${name} ${description1} ${description2}`
-  //       .toLowerCase()
-  //       .trim();
-
-  //     return (
-  //       (productFullName.length > maxLength
-  //         ? productFullName.slice(0, maxLength) + "..."
-  //         : productFullName
-  //       ).includes(searchInput) || articleNumber
-  //     );
-  //   });
-
-  //   //if search input is empty, set filteredProducts to empty string
-  //   setFilteredProducts(
-  //     searchInputText.length === 0 ? "" : filterProducts
-  //   );
   // }
 
   function setSearchInputTextHandler(value) {
@@ -79,11 +47,11 @@ function MyApp({ Component, pageProps }) {
         <Component
           {...pageProps}
           //allProducts={products}
+          //filteredProducts={filteredProducts}
           searchInputText={searchInputText}
           setSearchInputText={setSearchInputTextHandler}
-          //filteredProducts={filteredProducts}
         />
-      </Layout>{" "}
+      </Layout>{' '}
     </>
   );
 }

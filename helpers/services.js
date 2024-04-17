@@ -37,7 +37,6 @@ function getProductsByCategory(products, category) {
   return filteredProduct;
 }
 
-//for static site generation (for dynamic site function is in _app.js )
 function findProducts(searchInputText, products) {
   const searchInput = searchInputText.toLowerCase().trim();
 
@@ -56,14 +55,13 @@ function findProducts(searchInputText, products) {
 
     return (
       (productFullName.length > maxLength
-        ? productFullName.slice(0, maxLength) + "..."
+        ? productFullName.slice(0, maxLength) + '...'
         : productFullName
       ).includes(searchInput) || articleNumber
     );
   });
 
   //if search input is empty, set filteredProducts to empty string
-  return searchInputText.length === 0 ? "" : filterProducts;
+  return searchInputText.length === 0 ? '' : filterProducts;
 }
-
 export { findArtikleId, findProducts, getProductsByCategory };
