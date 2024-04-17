@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 export default function Product({ product, category, hrefProduct }) {
-  console.log("@produkt", product, category, hrefProduct);
+  console.log('@produkt', product, category, hrefProduct);
   return (
     <StyledLink href={`.${hrefProduct}/${category}/${product.product_id}`}>
       <ImageWrapper>
@@ -11,7 +11,7 @@ export default function Product({ product, category, hrefProduct }) {
           src={
             product.product_imagepath_small
               ? product.product_imagepath_small
-              : "/images/placeholder.jpg"
+              : '/images/placeholder.jpg'
           }
           alt={product.product_name}
           width={80}
@@ -35,6 +35,7 @@ const StyledLink = styled(Link)`
   gap: 1rem;
   align-items: center;
   color: var(--font-color);
+  text-decoration: none;
 `;
 
 const TextWrapper = styled.div`
@@ -43,22 +44,12 @@ const TextWrapper = styled.div`
 
   h3 {
     font-size: var(--medium-product-headline);
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1; /* number of lines to show */
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
   }
   p {
     font-size: var(--medium-product-description);
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* number of lines to show */
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
     padding-right: 1rem;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1000px) {
     h3 {
       font-size: var(--small-product-headline);
     }
