@@ -2,30 +2,52 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-export default function Product({ product, category, hrefProduct }) {
+export default function Product({
+  product,
+  category,
+  hrefProduct,
+  setSearchInputText,
+}) {
   console.log('@produkt', product, category, hrefProduct);
   return (
-    <StyledLink href={`.${hrefProduct}/${category}/${product.product_id}`}>
-      <ImageWrapper>
-        <StyledImage
-          src={
-            product.product_imagepath_small
-              ? product.product_imagepath_small
-              : '/images/placeholder.jpg'
-          }
-          alt={product.product_name}
-          width={80}
-          height={80}
-        />
-      </ImageWrapper>
+    <StyledButton
+      onClick={() => setSearchInputText && setSearchInputText('')}
+    >
+      <StyledLink
+        href={`.${hrefProduct}/${category}/${product.product_id}`}
+      >
+        <ImageWrapper>
+          <StyledImage
+            src={
+              product.product_imagepath_small
+                ? product.product_imagepath_small
+                : '/images/placeholder.jpg'
+            }
+            alt={product.product_name}
+            width={80}
+            height={80}
+          />
+        </ImageWrapper>
 
-      <TextWrapper>
-        <h3>{product.product_name}</h3>
-        <p>{product.product_description1}</p>
-      </TextWrapper>
-    </StyledLink>
+        <TextWrapper>
+          <h3>{product.product_name}</h3>
+          <p>{product.product_description1}</p>
+        </TextWrapper>
+      </StyledLink>
+    </StyledButton>
   );
 }
+const StyledButton = styled.button`
+  width: 100%;
+  height: 100%;
+  border: none;
+  gap: 2rem;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    background-color: var(--background-category-hover-color);
+  }
+`;
 
 const StyledLink = styled(Link)`
   min-width: 90%;
