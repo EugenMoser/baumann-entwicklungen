@@ -63,15 +63,23 @@ const StyledLink = styled(Link)`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-
+  margin-right: 1rem;
   h3 {
-    font-size: var(--medium-product-headline);
+    font-size: var(--large-product-headline);
   }
   p {
-    font-size: var(--medium-product-description);
+    font-size: var(--large-product-description);
     padding-right: 1rem;
   }
   @media (max-width: 1000px) {
+    h3 {
+      font-size: var(--medium-product-headline);
+    }
+    p {
+      font-size: var(--medium-product-description);
+    }
+  }
+  @media (max-width: 650px) {
     h3 {
       font-size: var(--small-product-headline);
     }
@@ -90,7 +98,7 @@ const ImageWrapper = styled.div`
   margin-left: 1rem;
   width: 80px;
   height: 80px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     max-width: 60px;
     max-height: 60px;
   }

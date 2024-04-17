@@ -37,7 +37,6 @@ function ProductList(props) {
   }, []);
 
   //save scroll position in session storage
-
   function saveScrollPosition() {
     sessionStorage.setItem(
       'TILO_scrollPosition',
