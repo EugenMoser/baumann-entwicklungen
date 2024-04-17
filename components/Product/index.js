@@ -27,31 +27,7 @@ export default function Product({
             height={80}
           />
         </ImageWrapper>
-        <StyledButton
-          onClick={() => setSearchInputText && setSearchInputText('')}
-        >
-          <StyledLink
-            href={`.${hrefProduct}/${category}/${product.product_id}`}
-          >
-            <ImageWrapper>
-              <StyledImage
-                src={
-                  product.product_imagepath_small
-                    ? product.product_imagepath_small
-                    : '/images/placeholder.jpg'
-                }
-                alt={product.product_name}
-                width={80}
-                height={80}
-              />
-            </ImageWrapper>
 
-            <TextWrapper>
-              <h3>{product.product_name}</h3>
-              <p>{product.product_description1}</p>
-            </TextWrapper>
-          </StyledLink>
-        </StyledButton>
         <TextWrapper>
           <h3>{product.product_name}</h3>
           <p>{product.product_description1}</p>

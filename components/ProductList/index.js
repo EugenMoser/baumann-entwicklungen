@@ -12,7 +12,6 @@ function ProductList(props) {
   const category = props?.category;
   const setSearchInputText = props?.setSearchInputText;
   const hrefProduct = props.hrefProduct ? props.hrefProduct : '';
-  const hrefProduct = props.hrefProduct ? props.hrefProduct : '';
 
   //sort the products by column prio
   const sortedProducts = products.sort((a, b) => a.prio - b.prio);
@@ -25,15 +24,12 @@ function ProductList(props) {
     };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
   }, [scrollValue]);
 
   //get saved scroll position or delete it if page is reloaded
   useEffect(() => {
     window.scrollTo({
       top: JSON.parse(
-        sessionStorage.getItem('TILO_scrollPosition') ?? '0'
         sessionStorage.getItem('TILO_scrollPosition') ?? '0'
       ),
       behavior: 'smooth',
@@ -44,7 +40,6 @@ function ProductList(props) {
   //save scroll position in session storage
   function saveScrollPosition() {
     sessionStorage.setItem(
-      'TILO_scrollPosition',
       'TILO_scrollPosition',
       JSON.stringify(scrollValue)
     );
@@ -61,7 +56,6 @@ function ProductList(props) {
             category={category}
             hrefProduct={hrefProduct}
             scrollValue={scrollValue}
-            setSearchInputText={setSearchInputText}
             setSearchInputText={setSearchInputText}
           />
         </StyledListItem>
