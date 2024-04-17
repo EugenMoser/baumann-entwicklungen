@@ -1,27 +1,31 @@
-import Link from "next/link";
-import styled from "styled-components";
+import Link from 'next/link';
+import styled from 'styled-components';
 
-import { strings } from "../helpers/strings";
+import { strings } from '../helpers/strings';
 
 function Imprint() {
   return (
     <>
-      <StyledH1>Impressum</StyledH1>
+      <StyledH1>{strings.imprint}</StyledH1>
       <StyledAdress>
-        <h4>Postadresse</h4>
-        Tilo Baumann Spritzgussteile e.K.
-        <br />
-        Brugg 39
-        <br />
-        88167 Gestratz
+        <h4> {strings.imprintAdress}</h4>
+        <div>
+          {strings.company}
+          <br />
+          {strings.street}
+          <br />
+          {strings.postalCode} {strings.city}
+          <br />
+          {strings.country}
+        </div>
         <br /> <br />
         <p>
-          <h4> Inhaber</h4>
-          Tilo Baumann
+          <h4> {strings.imprintOwner}</h4>
+          {strings.imprintOwnerName}
         </p>
         <br />
         <p>
-          <h4>Kommunikation</h4>
+          <h4>{strings.imprintCommunication}</h4>
           <StyledLink href={`tel:${strings.phoneNumber}`}>
             Telefon:<span>{strings.displayPhoneNumber}</span>
           </StyledLink>
@@ -35,15 +39,16 @@ function Imprint() {
       </StyledAdress>
       <br />
       <p>
-        <h4>Registereintrag</h4>
-        Amtsgericht Kempten <br />
-        HRA 9734
+        <h4>{strings.imprintRegister}</h4>
+        {strings.imprintRegisterCourt} <br />
+        {strings.imprintRegisterNumber}
       </p>
       <br />
       <p>
         <h4>Steuernummer</h4>
-        USt-IdNr.: DE 247 636 303 <br />
-        Steuer-Nr.: 134/203/10387
+        {strings.imprintUST}
+        <br />
+        {strings.imprintSteuer}
       </p>
     </>
   );

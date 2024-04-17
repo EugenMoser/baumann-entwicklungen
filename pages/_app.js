@@ -51,7 +51,7 @@ function MyApp({ Component, pageProps }) {
           searchInputText={searchInputText}
           setSearchInputText={setSearchInputTextHandler}
         />
-      </Layout>{' '}
+      </Layout>
     </>
   );
 }

@@ -51,7 +51,7 @@ function ProductCategory({
 }) {
   //**************** für static website */
   const allProducts = staticProducts;
-  const category = staticProducts[0].category;
+  const category = allProducts && allProducts[0].category;
   const [filteredProducts, setFilteredProducts] = useState([]);
   useEffect(() => {
     setFilteredProducts(findProducts(searchInputText, staticProducts));
@@ -67,7 +67,7 @@ function ProductCategory({
   const searchgetProductsByCategory =
     searchInputText.length && filteredProducts
       ? getProductsByCategory(filteredProducts, category)
-      : getProductsByCategory(staticProducts, category);
+      : getProductsByCategory(allProducts, category);
 
   return (
     <>
@@ -77,7 +77,8 @@ function ProductCategory({
         );
       })}
 
-      {searchgetProductsByCategory.length ? (
+      {searchgetProductsByCategory &&
+      searchgetProductsByCategory.length ? (
         <ProductList
           products={searchgetProductsByCategory}
           category={category}

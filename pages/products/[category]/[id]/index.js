@@ -104,7 +104,7 @@ function ProductDetails({
 
   useEffect(() => {
     if (searchInputText.length > 0) {
-      router.push(`/products/${category}`);
+      router.back();
     }
   }, [searchInputText]);
 
