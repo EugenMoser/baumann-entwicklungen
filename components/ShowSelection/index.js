@@ -1,25 +1,28 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { getEmailBody, strings } from "../../helpers/strings";
+import { getEmailBody, strings } from '../../helpers/strings';
 
 export default function ShowSelection({ selectedArticle, selectedColor }) {
   const colorSuffix =
     selectedColor && selectedColor.suffix === 0
-      ? ""
-      : " - " + selectedColor.suffix;
+      ? ''
+      : ' - ' + selectedColor.suffix;
 
   const fulllArticleNumber =
     selectedArticle && selectedArticle.article_number + colorSuffix;
 
+  function addThousendSeperator(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
   return (
     <StyledResultSection>
       {selectedArticle && selectedColor ? (
         <>
           <StyledArticleNumber>
             {strings.articleNumberLabel} {fulllArticleNumber}
-          </StyledArticleNumber>{" "}
+          </StyledArticleNumber>{' '}
           <StyledSpecials>
             <>
               <StyledLabel>{strings.specialsLabel}</StyledLabel>
@@ -43,16 +46,19 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
             <StyledLabel>{strings.vpeLabel}</StyledLabel>
             <StyledList>
               {selectedArticle.vpe1 && (
-                <li>{selectedArticle.vpe1} Stück</li>
+                <li>
+                  {addThousendSeperator(selectedArticle.vpe1)}
+                  Stück
+                </li>
               )}
               {selectedArticle.vpe2 && (
-                <li>{selectedArticle.vpe2} Stück</li>
+                <li>{addThousendSeperator(selectedArticle.vpe2)} Stück</li>
               )}
               {selectedArticle.vpe3 && (
-                <li>{selectedArticle.vpe3} Stück</li>
+                <li>{addThousendSeperator(selectedArticle.vpe3)} Stück</li>
               )}
               {selectedArticle.vpe4 && (
-                <li>{selectedArticle.vpe4} Stück</li>
+                <li>{addThousendSeperator(selectedArticle.vpe4)} Stück</li>
               )}
             </StyledList>
           </StyledVpe>
@@ -66,9 +72,9 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
                 selectedColor.color_name
               )
             )} `}
-            method="post"
+            method='post'
           >
-            <StyledInputButton type="submit">
+            <StyledInputButton type='submit'>
               {strings.request}
             </StyledInputButton>
           </StyledForm>

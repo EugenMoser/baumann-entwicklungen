@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
@@ -68,7 +65,7 @@ export default ProductList;
 
 const StyledListItem = styled.li`
   width: 100%;
-  height: 100px;
+  height: 125px;
   background-color: var(--background-category-color);
   border: none;
   border-radius: 5px;
@@ -80,5 +77,8 @@ const StyledListItem = styled.li`
   &:hover,
   &:focus {
     background-color: var(--background-category-hover-color);
+  }
+  @media (max-width: 1400px) {
+    height: 100px;
   }
 `;

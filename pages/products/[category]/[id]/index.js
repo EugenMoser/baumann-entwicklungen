@@ -3,10 +3,7 @@
 import 'react-image-gallery/styles/css/image-gallery.css';
 
 import * as React from 'react';
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import ImageGallery from 'react-image-gallery';
@@ -172,7 +169,9 @@ function ProductDetails({
           {description3 && <p>{description3}</p>}
           {description4 && <p>{description4}</p>}
 
-          <p>Material: {material}</p>
+          <p>
+            {strings.materialLabel}: {material}
+          </p>
           <StyledImageGalleryWrapper>
             <ImageGallery
               items={images}
@@ -269,12 +268,17 @@ const ProductWrapper = styled.div`
   gap: 1.75rem;
 `;
 
-const DescriptionWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const StyledImageGalleryWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  .image-gallery-image {
+    width: 500px;
+  }
+  @media (max-width: 1400px) {
+    .image-gallery-image {
+      width: 100%;
+    }
+  }
   .image-gallery-svg {
     opacity: 0.1;
     :hover,
@@ -294,11 +298,4 @@ const ArticleWrapper = styled.div`
   flex-direction: column;
   flex: 1 0;
   gap: 1.75rem;
-`;
-
-const StyledParagraph = styled.p`
-  font-size: 1.5rem;
-  color: var(--red);
-  margin: 3rem 0;
-  text-align: center;
 `;

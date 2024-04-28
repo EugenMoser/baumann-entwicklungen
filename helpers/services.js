@@ -46,8 +46,10 @@ function findProducts(searchInputText, products) {
     const description1 = product?.product_description1;
     const description2 = product?.product_description2;
 
-    const articleNumber = product?.articles?.find((article) =>
-      article.article_number.startsWith(searchInput)
+    const articleNumber = product?.articles?.find(
+      (article) =>
+        article.article_number.startsWith(searchInput) ||
+        searchInput.includes(article.article_number)
     );
     const productFullName = `${name} ${description1} ${description2}`
       .toLowerCase()
