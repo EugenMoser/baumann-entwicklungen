@@ -42,6 +42,7 @@ const strings = {
   //Product
   colorLabel: 'Farbe',
   chooseColor: 'In welcher Farbe benötigen Sie das Produkt?',
+  materialLabel: 'Material',
   request: 'unverbindlich anfragen',
 
   errorMsgSiteLoading:
