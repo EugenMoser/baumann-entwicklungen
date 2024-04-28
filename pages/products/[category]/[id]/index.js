@@ -211,11 +211,6 @@ const ProductWrapper = styled.div`
   gap: 1.75rem;
 `;
 
-// const DescriptionWrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `;
-
 const StyledImageGalleryWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -247,10 +242,3 @@ const ArticleWrapper = styled.div`
   flex: 1 0;
   gap: 1.75rem;
 `;
-
-// const StyledParagraph = styled.p`
-//   font-size: 1.5rem;
-//   color: var(--red);
-//   margin: 3rem 0;
-//   text-align: center;
-// `;
