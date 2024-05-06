@@ -46,10 +46,7 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
             <StyledLabel>{strings.vpeLabel}</StyledLabel>
             <StyledList>
               {selectedArticle.vpe1 && (
-                <li>
-                  {addThousendSeperator(selectedArticle.vpe1)}
-                  Stück
-                </li>
+                <li>{addThousendSeperator(selectedArticle.vpe1)} Stück</li>
               )}
               {selectedArticle.vpe2 && (
                 <li>{addThousendSeperator(selectedArticle.vpe2)} Stück</li>
