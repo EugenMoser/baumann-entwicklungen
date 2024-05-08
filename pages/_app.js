@@ -1,11 +1,9 @@
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 
 import Layout from '../components/Layout';
 import GlobalStyles from '../components/Style/GlobalStyles';
 import { findProducts } from '../helpers/services';
+import getProducts from './api/getdata';
 
 function MyApp({ Component, pageProps }) {
   const [products, setProducts] = useState([]);
@@ -16,8 +14,7 @@ function MyApp({ Component, pageProps }) {
   //filtered products for search text input
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const apiURL = `http://localhost:3000/api/getdata`;
-
+  const apiURL = `https://localhost:3000/api/getdata`;
   useEffect(() => {
     try {
       fetchAllProducts();
@@ -31,8 +28,10 @@ function MyApp({ Component, pageProps }) {
   }, [searchInputText]);
 
   async function fetchAllProducts() {
-    const response = await fetch(apiURL);
-    const data = await response.json();
+    console.log('getProducts', await getProducts());
+
+    const data = await getProducts();
+    // const data = await response.json();
     console.log('Products', data);
     setProducts(data.products);
   }

@@ -51,7 +51,7 @@
 // // GROUP BY product.product_id , product.prio, product.category
 import { sql } from '@vercel/postgres';
 
-async function handlerByCategory(req, res) {
+async function getProducts(req, res) {
   try {
     const { rows } = await sql`
 
@@ -97,14 +97,15 @@ async function handlerByCategory(req, res) {
         WHERE product_color_connection.product_id = product.product_id
         
         )AS colors
-FROM 
+  FROM 
     product 
 
 `;
-
-    res.status(200).json({ products: rows });
+    console.log('rows!!!!', rows);
+    // res.status(200).json({ products: rows });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Fehler beim Abruf der Produkte' + error.message);
+    // res.status(500).json({ error: error.message });
   }
 }
-export default handlerByCategory;
+export default getProducts;
