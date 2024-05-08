@@ -102,7 +102,7 @@ async function getProducts(req, res) {
 
 `;
     console.log('rows!!!!', rows);
-    return rows;
+    return { products: rows };
     // res.status(200).json({ products: rows });
   } catch (error) {
     console.error('Fehler beim Abruf der Produkte' + error.message);
