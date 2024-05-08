@@ -33,6 +33,7 @@ function MyApp({ Component, pageProps }) {
   async function fetchAllProducts() {
     const response = await fetch(apiURL);
     const data = await response.json();
+    console.log('Products', data);
     setProducts(data.products);
   }
 
