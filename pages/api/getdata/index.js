@@ -52,6 +52,11 @@
 import { sql } from '@vercel/postgres';
 
 async function getProducts(req, res) {
+  // const sql = postgres(process.env.POSTGRES_URL, {
+  //   ssl: 'allow',
+  // });
+  // console.log('sql', sql);
+
   try {
     const { rows } = await sql`
 
@@ -102,7 +107,7 @@ async function getProducts(req, res) {
 
 `;
     console.log('rows!!!!', rows);
-    return { products: rows };
+    return res.status(200).json({ products: rows });
     // res.status(200).json({ products: rows });
   } catch (error) {
     console.error('Fehler beim Abruf der Produkte' + error.message);

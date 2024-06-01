@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import { sql } from '@vercel/postgres';
+
 import Layout from '../components/Layout';
 import GlobalStyles from '../components/Style/GlobalStyles';
 import { findProducts } from '../helpers/services';
 import getProducts from './api/getdata';
+
+// import getProducts from './api/getdata';
 
 function MyApp({ Component, pageProps }) {
   const [products, setProducts] = useState([]);
@@ -28,12 +32,10 @@ function MyApp({ Component, pageProps }) {
   }, [searchInputText]);
 
   async function fetchAllProducts() {
-    console.log('getProducts', await getProducts());
-
-    const data = await getProducts();
+    const { rows } = await getProducts();
     // const data = await response.json();
-    console.log('Products', data);
-    setProducts(data.products);
+    console.log('Products', rows);
+    setProducts(rows);
   }
 
   function setSearchInputTextHandler(value) {
