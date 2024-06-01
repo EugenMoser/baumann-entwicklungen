@@ -55,7 +55,6 @@ async function getProducts(req, res) {
   const sql = postgres(process.env.POSTGRES_URL, {
     ssl: 'allow',
   });
-  console.log('sql', sql);
 
   try {
     const { rows } = await sql`
