@@ -49,13 +49,13 @@
 // export default handlerByCategory;
 
 // // GROUP BY product.product_id , product.prio, product.category
-import { sql } from '@vercel/postgres';
+import { postgres } from '@vercel/postgres';
 
 async function getProducts(req, res) {
-  // const sql = postgres(process.env.POSTGRES_URL, {
-  //   ssl: 'allow',
-  // });
-  // console.log('sql', sql);
+  const sql = postgres(process.env.POSTGRES_URL, {
+    ssl: 'allow',
+  });
+  console.log('sql', sql);
 
   try {
     const { rows } = await sql`
