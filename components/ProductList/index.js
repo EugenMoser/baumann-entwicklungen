@@ -6,15 +6,14 @@ import Product from '../Product';
 
 function ProductList(props) {
   const products = props.products;
-  const category = props?.category;
   const setSearchInputText = props?.setSearchInputText;
   const hrefProduct = props.hrefProduct ? props.hrefProduct : '';
 
   //sort the products by column prio
   const sortedProducts = products.sort((a, b) => a.prio - b.prio);
-  const [scrollValue, setScrollValue] = useState(0);
 
   //trigger scroll position
+  const [scrollValue, setScrollValue] = useState(0);
   useEffect(() => {
     const onScroll = (e) => {
       setScrollValue(e.target.documentElement.scrollTop);
@@ -41,6 +40,7 @@ function ProductList(props) {
       JSON.stringify(scrollValue)
     );
   }
+
   return (
     <ul>
       {sortedProducts.map((product, index) => (
@@ -50,7 +50,6 @@ function ProductList(props) {
         >
           <Product
             product={product}
-            category={category}
             hrefProduct={hrefProduct}
             scrollValue={scrollValue}
             setSearchInputText={setSearchInputText}

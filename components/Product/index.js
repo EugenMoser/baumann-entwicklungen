@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 export default function Product({
   product,
-  category,
   hrefProduct,
   setSearchInputText,
 }) {
@@ -13,7 +13,7 @@ export default function Product({
       onClick={() => setSearchInputText && setSearchInputText('')}
     >
       <StyledLink
-        href={`.${hrefProduct}/${category}/${product.product_id}`}
+        href={`.${hrefProduct}/${product.category}/${product.product_id}`}
       >
         <ImageWrapper>
           <StyledImage

@@ -63,6 +63,7 @@ function ProductDetails({
   staticProduct,
   //allProducts,
   searchInputText,
+  setSearchInputText,
 }) {
   //**************** für static website */
   const product = staticProduct[0];
@@ -101,7 +102,7 @@ function ProductDetails({
 
   useEffect(() => {
     if (searchInputText.length > 0) {
-      router.back();
+      router.push(`/products/${category}`);
     }
   }, [searchInputText]);
 
