@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -35,6 +32,7 @@ function Home({
   //allProducts,
   //filteredProducts,
   searchInputText,
+  setSearchInputText,
 }) {
   //**************** für static website */
   const allProducts = staticProducts;
@@ -80,6 +78,7 @@ function Home({
           <ProductList
             products={filteredProducts}
             hrefProduct={'/products'}
+            setSearchInputText={setSearchInputText}
           />
         ) : filteredProducts &&
           !filteredProducts.length &&
