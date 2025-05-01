@@ -1,25 +1,26 @@
 //products details
 
-import 'react-image-gallery/styles/css/image-gallery.css';
+import "react-image-gallery/styles/css/image-gallery.css";
 
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import * as React from "react";
+import { useEffect, useState } from "react";
 
-import { useRouter } from 'next/router';
-import ImageGallery from 'react-image-gallery';
-import styled from 'styled-components';
+import Head from "next/head";
+import { useRouter } from "next/router";
+import ImageGallery from "react-image-gallery";
+import styled from "styled-components";
 
-import { mdiChevronLeft } from '@mdi/js';
-import Icon from '@mdi/react';
+import { mdiChevronLeft } from "@mdi/js";
+import Icon from "@mdi/react";
 
-import Articles from '../../../../components/Articles';
-import ColorButtons from '../../../../components/ColorButtons';
-import ShowSelection from '../../../../components/ShowSelection';
-import { strings } from '../../../../helpers/strings';
+import Articles from "../../../../components/Articles";
+import ColorButtons from "../../../../components/ColorButtons";
+import ShowSelection from "../../../../components/ShowSelection";
+import { strings } from "../../../../helpers/strings";
 
 //**************** für static website */
 const getProducts = async () => {
-  const res = await fetch('http://localhost:3000/api/getdata');
+  const res = await fetch("http://localhost:3000/api/getdata");
   const data = await res.json();
   return data.products;
 };
@@ -58,6 +59,10 @@ export async function getStaticProps(context) {
 
 //****************************** */
 
+export const metadata = {
+  title: "TESTTITEL",
+};
+
 function ProductDetails({
   //******** für static website */
   staticProduct,
@@ -67,6 +72,8 @@ function ProductDetails({
 }) {
   //**************** für static website */
   const product = staticProduct[0];
+  console.log("----->>>>> product", product);
+
   const router = useRouter();
   const { category } = router.query;
 
@@ -96,6 +103,8 @@ function ProductDetails({
     product_imagepath_big1: image1,
     product_imagepath_big2: image2,
     product_imagepath_big3: image3,
+    metadata,
+    keywords,
   } = product;
 
   const images = [];
@@ -153,6 +162,14 @@ function ProductDetails({
 
   return (
     <>
+      <Head>
+        <title>{metadata}</title>
+        <meta
+          name="keywords"
+          content={keywords}
+        />
+      </Head>
+
       <StyledHeadlineWrapper>
         <StyledH1>{name}</StyledH1>
         <StyledBackButton onClick={() => goBack()}>

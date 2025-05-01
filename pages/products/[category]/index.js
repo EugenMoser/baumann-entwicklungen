@@ -1,23 +1,20 @@
 //products by category
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import Head from "next/head";
+import styled from "styled-components";
 
-import ProductList from '../../../components/ProductList';
-import { sections } from '../../../helpers/constants';
+import ProductList from "../../../components/ProductList";
+import { sections } from "../../../helpers/constants";
 import {
   findProducts,
   getProductsByCategory,
-} from '../../../helpers/services';
+} from "../../../helpers/services";
 
 //**************** für static website */
 
 const getProducts = async () => {
-  const res = await fetch('http://localhost:3000/api/getdata');
+  const res = await fetch("http://localhost:3000/api/getdata");
   const data = await res.json();
   return data.products;
 };
@@ -72,9 +69,17 @@ function ProductCategory({
   return (
     <>
       {sections.map((section) => {
-        category === section.category && (
-          <StyledH1>{section.name}</StyledH1>
-        );
+        if (section.category === category) {
+          return (
+            <Head>
+              <title>{section.name}</title>
+              <meta
+                name="keywords"
+                content={section.keywords}
+              />
+            </Head>
+          );
+        }
       })}
 
       {searchgetProductsByCategory &&
@@ -92,11 +97,6 @@ function ProductCategory({
 }
 export default ProductCategory;
 
-const StyledH1 = styled.h1`
-  text-align: center;
-  font-size: 2rem;
-  margin: 1rem 0;
-`;
 const StyledParagraph = styled.p`
   font-size: 1.5rem;
   color: var(--red);

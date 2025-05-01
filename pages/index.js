@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import Link from 'next/link';
-import styled from 'styled-components';
+import Head from "next/head";
+import Link from "next/link";
+import styled from "styled-components";
 
-import Icon from '@mdi/react';
+import Icon from "@mdi/react";
 
-import ProductList from '../components/ProductList';
-import { sections } from '../helpers/constants';
-import { findProducts } from '../helpers/services';
-import { strings } from '../helpers/strings';
+import ProductList from "../components/ProductList";
+import { sections } from "../helpers/constants";
+import { findProducts } from "../helpers/services";
+import { strings } from "../helpers/strings";
 
 //**************** für static website */
 
 const getProducts = async () => {
-  const res = await fetch('http://localhost:3000/api/getdata');
+  const res = await fetch("http://localhost:3000/api/getdata");
   const data = await res.json();
   return data.products;
 };
@@ -36,6 +37,7 @@ function Home({
 }) {
   //**************** für static website */
   const allProducts = staticProducts;
+  // console.log("----->>>>> products", allProducts);
   const [filteredProducts, setFilteredProducts] = useState([]);
   useEffect(() => {
     setFilteredProducts(findProducts(searchInputText, allProducts));
@@ -44,8 +46,8 @@ function Home({
 
   function deleteSessionStorage() {
     //fix issus "localStorage is not defined"
-    if (typeof window !== 'undefined') {
-      sessionStorage && sessionStorage.removeItem('TILO_scrollPosition');
+    if (typeof window !== "undefined") {
+      sessionStorage && sessionStorage.removeItem("TILO_scrollPosition");
     }
   }
 
@@ -68,8 +70,30 @@ function Home({
     return returnSection;
   }
 
+  function createMetadata() {
+    return (
+      <Head>
+        <title>{strings.company}</title>
+        <meta
+          name="description"
+          content={strings.companyDescription}
+        />
+        <meta
+          name="keywords"
+          content={strings.companyKeywords}
+        />
+
+        <link
+          rel="icon"
+          href="/favicon.ico"
+        />
+      </Head>
+    );
+  }
+
   return (
     <>
+      {createMetadata()}
       {allProducts && allProducts.length ? (
         filteredProducts &&
         filteredProducts.length &&
@@ -77,7 +101,7 @@ function Home({
         searchInputText.length ? (
           <ProductList
             products={filteredProducts}
-            hrefProduct={'/products'}
+            hrefProduct={"/products"}
             setSearchInputText={setSearchInputText}
           />
         ) : filteredProducts &&
