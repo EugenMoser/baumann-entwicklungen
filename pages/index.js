@@ -37,7 +37,6 @@ function Home({
 }) {
   //**************** für static website */
   const allProducts = staticProducts;
-  // console.log("----->>>>> products", allProducts);
   const [filteredProducts, setFilteredProducts] = useState([]);
   useEffect(() => {
     setFilteredProducts(findProducts(searchInputText, allProducts));

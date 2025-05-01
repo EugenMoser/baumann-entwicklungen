@@ -72,7 +72,6 @@ function ProductDetails({
 }) {
   //**************** für static website */
   const product = staticProduct[0];
-  console.log("----->>>>> product", product);
 
   const router = useRouter();
   const { category } = router.query;
