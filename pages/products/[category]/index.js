@@ -74,6 +74,10 @@ function ProductCategory({
             <Head>
               <title>{section.name}</title>
               <meta
+                name="description"
+                content={`Sie befinden sich im ${section.name}`}
+              />
+              <meta
                 name="keywords"
                 content={section.keywords}
               />

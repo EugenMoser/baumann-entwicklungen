@@ -164,6 +164,10 @@ function ProductDetails({
       <Head>
         <title>{metadata}</title>
         <meta
+          name="description"
+          content={name + description1}
+        />
+        <meta
           name="keywords"
           content={keywords}
         />
