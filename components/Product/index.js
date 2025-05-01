@@ -10,7 +10,7 @@ export default function Product({
 }) {
   return (
     <StyledButton
-      onClick={() => setSearchInputText && setSearchInputText('')}
+      onClick={() => setSearchInputText && setSearchInputText("")}
     >
       <StyledLink
         href={`.${hrefProduct}/${product.category}/${product.product_id}`}
@@ -20,7 +20,7 @@ export default function Product({
             src={
               product.product_imagepath_small
                 ? product.product_imagepath_small
-                : '/images/placeholder.jpg'
+                : "/images/placeholder.jpg"
             }
             alt={product.product_name}
             width={80}
