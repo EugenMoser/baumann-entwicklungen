@@ -61,6 +61,11 @@ main {
     
 }
 
+button {
+    color:#000000; 
+    text-decoration: none;
+}
+
 `;
 
 export default GlobalStyles;
