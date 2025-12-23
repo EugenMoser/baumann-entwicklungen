@@ -2,7 +2,6 @@
 
 import "react-image-gallery/styles/css/image-gallery.css";
 
-import * as React from "react";
 import { useEffect, useState } from "react";
 
 import Head from "next/head";
@@ -16,6 +15,7 @@ import Icon from "@mdi/react";
 import Articles from "../../../../components/Articles";
 import ColorButtons from "../../../../components/ColorButtons";
 import ShowSelection from "../../../../components/ShowSelection";
+import { baseUrl } from "../../../../helpers/constants";
 import { strings } from "../../../../helpers/strings";
 
 //**************** für static website */
@@ -159,17 +159,88 @@ function ProductDetails({
     router.push(`/products/${category}`);
   }
 
+  const ogImage = image1 ? `${baseUrl}${image1}` : "";
+  const currentUrl = `${baseUrl}/products/${category}/${product.product_id}`;
+
   return (
     <>
       <Head>
         <title>{metadata}</title>
         <meta
           name="description"
-          content={name + description1}
+          content={name + " " + description1}
         />
         <meta
           name="keywords"
           content={keywords}
+        />
+
+        {/* Open Graph / Facebook */}
+        <meta
+          property="og:type"
+          content="product"
+        />
+        <meta
+          property="og:url"
+          content={currentUrl}
+        />
+        <meta
+          property="og:title"
+          content={metadata}
+        />
+        <meta
+          property="og:description"
+          content={name + " " + description1}
+        />
+        {ogImage && (
+          <meta
+            property="og:image"
+            content={ogImage}
+          />
+        )}
+
+        {/* Twitter */}
+        <meta
+          property="twitter:card"
+          content="summary_large_image"
+        />
+        <meta
+          property="twitter:url"
+          content={currentUrl}
+        />
+        <meta
+          property="twitter:title"
+          content={metadata}
+        />
+        <meta
+          property="twitter:description"
+          content={name + " " + description1}
+        />
+        {ogImage && (
+          <meta
+            property="twitter:image"
+            content={ogImage}
+          />
+        )}
+
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org/",
+              "@type": "Product",
+              name: name,
+              image: [image1, image2, image3]
+                .filter(Boolean)
+                .map((img) => `${baseUrl}${img}`),
+              description: description1,
+              brand: {
+                "@type": "Brand",
+                name: "Baumann Entwicklungen",
+              },
+            }),
+          }}
         />
       </Head>
 

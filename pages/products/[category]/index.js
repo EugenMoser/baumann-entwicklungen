@@ -5,7 +5,7 @@ import Head from "next/head";
 import styled from "styled-components";
 
 import ProductList from "../../../components/ProductList";
-import { sections } from "../../../helpers/constants";
+import { baseUrl, sections } from "../../../helpers/constants";
 import {
   findProducts,
   getProductsByCategory,
@@ -70,8 +70,9 @@ function ProductCategory({
     <>
       {sections.map((section) => {
         if (section.category === category) {
+          const currentUrl = `${baseUrl}/products/${category}`;
           return (
-            <Head>
+            <Head key={section.category}>
               <title>{section.name}</title>
               <meta
                 name="description"
@@ -80,6 +81,50 @@ function ProductCategory({
               <meta
                 name="keywords"
                 content={section.keywords}
+              />
+
+              {/* Open Graph / Facebook */}
+              <meta
+                property="og:type"
+                content="website"
+              />
+              <meta
+                property="og:url"
+                content={currentUrl}
+              />
+              <meta
+                property="og:title"
+                content={section.name}
+              />
+              <meta
+                property="og:description"
+                content={`Sie befinden sich im ${section.name}`}
+              />
+              <meta
+                property="og:image"
+                content={`${baseUrl}/images/baumann_logo_optimiert.png`}
+              />
+
+              {/* Twitter */}
+              <meta
+                property="twitter:card"
+                content="summary_large_image"
+              />
+              <meta
+                property="twitter:url"
+                content={currentUrl}
+              />
+              <meta
+                property="twitter:title"
+                content={section.name}
+              />
+              <meta
+                property="twitter:description"
+                content={`Sie befinden sich im ${section.name}`}
+              />
+              <meta
+                property="twitter:image"
+                content={`${baseUrl}/images/baumann_logo_optimiert.png`}
               />
             </Head>
           );

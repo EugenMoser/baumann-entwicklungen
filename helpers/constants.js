@@ -43,3 +43,5 @@ export const sections = [
       "Baumann Tilo, Tilo, Wilfried Baumann, Wilfried, Spritzguss, Baumann Spritzgussteile, Kunststoffspritzgussteile, Kunststoffspritzguss, Kunststoffspritzerei, Spritzerei, Werkzeugbau, Formenbau, Entwicklung, Hersteller, Kunststoff, Gestratz, Elektrobereich,  Gehäuse, Platinengehäuse, Dose, Abdeckung, Leuchte, Abdeckdose, Wohnwagenspritzgussteile, Wohnwagenkunststoffteile, Wohnwagenteile, Wohnmobilspritzgussteile, Wohnmobilkunststoffteile, Wohnmobilteile, Caravankunststoffteile, Caravanspritzgussteile, Caravanteile, Motorcaravankunststoffteile, Motorcaravanspritzgussteile, Motorcaravanteile, Yachtkunststoffteile, Yachtspritzugussteile, Yachtteile, Caravanzubehör, Caravanausbauteile, Campingzubehör, Reisemobilzubehör, Wohnwagenzubehör, Wohnmobilzubehör, Tineyhouse, Mobile Home, Wohncontainer, Sanitärcontainer, Flüchtlingsunterkunft, Bootkunststoffteile, Bootspritzugussteile, Bootteile, Gartenhaus,",
   },
 ];
+
+export const baseUrl = "https://www.baumann-entwicklungen.de";

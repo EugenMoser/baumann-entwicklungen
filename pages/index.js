@@ -7,7 +7,7 @@ import styled from "styled-components";
 import Icon from "@mdi/react";
 
 import ProductList from "../components/ProductList";
-import { sections } from "../helpers/constants";
+import { baseUrl, sections } from "../helpers/constants";
 import { findProducts } from "../helpers/services";
 import { strings } from "../helpers/strings";
 
@@ -86,6 +86,50 @@ function Home({
           rel="icon"
           href="/favicon.ico"
         />
+
+        {/* Open Graph / Facebook */}
+        <meta
+          property="og:type"
+          content="website"
+        />
+        <meta
+          property="og:url"
+          content={baseUrl}
+        />
+        <meta
+          property="og:title"
+          content={strings.company}
+        />
+        <meta
+          property="og:description"
+          content={strings.companyDescription}
+        />
+        <meta
+          property="og:image"
+          content={`${baseUrl}/images/baumann_logo_optimiert.png`}
+        />
+
+        {/* Twitter */}
+        <meta
+          property="twitter:card"
+          content="summary_large_image"
+        />
+        <meta
+          property="twitter:url"
+          content={baseUrl}
+        />
+        <meta
+          property="twitter:title"
+          content={strings.company}
+        />
+        <meta
+          property="twitter:description"
+          content={strings.companyDescription}
+        />
+        <meta
+          property="twitter:image"
+          content={`${baseUrl}/images/baumann_logo_optimiert.png`}
+        />
       </Head>
     );
   }
@@ -143,7 +187,6 @@ const StyledSection = styled.section`
 
   a {
     width: 100%;
-
     button {
       display: flex;
       align-items: center;
