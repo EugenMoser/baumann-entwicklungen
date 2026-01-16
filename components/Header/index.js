@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import Image from "next/image";
+import { useRouter } from "next/router";
+import styled from "styled-components";
 
-import ContactModal from '../ContactModal';
-import Searchbar from '../Searchbar';
+import ContactModal from "../ContactModal";
+import Searchbar from "../Searchbar";
 
 function Header({
   openContact,
@@ -21,14 +21,16 @@ function Header({
 
   return (
     <StyledHeader>
-      <StyledLogo
-        alt="Logo-Baumann-Entwicklungen"
-        src="/images/baumann_logo_optimiert.png"
-        width={749}
-        height={103}
-        onClick={() => navHome()}
-        priority={true}
-      />
+      <LogoWrapper onClick={() => navHome()}>
+        <StyledLogo
+          alt="Logo-Baumann-Entwicklungen"
+          src="/images/baumann_logo_optimiert.png"
+          width={2004}
+          height={397}
+          sizes="(max-width: 550px) 300px, (max-width: 1200px) 30vw, 500px"
+          priority={true}
+        />
+      </LogoWrapper>
 
       <MobileContainer>
         <Searchbar
@@ -63,19 +65,16 @@ const StyledHeader = styled.header`
   }
 `;
 
-const StyledLogo = styled(Image)`
-  align-self: center;
+const LogoWrapper = styled.div`
   width: 30vw;
-  height: auto;
-  min-width: 300px;
-  min-height: auto;
-
   max-width: 500px;
-  max-height: auto;
+  min-width: 300px;
   cursor: pointer;
-  @media (max-width: 550px) {
-    min-width: 200px;
-  }
+`;
+const StyledLogo = styled(Image)`
+  width: 100%;
+  height: auto;
+  height: auto;
 `;
 
 const MobileContainer = styled.div`
