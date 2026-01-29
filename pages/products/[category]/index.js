@@ -1,22 +1,27 @@
 //products by category
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import Head from "next/head";
-import styled from "styled-components";
+import Head from 'next/head';
+import styled from 'styled-components';
 
-import ProductList from "../../../components/ProductList";
-import { baseUrl, sections } from "../../../helpers/constants";
+import ProductList from '../../../components/ProductList';
+import {
+  baseUrl,
+  sections,
+} from '../../../helpers/constants';
+import { getAllProductsFromDB } from '../../../helpers/db-services';
 import {
   findProducts,
   getProductsByCategory,
-} from "../../../helpers/services";
+} from '../../../helpers/services';
 
 //**************** für static website */
 
 const getProducts = async () => {
-  const res = await fetch("http://localhost:3000/api/getdata");
-  const data = await res.json();
-  return data.products;
+  return await getAllProductsFromDB();
 };
 
 export async function getStaticPaths() {
@@ -31,7 +36,7 @@ export async function getStaticProps(context) {
   const category = context.params.category;
   const products = await getProducts();
   const filteredProducts = products.filter(
-    (product) => product.category === category
+    (product) => product.category === category,
   );
   return { props: { staticProducts: filteredProducts } };
 }

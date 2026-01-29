@@ -1,22 +1,27 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import Head from "next/head";
-import Link from "next/link";
-import styled from "styled-components";
+import Head from 'next/head';
+import Link from 'next/link';
+import styled from 'styled-components';
 
-import Icon from "@mdi/react";
+import Icon from '@mdi/react';
 
-import ProductList from "../components/ProductList";
-import { baseUrl, sections } from "../helpers/constants";
-import { findProducts } from "../helpers/services";
-import { strings } from "../helpers/strings";
+import ProductList from '../components/ProductList';
+import {
+  baseUrl,
+  sections,
+} from '../helpers/constants';
+import { getAllProductsFromDB } from '../helpers/db-services';
+import { findProducts } from '../helpers/services';
+import { strings } from '../helpers/strings';
 
 //**************** für static website */
 
 const getProducts = async () => {
-  const res = await fetch("http://localhost:3000/api/getdata");
-  const data = await res.json();
-  return data.products;
+  return await getAllProductsFromDB();
 };
 
 export async function getStaticProps(context) {

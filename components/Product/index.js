@@ -22,7 +22,9 @@ export default function Product({
                 ? product.product_imagepath_small
                 : "/images/placeholder.jpg"
             }
-            alt={product.product_name}
+            alt={`${product.product_name} - ${
+              product.product_description1 || "Baumann Spritzgussteile"
+            }`}
             width={80}
             height={80}
           />

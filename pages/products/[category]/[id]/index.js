@@ -1,28 +1,30 @@
 //products details
 
-import "react-image-gallery/styles/css/image-gallery.css";
+import 'react-image-gallery/styles/css/image-gallery.css';
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import Head from "next/head";
-import { useRouter } from "next/router";
-import ImageGallery from "react-image-gallery";
-import styled from "styled-components";
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import ImageGallery from 'react-image-gallery';
+import styled from 'styled-components';
 
-import { mdiChevronLeft } from "@mdi/js";
-import Icon from "@mdi/react";
+import { mdiChevronLeft } from '@mdi/js';
+import Icon from '@mdi/react';
 
-import Articles from "../../../../components/Articles";
-import ColorButtons from "../../../../components/ColorButtons";
-import ShowSelection from "../../../../components/ShowSelection";
-import { baseUrl } from "../../../../helpers/constants";
-import { strings } from "../../../../helpers/strings";
+import Articles from '../../../../components/Articles';
+import ColorButtons from '../../../../components/ColorButtons';
+import ShowSelection from '../../../../components/ShowSelection';
+import { baseUrl } from '../../../../helpers/constants';
+import { getAllProductsFromDB } from '../../../../helpers/db-services';
+import { strings } from '../../../../helpers/strings';
 
 //**************** für static website */
 const getProducts = async () => {
-  const res = await fetch("http://localhost:3000/api/getdata");
-  const data = await res.json();
-  return data.products;
+  return await getAllProductsFromDB();
 };
 
 export async function getStaticPaths() {
@@ -43,10 +45,10 @@ export async function getStaticProps(context) {
   const category = context.params.category;
   const products = await getProducts();
   const filterdProduct = products.filter(
-    (product) => product.product_id.toString() === id
+    (product) => product.product_id.toString() === id,
   );
   const filteredProducts = products.filter(
-    (product) => product.category === category
+    (product) => product.category === category,
   );
   return {
     props: {
@@ -114,18 +116,34 @@ function ProductDetails({
     }
   }, [searchInputText]);
 
+  // Erstelle SEO-optimierten Alt-Text mit Kategorie-Kontext
+  const getCategoryName = (cat) => {
+    const categoryMap = {
+      moebel: "Möbelbereich",
+      halterung: "Halterungsbereich",
+      wasser: "Wasserbereich",
+      lueftung: "Lüftungsbereich",
+      elektro: "Elektrobereich",
+    };
+    return categoryMap[cat] || "";
+  };
+
+  const baseAltText = `${name} - ${getCategoryName(
+    category,
+  )} - Baumann Kunststoffspritzgussteile`;
+
   if (image1) {
     images.push({
       original: image1,
       thumbnail: image1,
-      originalAlt: `Ein Bild von ${name}`,
+      originalAlt: baseAltText,
     });
   }
   if (image2) {
     images.push({
       original: image2,
       thumbnail: image2,
-      originalAlt: `Ein Bild von ${name}`,
+      originalAlt: `${baseAltText} - Detail`,
     });
   }
 
@@ -133,7 +151,7 @@ function ProductDetails({
     images.push({
       original: image3,
       thumbnail: image3,
-      originalAlt: `Ein Bild von ${name}`,
+      originalAlt: `${baseAltText} - Ansicht`,
     });
   }
 
@@ -147,7 +165,7 @@ function ProductDetails({
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
-      (article) => article.article_id === articleId
+      (article) => article.article_id === articleId,
     );
     setSelectedArticle(articleObject);
   }
@@ -223,7 +241,7 @@ function ProductDetails({
           />
         )}
 
-        {/* Structured Data */}
+        {/* Structured Data for Product search engine optimization */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -235,9 +253,28 @@ function ProductDetails({
                 .filter(Boolean)
                 .map((img) => `${baseUrl}${img}`),
               description: description1,
+              sku: product.product_id.toString(),
+              mpn: product.product_id.toString(),
               brand: {
                 "@type": "Brand",
                 name: "Baumann Entwicklungen",
+              },
+              manufacturer: {
+                "@type": "Organization",
+                name: "Baumann Entwicklungen",
+                url: baseUrl,
+              },
+              material: material,
+              category: getCategoryName(category),
+              offers: {
+                "@type": "Offer",
+                availability: "https://schema.org/InStock",
+                priceCurrency: "EUR",
+                seller: {
+                  "@type": "Organization",
+                  name: "Baumann Entwicklungen",
+                },
+                url: currentUrl,
               },
             }),
           }}

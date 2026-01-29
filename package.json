@@ -5,7 +5,7 @@
   "scripts": {
     "export": "next build && next export",
     "dev": "next dev",
-    "build": "next build && next export && next-sitemap",
+    "build": "next build && next export && next-sitemap && node scripts/generate-image-sitemap.js",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
