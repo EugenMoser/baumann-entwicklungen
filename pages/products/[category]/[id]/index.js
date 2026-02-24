@@ -1,26 +1,23 @@
 //products details
 
-import 'react-image-gallery/styles/css/image-gallery.css';
+import "react-image-gallery/styles/css/image-gallery.css";
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import ImageGallery from 'react-image-gallery';
-import styled from 'styled-components';
+import Head from "next/head";
+import { useRouter } from "next/router";
+import ImageGallery from "react-image-gallery";
+import styled from "styled-components";
 
-import { mdiChevronLeft } from '@mdi/js';
-import Icon from '@mdi/react';
+import { mdiChevronLeft } from "@mdi/js";
+import Icon from "@mdi/react";
 
-import Articles from '../../../../components/Articles';
-import ColorButtons from '../../../../components/ColorButtons';
-import ShowSelection from '../../../../components/ShowSelection';
-import { baseUrl } from '../../../../helpers/constants';
-import { getAllProductsFromDB } from '../../../../helpers/db-services';
-import { strings } from '../../../../helpers/strings';
+import Articles from "../../../../components/Articles";
+import ColorButtons from "../../../../components/ColorButtons";
+import ShowSelection from "../../../../components/ShowSelection";
+import { baseUrl } from "../../../../helpers/constants";
+import { getAllProductsFromDB } from "../../../../helpers/db-services";
+import { strings } from "../../../../helpers/strings";
 
 //**************** für static website */
 const getProducts = async () => {
@@ -60,10 +57,6 @@ export async function getStaticProps(context) {
 }
 
 //****************************** */
-
-export const metadata = {
-  title: "TESTTITEL",
-};
 
 function ProductDetails({
   //******** für static website */
@@ -180,17 +173,159 @@ function ProductDetails({
   const ogImage = image1 ? `${baseUrl}${image1}` : "";
   const currentUrl = `${baseUrl}/products/${category}/${product.product_id}`;
 
+  // Artikelnummern für SEO extrahieren
+  const articleNumbers = product.articles
+    ? product.articles
+        .sort((a, b) => a.article_prio - b.article_prio)
+        .map((a) => a.article_number)
+        .filter(Boolean)
+    : [];
+  const articleNumbersString = articleNumbers.join(", ");
+  const articleNumbersShort = articleNumbers.slice(0, 3).join(", ");
+
+  // SEO-optimierter Titel mit Artikelnummern
+  const seoTitle = articleNumbersShort
+    ? `${name} | Art.-Nr. ${articleNumbersShort} | Baumann Spritzgussteile`
+    : `${name} | Baumann Spritzgussteile`;
+
+  // SEO-optimierte Beschreibung mit Artikelnummern und Material
+  const seoDescription = [
+    name,
+    description1,
+    articleNumbersString ? `Artikelnummern: ${articleNumbersString}` : "",
+    material ? `Material: ${material}` : "",
+    "Baumann Entwicklungen - Kunststoffspritzgussteile",
+  ]
+    .filter(Boolean)
+    .join(" | ")
+    .slice(0, 320);
+
+  // Keywords mit Artikelnummern erweitern
+  const seoKeywords = [
+    keywords,
+    ...articleNumbers,
+    name,
+    material,
+    getCategoryName(category),
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  // Breadcrumb-Daten
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Startseite",
+        item: baseUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: getCategoryName(category),
+        item: `${baseUrl}/products/${category}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: name,
+        item: currentUrl,
+      },
+    ],
+  };
+
+  // Artikel-Beschreibungen für strukturierte Daten
+  const articleDescriptions = product.articles
+    ? product.articles
+        .filter((a) => a.article_number && a.article_description)
+        .map((a) => `${a.article_number}: ${a.article_description}`)
+        .join(". ")
+    : "";
+
+  const fullDescription = [description1, articleDescriptions]
+    .filter(Boolean)
+    .join(". ");
+
+  // Structured Data: Jeder Artikel als eigenes Angebot mit SKU
+  const offers = product.articles
+    ? product.articles
+        .filter((a) => a.article_number)
+        .map((article) => ({
+          "@type": "Offer",
+          sku: article.article_number,
+          name:
+            article.article_description || article.article_name || name,
+          availability: "https://schema.org/InStock",
+          url: currentUrl,
+          seller: {
+            "@type": "Organization",
+            name: "Tilo Baumann Spritzgussteile e.K.",
+          },
+        }))
+    : [];
+
+  const productStructuredData = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    name: name,
+    image: [image1, image2, image3]
+      .filter(Boolean)
+      .map((img) => `${baseUrl}${img}`),
+    description: fullDescription,
+    sku: articleNumbers[0] || product.product_id.toString(),
+    mpn: articleNumbers[0] || product.product_id.toString(),
+    brand: {
+      "@type": "Brand",
+      name: "Baumann Entwicklungen",
+    },
+    manufacturer: {
+      "@type": "Organization",
+      name: "Tilo Baumann Spritzgussteile e.K.",
+      url: baseUrl,
+    },
+    material: material,
+    category: getCategoryName(category),
+    url: currentUrl,
+    offers:
+      offers.length > 1
+        ? {
+            "@type": "AggregateOffer",
+            offerCount: offers.length,
+            availability: "https://schema.org/InStock",
+            url: currentUrl,
+            seller: {
+              "@type": "Organization",
+              name: "Tilo Baumann Spritzgussteile e.K.",
+            },
+            offers: offers,
+          }
+        : offers.length === 1
+        ? offers[0]
+        : undefined,
+  };
+
   return (
     <>
       <Head>
-        <title>{metadata}</title>
+        <title>{seoTitle}</title>
         <meta
           name="description"
-          content={name + " " + description1}
+          content={seoDescription}
         />
         <meta
           name="keywords"
-          content={keywords}
+          content={seoKeywords}
+        />
+        <link
+          rel="canonical"
+          href={currentUrl}
+        />
+        <meta
+          name="robots"
+          content="index, follow"
         />
 
         {/* Open Graph / Facebook */}
@@ -204,16 +339,26 @@ function ProductDetails({
         />
         <meta
           property="og:title"
-          content={metadata}
+          content={seoTitle}
         />
         <meta
           property="og:description"
-          content={name + " " + description1}
+          content={seoDescription}
+        />
+        <meta
+          property="og:site_name"
+          content="Baumann Entwicklungen"
         />
         {ogImage && (
           <meta
             property="og:image"
             content={ogImage}
+          />
+        )}
+        {ogImage && (
+          <meta
+            property="og:image:alt"
+            content={baseAltText}
           />
         )}
 
@@ -228,11 +373,11 @@ function ProductDetails({
         />
         <meta
           property="twitter:title"
-          content={metadata}
+          content={seoTitle}
         />
         <meta
           property="twitter:description"
-          content={name + " " + description1}
+          content={seoDescription}
         />
         {ogImage && (
           <meta
@@ -241,42 +386,19 @@ function ProductDetails({
           />
         )}
 
-        {/* Structured Data for Product search engine optimization */}
+        {/* Breadcrumb Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org/",
-              "@type": "Product",
-              name: name,
-              image: [image1, image2, image3]
-                .filter(Boolean)
-                .map((img) => `${baseUrl}${img}`),
-              description: description1,
-              sku: product.product_id.toString(),
-              mpn: product.product_id.toString(),
-              brand: {
-                "@type": "Brand",
-                name: "Baumann Entwicklungen",
-              },
-              manufacturer: {
-                "@type": "Organization",
-                name: "Baumann Entwicklungen",
-                url: baseUrl,
-              },
-              material: material,
-              category: getCategoryName(category),
-              offers: {
-                "@type": "Offer",
-                availability: "https://schema.org/InStock",
-                priceCurrency: "EUR",
-                seller: {
-                  "@type": "Organization",
-                  name: "Baumann Entwicklungen",
-                },
-                url: currentUrl,
-              },
-            }),
+            __html: JSON.stringify(breadcrumbData),
+          }}
+        />
+
+        {/* Product Structured Data with article numbers */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(productStructuredData),
           }}
         />
       </Head>

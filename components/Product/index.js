@@ -1,19 +1,45 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import styled from "styled-components";
 
 export default function Product({
   product,
   hrefProduct,
   setSearchInputText,
 }) {
+  // Erste Artikelnummer für SEO
+  const firstArticleNumber =
+    product.articles &&
+    product.articles.length > 0 &&
+    product.articles[0].article_number
+      ? product.articles[0].article_number
+      : "";
+
+  const seoAltText = [
+    product.product_name,
+    product.product_description1 || "",
+    firstArticleNumber ? `Art.-Nr. ${firstArticleNumber}` : "",
+    "Baumann Spritzgussteile",
+  ]
+    .filter(Boolean)
+    .join(" - ");
+
+  const linkTitle = [
+    product.product_name,
+    product.product_description1 || "",
+    firstArticleNumber ? `Artikelnummer ${firstArticleNumber}` : "",
+  ]
+    .filter(Boolean)
+    .join(" - ");
+
   return (
     <StyledButton
       onClick={() => setSearchInputText && setSearchInputText("")}
     >
       <StyledLink
         href={`.${hrefProduct}/${product.category}/${product.product_id}`}
+        title={linkTitle}
       >
         <ImageWrapper>
           <StyledImage
@@ -22,9 +48,8 @@ export default function Product({
                 ? product.product_imagepath_small
                 : "/images/placeholder.jpg"
             }
-            alt={`${product.product_name} - ${
-              product.product_description1 || "Baumann Spritzgussteile"
-            }`}
+            alt={seoAltText}
+            title={product.product_name}
             width={80}
             height={80}
           />
@@ -33,6 +58,11 @@ export default function Product({
         <TextWrapper>
           <h3>{product.product_name}</h3>
           <p>{product.product_description1}</p>
+          {firstArticleNumber && (
+            <StyledArticleNumber>
+              Art.-Nr. {firstArticleNumber}
+            </StyledArticleNumber>
+          )}
         </TextWrapper>
       </StyledLink>
     </StyledButton>
@@ -88,6 +118,16 @@ const TextWrapper = styled.div`
     p {
       font-size: var(--small-product-description);
     }
+  }
+`;
+
+const StyledArticleNumber = styled.span`
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.15rem;
+
+  @media (max-width: 650px) {
+    font-size: 0.65rem;
   }
 `;
 

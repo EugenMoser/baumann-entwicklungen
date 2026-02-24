@@ -1,22 +1,16 @@
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import Head from 'next/head';
-import Link from 'next/link';
-import styled from 'styled-components';
+import Head from "next/head";
+import Link from "next/link";
+import styled from "styled-components";
 
-import Icon from '@mdi/react';
+import Icon from "@mdi/react";
 
-import ProductList from '../components/ProductList';
-import {
-  baseUrl,
-  sections,
-} from '../helpers/constants';
-import { getAllProductsFromDB } from '../helpers/db-services';
-import { findProducts } from '../helpers/services';
-import { strings } from '../helpers/strings';
+import ProductList from "../components/ProductList";
+import { baseUrl, sections } from "../helpers/constants";
+import { getAllProductsFromDB } from "../helpers/db-services";
+import { findProducts } from "../helpers/services";
+import { strings } from "../helpers/strings";
 
 //**************** für static website */
 
@@ -75,9 +69,66 @@ function Home({
   }
 
   function createMetadata() {
+    // Organization Structured Data
+    const organizationData = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Tilo Baumann Spritzgussteile e.K.",
+      alternateName: "Baumann Entwicklungen",
+      url: baseUrl,
+      logo: `${baseUrl}/images/baumann_logo_optimiert.png`,
+      description: strings.companyDescription,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: strings.street,
+        addressLocality: strings.city,
+        postalCode: strings.postalCode,
+        addressCountry: "DE",
+      },
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: strings.phoneNumber,
+        contactType: "customer service",
+        availableLanguage: "German",
+      },
+      email: strings.mailAddress,
+      sameAs: [],
+    };
+
+    // WebSite Structured Data mit SearchAction
+    const websiteData = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Baumann Entwicklungen - Kunststoffspritzgussteile",
+      url: baseUrl,
+      description: strings.companyDescription,
+      publisher: {
+        "@type": "Organization",
+        name: "Tilo Baumann Spritzgussteile e.K.",
+      },
+    };
+
+    // Alle Produkt-Kategorien als ItemList
+    const categoriesData = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Produktbereiche",
+      description:
+        "Übersicht aller Produktbereiche von Baumann Entwicklungen",
+      itemListElement: sections.map((section, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: section.name,
+        url: `${baseUrl}/products/${section.category}`,
+      })),
+    };
+
     return (
       <Head>
-        <title>{strings.company}</title>
+        <title>
+          {strings.company} | Kunststoffspritzgussteile für Caravan &
+          Möbelindustrie
+        </title>
         <meta
           name="description"
           content={strings.companyDescription}
@@ -85,6 +136,14 @@ function Home({
         <meta
           name="keywords"
           content={strings.companyKeywords}
+        />
+        <link
+          rel="canonical"
+          href={baseUrl}
+        />
+        <meta
+          name="robots"
+          content="index, follow"
         />
 
         <link
@@ -108,6 +167,10 @@ function Home({
         <meta
           property="og:description"
           content={strings.companyDescription}
+        />
+        <meta
+          property="og:site_name"
+          content="Baumann Entwicklungen"
         />
         <meta
           property="og:image"
@@ -134,6 +197,30 @@ function Home({
         <meta
           property="twitter:image"
           content={`${baseUrl}/images/baumann_logo_optimiert.png`}
+        />
+
+        {/* Organization Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationData),
+          }}
+        />
+
+        {/* WebSite Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteData),
+          }}
+        />
+
+        {/* Categories ItemList */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(categoriesData),
+          }}
         />
       </Head>
     );

@@ -22,6 +22,11 @@ function Footer({ openContact, setOpenContact }) {
         <li>
           <StyledLink href="../../privacy">Datenschutz</StyledLink>
         </li>
+        <li>
+          <StyledLink href="../../quality">
+            Qualitäts- und Umweltpolitik
+          </StyledLink>
+        </li>
       </StyledList>
     </StyledFooter>
   );

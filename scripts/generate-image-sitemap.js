@@ -25,7 +25,12 @@ async function getProducts() {
         product.product_imagepath_big1,
         product.product_imagepath_big2,
         product.product_imagepath_big3,
-        product.product_description1
+        product.product_description1,
+        (
+          SELECT GROUP_CONCAT(article.article_number SEPARATOR ', ')
+          FROM article
+          WHERE article.product_id = product.product_id
+        ) as article_numbers
       FROM product
     `;
 
@@ -50,13 +55,21 @@ function generateImageSitemap(products, baseUrl) {
       if (images.length === 0) return "";
 
       const imageEntries = images
-        .map((img) => {
+        .map((img, idx) => {
+          const articleInfo = product.article_numbers
+            ? ` - Art.-Nr. ${product.article_numbers}`
+            : "";
+          const suffix =
+            idx === 0 ? "" : idx === 1 ? " - Detail" : " - Ansicht";
           return `
       <image:image>
         <image:loc>${baseUrl}${img}</image:loc>
-        <image:title>${escapeXml(product.product_name)}</image:title>
+        <image:title>${escapeXml(
+          product.product_name + articleInfo + suffix,
+        )}</image:title>
         <image:caption>${escapeXml(
-          product.product_description1 || product.product_name,
+          (product.product_description1 || product.product_name) +
+            articleInfo,
         )}</image:caption>
       </image:image>`;
         })

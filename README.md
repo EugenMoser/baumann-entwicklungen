@@ -1,3 +1,5 @@
+Build Prozess:
 
-
-## under construction
+- Docker laufen lassen (baumann)
+- npm run dev
+- in einer neuen shell: npm run build

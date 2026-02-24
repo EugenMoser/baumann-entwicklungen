@@ -1,22 +1,16 @@
 //products by category
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import Head from 'next/head';
-import styled from 'styled-components';
+import Head from "next/head";
+import styled from "styled-components";
 
-import ProductList from '../../../components/ProductList';
-import {
-  baseUrl,
-  sections,
-} from '../../../helpers/constants';
-import { getAllProductsFromDB } from '../../../helpers/db-services';
+import ProductList from "../../../components/ProductList";
+import { baseUrl, sections } from "../../../helpers/constants";
+import { getAllProductsFromDB } from "../../../helpers/db-services";
 import {
   findProducts,
   getProductsByCategory,
-} from '../../../helpers/services';
+} from "../../../helpers/services";
 
 //**************** für static website */
 
@@ -71,21 +65,111 @@ function ProductCategory({
       ? getProductsByCategory(filteredProducts, category)
       : getProductsByCategory(allProducts, category);
 
+  // Alle Artikelnummern dieser Kategorie für SEO sammeln
+  const allArticleNumbers = allProducts
+    ? allProducts
+        .flatMap((p) =>
+          p.articles
+            ? p.articles.map((a) => a.article_number).filter(Boolean)
+            : [],
+        )
+        .slice(0, 20)
+    : [];
+
+  // Alle Produktnamen dieser Kategorie
+  const allProductNames = allProducts
+    ? allProducts.map((p) => p.product_name).filter(Boolean)
+    : [];
+
   return (
     <>
       {sections.map((section) => {
         if (section.category === category) {
           const currentUrl = `${baseUrl}/products/${category}`;
+
+          // SEO-optimierter Titel
+          const seoTitle = `${section.name} | Baumann Kunststoffspritzgussteile`;
+
+          // SEO-optimierte Beschreibung mit Produktnamen
+          const productNamesList = allProductNames.slice(0, 5).join(", ");
+          const seoDescription = `${
+            section.name
+          }: ${productNamesList}. Kunststoffspritzgussteile von Baumann Entwicklungen. ${
+            allArticleNumbers.length
+              ? `Artikelnummern: ${allArticleNumbers
+                  .slice(0, 8)
+                  .join(", ")}`
+              : ""
+          }`.slice(0, 320);
+
+          // Keywords mit Artikelnummern und Produktnamen erweitern
+          const seoKeywords = [
+            section.keywords,
+            ...allArticleNumbers.slice(0, 15),
+            ...allProductNames,
+          ]
+            .filter(Boolean)
+            .join(", ");
+
+          // ItemList Structured Data für Kategorieseite
+          const itemListData = {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: section.name,
+            description: seoDescription,
+            url: currentUrl,
+            numberOfItems: allProducts ? allProducts.length : 0,
+            itemListElement: allProducts
+              ? allProducts.map((product, index) => ({
+                  "@type": "ListItem",
+                  position: index + 1,
+                  name: product.product_name,
+                  url: `${baseUrl}/products/${category}/${product.product_id}`,
+                  image: product.product_imagepath_big1
+                    ? `${baseUrl}${product.product_imagepath_big1}`
+                    : undefined,
+                }))
+              : [],
+          };
+
+          // Breadcrumb Structured Data
+          const breadcrumbData = {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Startseite",
+                item: baseUrl,
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: section.name,
+                item: currentUrl,
+              },
+            ],
+          };
+
           return (
             <Head key={section.category}>
-              <title>{section.name}</title>
+              <title>{seoTitle}</title>
               <meta
                 name="description"
-                content={`Sie befinden sich im ${section.name}`}
+                content={seoDescription}
               />
               <meta
                 name="keywords"
-                content={section.keywords}
+                content={seoKeywords}
+              />
+              <link
+                rel="canonical"
+                href={currentUrl}
+              />
+              <meta
+                name="robots"
+                content="index, follow"
               />
 
               {/* Open Graph / Facebook */}
@@ -99,11 +183,15 @@ function ProductCategory({
               />
               <meta
                 property="og:title"
-                content={section.name}
+                content={seoTitle}
               />
               <meta
                 property="og:description"
-                content={`Sie befinden sich im ${section.name}`}
+                content={seoDescription}
+              />
+              <meta
+                property="og:site_name"
+                content="Baumann Entwicklungen"
               />
               <meta
                 property="og:image"
@@ -121,15 +209,31 @@ function ProductCategory({
               />
               <meta
                 property="twitter:title"
-                content={section.name}
+                content={seoTitle}
               />
               <meta
                 property="twitter:description"
-                content={`Sie befinden sich im ${section.name}`}
+                content={seoDescription}
               />
               <meta
                 property="twitter:image"
                 content={`${baseUrl}/images/baumann_logo_optimiert.png`}
+              />
+
+              {/* ItemList Structured Data */}
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify(itemListData),
+                }}
+              />
+
+              {/* Breadcrumb Structured Data */}
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify(breadcrumbData),
+                }}
               />
             </Head>
           );
