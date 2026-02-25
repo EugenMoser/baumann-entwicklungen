@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 
@@ -46,19 +46,24 @@ body {
     padding: 0;
     margin: 0 5rem;
     max-width: 100%;
+
     @media (max-width: 768px) {
         margin: 0 2rem;
     }
     @media (max-width: 480px) {
         margin: 0 1rem;
     }
+    
 }
 
 main {
     width: 100%;
     align-self: center;
-    padding-bottom: 1rem;
-    
+    padding-bottom: 4rem;
+
+    @media (max-width: 1024px) {
+        padding-bottom: 7rem;
+    }
 }
 
 button {
