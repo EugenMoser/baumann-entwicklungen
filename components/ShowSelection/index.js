@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styled from "styled-components";
 
 import { getEmailBody, strings } from "../../helpers/strings";
@@ -54,22 +55,21 @@ export default function ShowSelection({ selectedArticle, selectedColor }) {
               )}
             </StyledList>
           </StyledVpe>
-          <StyledForm
-            action={`mailto:${strings.mailAddress}?subject=${
-              strings.subject
-            }&body=${encodeURI(
+          <StyledInputLink
+            href={`mailto:${
+              strings.mailAddress
+            }?subject=${encodeURIComponent(
+              strings.subject,
+            )}&body=${encodeURIComponent(
               getEmailBody(
                 selectedArticle.article_name,
                 fullArticleNumber,
                 selectedColor.color_name,
               ),
             )}`}
-            method="post"
           >
-            <StyledInputButton type="submit">
-              {strings.request}
-            </StyledInputButton>
-          </StyledForm>
+            {strings.request}
+          </StyledInputLink>
         </>
       ) : (
         <StyledParagraph>{strings.chooseProductAndColor}</StyledParagraph>
@@ -113,12 +113,7 @@ const StyledParagraph = styled.p`
   color: red;
 `;
 
-const StyledForm = styled.form`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const StyledInputButton = styled.button`
+const StyledInputLink = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
