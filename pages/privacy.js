@@ -5,8 +5,9 @@ function Privacy() {
     <>
       <StyledH1>Datenschutz</StyledH1>
       <StyledH3>Haftungsausschluss:</StyledH3>
+
+      <h4>Haftung für Inhalte</h4>
       <p>
-        <h4>Haftung für Inhalte</h4>
         Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt.
         Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte
         können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind
@@ -22,25 +23,24 @@ function Privacy() {
         Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir
         diese Inhalte umgehend entfernen.
       </p>
-      <br />
-      <p>
-        <h4>Haftung für Links Unser Angebot</h4>
-        enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir
-        keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte
-        auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten
-        ist stets der jeweilige Anbieter oder Betreiber der Seiten
-        verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der
-        Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige
-        Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine
-        permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch
-        ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar.
-        Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links
-        umgehend entfernen.
-      </p>
-      <br />
 
+      <h4>Haftung für Links</h4>
       <p>
-        <h4>Urheberrecht</h4>
+        Unser Angebot enthält Links zu externen Webseiten Dritter, auf
+        deren Inhalte wir keinen Einfluss haben. Deshalb können wir für
+        diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte
+        der verlinkten Seiten ist stets der jeweilige Anbieter oder
+        Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden
+        zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft.
+        Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht
+        erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten
+        Seiten ist jedoch ohne konkrete Anhaltspunkte einer
+        Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von
+        Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+      </p>
+
+      <h4>Urheberrecht</h4>
+      <p>
         Die durch die Seitenbetreiber erstellten Inhalte und Werke auf
         diesen Seiten unterliegen dem deutschen Urheberrecht. Die
         Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
@@ -55,10 +55,9 @@ function Privacy() {
         entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen
         werden wir derartige Inhalte umgehend entfernen.
       </p>
-      <br />
 
+      <h4>Datenschutz</h4>
       <p>
-        <h4>Datenschutz</h4>
         Die Nutzung unserer Webseite ist in der Regel ohne Angabe
         personenbezogener Daten möglich. Soweit auf unseren Seiten
         personenbezogene Daten (beispielsweise Name, Anschrift oder
@@ -75,7 +74,7 @@ function Privacy() {
         ausdrücklich rechtliche Schritte im Falle der unverlangten
         Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.
       </p>
-      <br />
+
       <StyledCite>
         Quelle: Disclaimer von eRecht24, dem Portal zum Internetrecht von
         Rechtsanwalt Sören Siebert.
@@ -83,6 +82,7 @@ function Privacy() {
     </>
   );
 }
+
 export default Privacy;
 
 const StyledH1 = styled.h1`

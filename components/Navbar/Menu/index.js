@@ -1,7 +1,5 @@
-import Link from 'next/link';
-import styled, { css } from 'styled-components';
-
-import { createSections } from '../../../helpers/services';
+import Link from "next/link";
+import styled, { css } from "styled-components";
 
 function Menu({ sections, path }) {
   return (
@@ -45,14 +43,15 @@ const StyledLink = styled(Link)`
       color: var(--font-color-hover);
 
       &:hover,
-      :focus,
-      :active {
+      &:focus,
+      &:active {
         border-bottom: 2px solid var(--font-color-hover);
       }
     `}
 
-  &:hover,:focus,
-  :active {
+  &:hover,
+  &:focus,
+  &:active {
     color: var(--font-color-hover);
   }
 `;

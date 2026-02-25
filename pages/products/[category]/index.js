@@ -1,4 +1,3 @@
-//products by category
 import { useEffect, useState } from "react";
 
 import Head from "next/head";
@@ -12,60 +11,41 @@ import {
   getProductsByCategory,
 } from "../../../helpers/services";
 
-//**************** für static website */
-
-const getProducts = async () => {
-  return await getAllProductsFromDB();
-};
-
 export async function getStaticPaths() {
-  const products = await getProducts();
-  const paths = products.map((product) => {
-    return { params: { category: product.category } };
-  });
+  const products = await getAllProductsFromDB();
+  const paths = products.map((product) => ({
+    params: { category: product.category },
+  }));
   return { paths, fallback: false };
 }
 
 export async function getStaticProps(context) {
-  const category = context.params.category;
-  const products = await getProducts();
+  const { category } = context.params;
+  const products = await getAllProductsFromDB();
   const filteredProducts = products.filter(
     (product) => product.category === category,
   );
   return { props: { staticProducts: filteredProducts } };
 }
 
-//****************** */
-
 function ProductCategory({
-  //******** für static website */
   staticProducts,
-  // allProducts,
-  // filteredProducts,
   searchInputText,
   setSearchInputText,
 }) {
-  //**************** für static website */
   const allProducts = staticProducts;
-  const category = allProducts && allProducts[0].category;
+  const category = allProducts?.[0]?.category;
   const [filteredProducts, setFilteredProducts] = useState([]);
+
   useEffect(() => {
     setFilteredProducts(findProducts(searchInputText, staticProducts));
-  }, [searchInputText]);
-  // useEffect(() => {
-  //   setSearchInputText('');
-  // }, []);
-  // const router = useRouter();
-  // const { category } = router.query;
+  }, [searchInputText, staticProducts]);
 
-  //****************** */
-
-  const searchgetProductsByCategory =
-    searchInputText.length && filteredProducts
+  const productsToShow =
+    searchInputText.length && filteredProducts.length
       ? getProductsByCategory(filteredProducts, category)
       : getProductsByCategory(allProducts, category);
 
-  // Alle Artikelnummern dieser Kategorie für SEO sammeln
   const allArticleNumbers = allProducts
     ? allProducts
         .flatMap((p) =>
@@ -76,7 +56,6 @@ function ProductCategory({
         .slice(0, 20)
     : [];
 
-  // Alle Produktnamen dieser Kategorie
   const allProductNames = allProducts
     ? allProducts.map((p) => p.product_name).filter(Boolean)
     : [];
@@ -86,11 +65,10 @@ function ProductCategory({
       {sections.map((section) => {
         if (section.category === category) {
           const currentUrl = `${baseUrl}/products/${category}`;
-
           // SEO-optimierter Titel
           const seoTitle = `${section.name} | Baumann Kunststoffspritzgussteile`;
 
-          // SEO-optimierte Beschreibung mit Produktnamen
+          // SEO-optimierte Beschreibung
           const productNamesList = allProductNames.slice(0, 5).join(", ");
           const seoDescription = `${
             section.name
@@ -240,10 +218,9 @@ function ProductCategory({
         }
       })}
 
-      {searchgetProductsByCategory &&
-      searchgetProductsByCategory.length ? (
+      {productsToShow?.length ? (
         <ProductList
-          products={searchgetProductsByCategory}
+          products={productsToShow}
           category={category}
           setSearchInputText={setSearchInputText}
         />

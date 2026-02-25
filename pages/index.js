@@ -12,252 +12,222 @@ import { getAllProductsFromDB } from "../helpers/db-services";
 import { findProducts } from "../helpers/services";
 import { strings } from "../helpers/strings";
 
-//**************** für static website */
-
-const getProducts = async () => {
-  return await getAllProductsFromDB();
-};
-
-export async function getStaticProps(context) {
-  const products = await getProducts();
-
+export async function getStaticProps() {
+  const products = await getAllProductsFromDB();
   return { props: { staticProducts: products } };
 }
 
-//****************************** */
-
-function Home({
-  //**************** für static website */
-  staticProducts,
-  //allProducts,
-  //filteredProducts,
-  searchInputText,
-  setSearchInputText,
-}) {
-  //**************** für static website */
+function Home({ staticProducts, searchInputText, setSearchInputText }) {
   const allProducts = staticProducts;
   const [filteredProducts, setFilteredProducts] = useState([]);
+
   useEffect(() => {
     setFilteredProducts(findProducts(searchInputText, allProducts));
-  }, [searchInputText]);
-  //****************************** */
+  }, [searchInputText, allProducts]);
 
   function deleteSessionStorage() {
-    //fix issus "localStorage is not defined"
     if (typeof window !== "undefined") {
-      sessionStorage && sessionStorage.removeItem("TILO_scrollPosition");
+      sessionStorage?.removeItem("TILO_scrollPosition");
     }
   }
 
-  function createSection() {
-    const returnSection = sections.map((section, index) => {
-      return (
-        <li key={index}>
-          <StyledLink href={`/products/${section.category}`}>
-            <StyledButton onClick={deleteSessionStorage()}>
-              <Icon
-                path={section.icon}
-                size={1.5}
-              />
-              {section.name}
-            </StyledButton>
-          </StyledLink>
-        </li>
-      );
-    });
-    return returnSection;
-  }
+  function renderContent() {
+    if (!allProducts?.length) {
+      return <StyledMessage>{strings.errorMsgSiteLoading}</StyledMessage>;
+    }
 
-  function createMetadata() {
-    // Organization Structured Data
-    const organizationData = {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "Tilo Baumann Spritzgussteile e.K.",
-      alternateName: "Baumann Entwicklungen",
-      url: baseUrl,
-      logo: `${baseUrl}/images/baumann_logo_optimiert.png`,
-      description: strings.companyDescription,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: strings.street,
-        addressLocality: strings.city,
-        postalCode: strings.postalCode,
-        addressCountry: "DE",
-      },
-      contactPoint: {
-        "@type": "ContactPoint",
-        telephone: strings.phoneNumber,
-        contactType: "customer service",
-        availableLanguage: "German",
-      },
-      email: strings.mailAddress,
-      sameAs: [],
-    };
-
-    // WebSite Structured Data mit SearchAction
-    const websiteData = {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      name: "Baumann Entwicklungen - Kunststoffspritzgussteile",
-      url: baseUrl,
-      description: strings.companyDescription,
-      publisher: {
-        "@type": "Organization",
-        name: "Tilo Baumann Spritzgussteile e.K.",
-      },
-    };
-
-    // Alle Produkt-Kategorien als ItemList
-    const categoriesData = {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      name: "Produktbereiche",
-      description:
-        "Übersicht aller Produktbereiche von Baumann Entwicklungen",
-      itemListElement: sections.map((section, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        name: section.name,
-        url: `${baseUrl}/products/${section.category}`,
-      })),
-    };
+    if (searchInputText?.length) {
+      if (filteredProducts.length) {
+        return (
+          <ProductList
+            products={filteredProducts}
+            hrefProduct="/products"
+            setSearchInputText={setSearchInputText}
+          />
+        );
+      }
+      return <StyledMessage>Kein Produkt gefunden.</StyledMessage>;
+    }
 
     return (
-      <Head>
-        <title>
-          {strings.company} | Kunststoffspritzgussteile für Caravan &
-          Möbelindustrie
-        </title>
-        <meta
-          name="description"
-          content={strings.companyDescription}
-        />
-        <meta
-          name="keywords"
-          content={strings.companyKeywords}
-        />
-        <link
-          rel="canonical"
-          href={baseUrl}
-        />
-        <meta
-          name="robots"
-          content="index, follow"
-        />
-
-        <link
-          rel="icon"
-          href="/favicon.ico"
-        />
-
-        {/* Open Graph / Facebook */}
-        <meta
-          property="og:type"
-          content="website"
-        />
-        <meta
-          property="og:url"
-          content={baseUrl}
-        />
-        <meta
-          property="og:title"
-          content={strings.company}
-        />
-        <meta
-          property="og:description"
-          content={strings.companyDescription}
-        />
-        <meta
-          property="og:site_name"
-          content="Baumann Entwicklungen"
-        />
-        <meta
-          property="og:image"
-          content={`${baseUrl}/images/baumann_logo_optimiert.png`}
-        />
-
-        {/* Twitter */}
-        <meta
-          property="twitter:card"
-          content="summary_large_image"
-        />
-        <meta
-          property="twitter:url"
-          content={baseUrl}
-        />
-        <meta
-          property="twitter:title"
-          content={strings.company}
-        />
-        <meta
-          property="twitter:description"
-          content={strings.companyDescription}
-        />
-        <meta
-          property="twitter:image"
-          content={`${baseUrl}/images/baumann_logo_optimiert.png`}
-        />
-
-        {/* Organization Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationData),
-          }}
-        />
-
-        {/* WebSite Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteData),
-          }}
-        />
-
-        {/* Categories ItemList */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(categoriesData),
-          }}
-        />
-      </Head>
+      <>
+        <StyledH1>{strings.companyWelcome}</StyledH1>
+        <StyledParagraph>{strings.companyDescription}</StyledParagraph>
+        <StyledH3>{strings.companyOurAreas}</StyledH3>
+        <StyledSection>
+          {sections.map((section) => (
+            <li key={section.category}>
+              <StyledLink href={`/products/${section.category}`}>
+                <StyledButton onClick={deleteSessionStorage}>
+                  <Icon
+                    path={section.icon}
+                    size={1.5}
+                  />
+                  {section.name}
+                </StyledButton>
+              </StyledLink>
+            </li>
+          ))}
+        </StyledSection>
+      </>
     );
   }
 
   return (
     <>
-      {createMetadata()}
-      {allProducts && allProducts.length ? (
-        filteredProducts &&
-        filteredProducts.length &&
-        searchInputText &&
-        searchInputText.length ? (
-          <ProductList
-            products={filteredProducts}
-            hrefProduct={"/products"}
-            setSearchInputText={setSearchInputText}
-          />
-        ) : filteredProducts &&
-          !filteredProducts.length &&
-          searchInputText &&
-          searchInputText.length ? (
-          <StyledMessage>Kein Produkt gefunden.</StyledMessage>
-        ) : (
-          <>
-            <StyledH1>{strings.companyWelcome}</StyledH1>
-            <StyledParagraph>{strings.companyDescription}</StyledParagraph>
-            <StyledH3>{strings.companyOurAreas}</StyledH3>
-            <StyledSection>{createSection()}</StyledSection>
-          </>
-        )
-      ) : (
-        <StyledMessage>{strings.errorMsgSiteLoading}</StyledMessage>
-      )}
+      <HomeHead />
+      {renderContent()}
     </>
   );
 }
+
+function HomeHead() {
+  const organizationData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Tilo Baumann Spritzgussteile e.K.",
+    alternateName: "Baumann Entwicklungen",
+    url: baseUrl,
+    logo: `${baseUrl}/images/baumann_logo_optimiert.png`,
+    description: strings.companyDescription,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: strings.street,
+      addressLocality: strings.city,
+      postalCode: strings.postalCode,
+      addressCountry: "DE",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: strings.phoneNumber,
+      contactType: "customer service",
+      availableLanguage: "German",
+    },
+    email: strings.mailAddress,
+    sameAs: [],
+  };
+
+  const websiteData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Baumann Entwicklungen - Kunststoffspritzgussteile",
+    url: baseUrl,
+    description: strings.companyDescription,
+    publisher: {
+      "@type": "Organization",
+      name: "Tilo Baumann Spritzgussteile e.K.",
+    },
+  };
+
+  const categoriesData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Produktbereiche",
+    description:
+      "Übersicht aller Produktbereiche von Baumann Entwicklungen",
+    itemListElement: sections.map((section, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: section.name,
+      url: `${baseUrl}/products/${section.category}`,
+    })),
+  };
+
+  return (
+    <Head>
+      <title>
+        {strings.company} | Kunststoffspritzgussteile für Caravan &
+        Möbelindustrie
+      </title>
+      <meta
+        name="description"
+        content={strings.companyDescription}
+      />
+      <meta
+        name="keywords"
+        content={strings.companyKeywords}
+      />
+      <link
+        rel="canonical"
+        href={baseUrl}
+      />
+      <meta
+        name="robots"
+        content="index, follow"
+      />
+      <link
+        rel="icon"
+        href="/favicon.ico"
+      />
+
+      {/* Open Graph */}
+      <meta
+        property="og:type"
+        content="website"
+      />
+      <meta
+        property="og:url"
+        content={baseUrl}
+      />
+      <meta
+        property="og:title"
+        content={strings.company}
+      />
+      <meta
+        property="og:description"
+        content={strings.companyDescription}
+      />
+      <meta
+        property="og:site_name"
+        content="Baumann Entwicklungen"
+      />
+      <meta
+        property="og:image"
+        content={`${baseUrl}/images/baumann_logo_optimiert.png`}
+      />
+
+      {/* Twitter */}
+      <meta
+        property="twitter:card"
+        content="summary_large_image"
+      />
+      <meta
+        property="twitter:url"
+        content={baseUrl}
+      />
+      <meta
+        property="twitter:title"
+        content={strings.company}
+      />
+      <meta
+        property="twitter:description"
+        content={strings.companyDescription}
+      />
+      <meta
+        property="twitter:image"
+        content={`${baseUrl}/images/baumann_logo_optimiert.png`}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationData),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(categoriesData),
+        }}
+      />
+    </Head>
+  );
+}
+
 export default Home;
 
 const StyledH1 = styled.h1`
@@ -308,9 +278,6 @@ const StyledLink = styled(Link)`
 
 const StyledParagraph = styled.p`
   line-height: 1.5;
-
-  @media (max-width: var( --breakpoint-small)) {
-  }
 `;
 
 const StyledMessage = styled.p`

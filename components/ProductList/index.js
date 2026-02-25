@@ -1,67 +1,51 @@
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import Product from '../Product';
+import Product from "../Product";
 
-function ProductList(props) {
-  const products = props.products;
-  const setSearchInputText = props.setSearchInputText;
-  const hrefProduct = props.hrefProduct ? props.hrefProduct : "";
+function ProductList({ products, setSearchInputText, hrefProduct = "" }) {
+  const sortedProducts = [...products].sort((a, b) => a.prio - b.prio);
 
-  //sort the products by column prio
-  const sortedProducts = products.sort((a, b) => a.prio - b.prio);
+  const scrollValueRef = useRef(0);
 
-  //trigger scroll position
-  const [scrollValue, setScrollValue] = useState(0);
   useEffect(() => {
-    const onScroll = (e) => {
-      setScrollValue(e.target.documentElement.scrollTop);
+    const onScroll = () => {
+      scrollValueRef.current = document.documentElement.scrollTop;
     };
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, [scrollValue]);
-
-  //get saved scroll position or delete it if page is reloaded
-  useEffect(() => {
-    window.scrollTo({
-      top: JSON.parse(
-        sessionStorage.getItem("TILO_scrollPosition") ?? "0"
-      ),
-      behavior: "smooth",
-      behavior: "smooth",
-    });
   }, []);
 
-  //save scroll position in session storage
+  useEffect(() => {
+    const savedPosition = JSON.parse(
+      sessionStorage.getItem("TILO_scrollPosition") ?? "0",
+    );
+    window.scrollTo({ top: savedPosition, behavior: "smooth" });
+  }, []);
+
   function saveScrollPosition() {
     sessionStorage.setItem(
       "TILO_scrollPosition",
-      JSON.stringify(scrollValue)
+      JSON.stringify(scrollValueRef.current),
     );
   }
 
   return (
-    <>
-      <ul>
-        {sortedProducts.map((product, index) => (
-          <StyledListItem
-            key={index}
-            onClick={saveScrollPosition}
-          >
-            <Product
-              product={product}
-              hrefProduct={hrefProduct}
-              scrollValue={scrollValue}
-              setSearchInputText={setSearchInputText}
-            />
-          </StyledListItem>
-        ))}
-      </ul>
-    </>
+    <ul>
+      {sortedProducts.map((product) => (
+        <StyledListItem
+          key={product.product_id}
+          onClick={saveScrollPosition}
+        >
+          <Product
+            product={product}
+            hrefProduct={hrefProduct}
+            setSearchInputText={setSearchInputText}
+          />
+        </StyledListItem>
+      ))}
+    </ul>
   );
 }
 

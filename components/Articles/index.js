@@ -1,53 +1,48 @@
-import * as React from 'react';
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import { Select } from '@mui/joy';
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import { Select } from "@mui/joy";
 
-import { strings } from '../../helpers/strings';
-import Article from './Article';
+import { strings } from "../../helpers/strings";
+import Article from "./Article";
 
 export default function Articles({ articles, selectedArticleSetter }) {
   const [isArticleDescriptionAvailable, setIsArticleDescriptionAvailable] =
     useState(true);
 
-  function isArticleDescriptionAvailableSetter() {
-    setIsArticleDescriptionAvailable(!isArticleDescriptionAvailable);
-  }
-
   useEffect(() => {
     if (articles.length === 1) {
       selectedArticleSetter(articles[0].article_id);
     }
-  }, []);
+  }, [articles, selectedArticleSetter]);
 
   function handleOnRenderValue(value) {
     selectedArticleSetter(value.value);
   }
 
-  //sort the articles by column prio
-  const sortedArticles = articles.sort(
-    (a, b) => a.article_prio - b.article_prio
+  function hideArticleDescription() {
+    setIsArticleDescriptionAvailable(false);
+  }
+
+  const sortedArticles = [...articles].sort(
+    (a, b) => a.article_prio - b.article_prio,
   );
 
   return (
     <StyledArticleSection
       isArticleDescriptionAvailable={isArticleDescriptionAvailable}
     >
-      <StyledLabel htmlFor='article'>
-        {strings.articleVaraintLabel}
+      <StyledLabel htmlFor="article">
+        {strings.articleVariantLabel}
       </StyledLabel>
       <StyledSpan> {strings.articleVariant}</StyledSpan>
 
       <StyledSelect
-        id='article'
-        name='article'
-        placeholder='Bitte wählen'
+        id="article"
+        name="article"
+        placeholder="Bitte wählen"
         indicator={<KeyboardArrowDown />}
         renderValue={(value) => {
           handleOnRenderValue(value);
@@ -60,13 +55,11 @@ export default function Articles({ articles, selectedArticleSetter }) {
         }}
         required
       >
-        {sortedArticles.map((article, index) => (
+        {sortedArticles.map((article) => (
           <Article
             article={article}
-            key={article.article_id + index}
-            isArticleDescriptionAvailableSetter={
-              isArticleDescriptionAvailableSetter
-            }
+            key={article.article_id}
+            isArticleDescriptionAvailableSetter={hideArticleDescription}
           />
         ))}
       </StyledSelect>
@@ -77,7 +70,7 @@ export default function Articles({ articles, selectedArticleSetter }) {
 const StyledArticleSection = styled.section`
   display: flex;
   display: ${(props) =>
-    props.isArticleDescriptionAvailable === false && 'none'};
+    props.isArticleDescriptionAvailable === false && "none"};
 
   flex-direction: column;
   padding-bottom: 1.75rem;

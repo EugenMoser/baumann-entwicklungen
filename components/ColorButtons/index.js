@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import styled from "styled-components";
 
 import { strings } from "../../helpers/strings";
@@ -9,22 +7,20 @@ export default function ColorButtons({
   colors,
   selectedColor,
   selectedColorSetter,
-  firstColorName,
 }) {
   return (
     <StyledColorSection>
-      <StyledLabel>{strings.colorLabel}</StyledLabel>{" "}
+      <StyledLabel>{strings.colorLabel}</StyledLabel>
       <StyledSpan>{strings.chooseColor}</StyledSpan>
       <StyledParagraph>{selectedColor.color_name}</StyledParagraph>
       {selectedColor && (
         <ButtonWrapper>
-          {colors.map((color, index) => (
+          {colors.map((color) => (
             <ColorButton
               color={color}
-              isFirstColor={color.color_name === firstColorName}
               selectedColor={selectedColor}
               selectedColorSetter={selectedColorSetter}
-              key={color.color_code + index}
+              key={color.color_id}
             />
           ))}
         </ButtonWrapper>

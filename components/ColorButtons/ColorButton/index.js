@@ -1,37 +1,24 @@
-import * as React from "react";
-
 import styled from "styled-components";
 
 export default function ColorButton({
   color,
-  isFirstColor,
   selectedColor,
   selectedColorSetter,
 }) {
-  const nameSplit = color.color_name.split("");
-
-  function handleClick(color) {
+  function handleClick() {
     selectedColorSetter(color);
-    const checkedInput = document.getElementById(color.color_name);
-    checkedInput.checked = true;
   }
 
   return (
     <StyledListItem>
-      <StyledInput
-        name="radio"
-        type="radio"
-        id={color.color_name}
-        defaultChecked={isFirstColor}
-        value={color.color_name}
-      />
       <StyledButton
         name={color.color_name}
         color={color.color_code}
-        onClick={() => handleClick(color)}
+        onClick={handleClick}
         isSelected={selectedColor.color_name === color.color_name}
+        aria-label={color.color_name}
       >
-        <StyledSpan color={color.color_code}></StyledSpan>
+        <StyledColorCircle color={color.color_code} />
       </StyledButton>
     </StyledListItem>
   );
@@ -40,9 +27,6 @@ export default function ColorButton({
 const StyledListItem = styled.li`
   list-style: none;
   align-self: center;
-`;
-const StyledInput = styled.input`
-  display: none;
 `;
 
 const StyledButton = styled.button`
@@ -58,7 +42,7 @@ const StyledButton = styled.button`
   background-color: transparent;
 `;
 
-const StyledSpan = styled.div`
+const StyledColorCircle = styled.div`
   border: 0.5px solid black;
   border-radius: 50%;
   width: 36px;

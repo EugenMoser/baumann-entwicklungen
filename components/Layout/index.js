@@ -8,22 +8,19 @@ import Navbar from "../Navbar";
 
 function Layout({ children }) {
   const [openContact, setOpenContact] = useState(false);
-  const allProducts = children.props.allProducts;
-  const setSearchInputText = children.props.setSearchInputText;
-  const searchInputText = children.props.searchInputText;
+  const { setSearchInputText, searchInputText } = children.props;
 
-  function openContactModal() {
-    setOpenContact(!openContact);
+  function toggleContact() {
+    setOpenContact((prev) => !prev);
   }
 
-  //delete Local Storage item by reload page
   useEffect(() => {
-    function deleteSessionStorage() {
+    function clearScrollPosition() {
       sessionStorage.removeItem("TILO_scrollPosition");
     }
-    window.addEventListener("beforeunload", deleteSessionStorage);
+    window.addEventListener("beforeunload", clearScrollPosition);
     return () => {
-      window.removeEventListener("beforeunload", deleteSessionStorage);
+      window.removeEventListener("beforeunload", clearScrollPosition);
     };
   }, []);
 
@@ -31,8 +28,7 @@ function Layout({ children }) {
     <StyledWrapper>
       <Header
         openContact={openContact}
-        setOpenContact={openContactModal}
-        allProducts={allProducts}
+        setOpenContact={toggleContact}
         setSearchInputText={setSearchInputText}
         searchInputText={searchInputText}
       />
@@ -40,7 +36,7 @@ function Layout({ children }) {
       <main>{children}</main>
       <Footer
         openContact={openContact}
-        setOpenContact={openContactModal}
+        setOpenContact={toggleContact}
       />
     </StyledWrapper>
   );

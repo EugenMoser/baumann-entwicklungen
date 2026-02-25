@@ -8,7 +8,6 @@ import Searchbar from "../Searchbar";
 function Header({
   openContact,
   setOpenContact,
-  allProducts,
   setSearchInputText,
   searchInputText,
 }) {
@@ -21,7 +20,7 @@ function Header({
 
   return (
     <StyledHeader>
-      <LogoWrapper onClick={() => navHome()}>
+      <LogoWrapper onClick={navHome}>
         <StyledLogo
           alt="Logo-Baumann-Entwicklungen"
           src="/images/baumann_logo_optimiert.png"
@@ -73,7 +72,6 @@ const LogoWrapper = styled.div`
 `;
 const StyledLogo = styled(Image)`
   width: 100%;
-  height: auto;
   height: auto;
 `;
 

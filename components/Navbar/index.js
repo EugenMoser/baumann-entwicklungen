@@ -29,33 +29,26 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (path === "/") {
-      setIsDisplayed(false);
-    } else setIsDisplayed(true);
+    setIsDisplayed(path !== "/");
   }, [path]);
 
   return (
-    <>
-      <StyledNav
-        isMobile={isMobile}
-        isDisplayed={isDisplayed}
-      >
-        {!isMobile && (
-          <Menu
-            sections={sections}
-            path={path}
-          />
-        )}
-        {isMobile && (
-          <>
-            <BurgerMenu
-              sections={sections}
-              path={path}
-            />
-          </>
-        )}
-      </StyledNav>
-    </>
+    <StyledNav
+      isMobile={isMobile}
+      isDisplayed={isDisplayed}
+    >
+      {isMobile ? (
+        <BurgerMenu
+          sections={sections}
+          path={path}
+        />
+      ) : (
+        <Menu
+          sections={sections}
+          path={path}
+        />
+      )}
+    </StyledNav>
   );
 }
 

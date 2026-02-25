@@ -1,5 +1,3 @@
-//products details
-
 import "react-image-gallery/styles/css/image-gallery.css";
 
 import { useEffect, useState } from "react";
@@ -19,70 +17,36 @@ import { baseUrl } from "../../../../helpers/constants";
 import { getAllProductsFromDB } from "../../../../helpers/db-services";
 import { strings } from "../../../../helpers/strings";
 
-//**************** für static website */
-const getProducts = async () => {
-  return await getAllProductsFromDB();
-};
-
 export async function getStaticPaths() {
-  const products = await getProducts();
-  const paths = products.map((product) => {
-    return {
-      params: {
-        category: product.category,
-        id: product.product_id.toString(),
-      },
-    };
-  });
+  const products = await getAllProductsFromDB();
+  const paths = products.map((product) => ({
+    params: {
+      category: product.category,
+      id: product.product_id.toString(),
+    },
+  }));
   return { paths, fallback: false };
 }
 
 export async function getStaticProps(context) {
-  const id = context.params.id;
-  const category = context.params.category;
-  const products = await getProducts();
-  const filterdProduct = products.filter(
+  const { id, category } = context.params;
+  const products = await getAllProductsFromDB();
+  const filteredProduct = products.filter(
     (product) => product.product_id.toString() === id,
-  );
-  const filteredProducts = products.filter(
-    (product) => product.category === category,
   );
   return {
     props: {
-      staticProduct: filterdProduct,
-      staticProducts: filteredProducts,
-      category: category,
+      staticProduct: filteredProduct,
+      category,
     },
   };
 }
 
-//****************************** */
-
-function ProductDetails({
-  //******** für static website */
-  staticProduct,
-  //allProducts,
-  searchInputText,
-  setSearchInputText,
-}) {
-  //**************** für static website */
+function ProductDetails({ staticProduct, searchInputText }) {
   const product = staticProduct[0];
 
   const router = useRouter();
   const { category } = router.query;
-
-  // const { id } = router.query;
-  // const product = productById(id);
-  //#################### */
-  // const [filteredProducts, setFilteredProducts] = useState([]);
-  // useEffect(() => {
-  //   setFilteredProducts(findProducts(searchInputText, product));
-  // }, [searchInputText]);
-  //****************************** */
-
-  // if (!allProducts || !product) {
-  //   return <h2>Produkte werden geladen</h2>;
-  // }
 
   const selectFirstColor = product?.colors[0];
   const [selectedArticle, setSelectedArticle] = useState(undefined);
@@ -97,19 +61,17 @@ function ProductDetails({
     product_imagepath_big1: image1,
     product_imagepath_big2: image2,
     product_imagepath_big3: image3,
-    metadata,
     keywords,
   } = product;
 
   const images = [];
 
   useEffect(() => {
-    if (searchInputText.length > 0) {
+    if (searchInputText?.length > 0) {
       router.push(`/products/${category}`);
     }
-  }, [searchInputText]);
+  }, [searchInputText, category, router]);
 
-  // Erstelle SEO-optimierten Alt-Text mit Kategorie-Kontext
   const getCategoryName = (cat) => {
     const categoryMap = {
       moebel: "Möbelbereich",
@@ -147,14 +109,6 @@ function ProductDetails({
       originalAlt: `${baseAltText} - Ansicht`,
     });
   }
-
-  // //filter products by id
-  // function productById(id) {
-  //   const filteredProduct = allProducts.find(
-  //     (product) => product.product_id.toString() === id
-  //   );
-  //   return filteredProduct;
-  // }
 
   function selectedArticleSetter(articleId) {
     const articleObject = product.articles.find(
@@ -405,7 +359,7 @@ function ProductDetails({
 
       <StyledHeadlineWrapper>
         <StyledH1>{name}</StyledH1>
-        <StyledBackButton onClick={() => goBack()}>
+        <StyledBackButton onClick={goBack}>
           <Icon
             path={mdiChevronLeft}
             size={1}
@@ -413,7 +367,7 @@ function ProductDetails({
           {strings.backButton}
         </StyledBackButton>
       </StyledHeadlineWrapper>
-      <Descripton1>{description1}</Descripton1>
+      <Description1>{description1}</Description1>
       <Wrapper>
         <ProductWrapper>
           {description2 && <p>{description2}</p>}
@@ -427,11 +381,11 @@ function ProductDetails({
             <ImageGallery
               items={images}
               showBullets={false}
-              showThumbnails={image2 || image3 ? true : false}
+              showThumbnails={!!(image2 || image3)}
               showPlayButton={false}
               slideDuration={300}
               showFullscreenButton={false}
-              showNav={image2 || image3 ? true : false}
+              showNav={!!(image2 || image3)}
             />
           </StyledImageGalleryWrapper>
         </ProductWrapper>
@@ -449,7 +403,6 @@ function ProductDetails({
               colors={product.colors}
               selectedColor={selectedColor}
               selectedColorSetter={selectedColorSetter}
-              firstColorName={selectFirstColor.color_name}
             />
           )}
           <ShowSelection
@@ -506,8 +459,8 @@ const StyledBackButton = styled.button`
   cursor: pointer;
   font-size: 1rem;
 
-  :hover,
-  :focus {
+  &:hover,
+  &:focus {
     font-weight: bold;
   }
 `;
@@ -532,14 +485,14 @@ const StyledImageGalleryWrapper = styled.div`
   }
   .image-gallery-svg {
     opacity: 0.1;
-    :hover,
-    :focus {
+    &:hover,
+    &:focus {
       opacity: 1;
     }
   }
 `;
 
-const Descripton1 = styled.p`
+const Description1 = styled.p`
   font-weight: bold;
   margin-bottom: 1rem;
 `;

@@ -1,16 +1,11 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { useRouter } from 'next/router';
-import styled, { css } from 'styled-components';
+import { useRouter } from "next/router";
+import styled, { css } from "styled-components";
 
-import { mdiMenu } from '@mdi/js';
-import Icon from '@mdi/react';
-import {
-  Dropdown,
-  Menu,
-  MenuButton,
-  MenuItem,
-} from '@mui/joy';
+import { mdiMenu } from "@mdi/js";
+import Icon from "@mdi/react";
+import { Dropdown, Menu, MenuButton, MenuItem } from "@mui/joy";
 
 function BurgerMenu({ sections, path }) {
   const router = useRouter();
@@ -18,7 +13,7 @@ function BurgerMenu({ sections, path }) {
     <>
       <h2>
         {sections.map(
-          (section) => path.includes(section.category) && section.name
+          (section) => path.includes(section.category) && section.name,
         )}
       </h2>
       <StyledDropdown>
@@ -38,8 +33,8 @@ function BurgerMenu({ sections, path }) {
                 }
                 variant={
                   path.startsWith(`/products/${section.category}`)
-                    ? 'active'
-                    : 'inactive'
+                    ? "active"
+                    : "inactive"
                 }
               >
                 <Icon
@@ -65,7 +60,7 @@ const StyledDropdown = styled(Dropdown)`
 const StyledMenuButton = styled(MenuButton)`
   border: none;
   &:hover,
-  :focus {
+  &:focus {
     background-color: var(--background-category-hover-color);
   }
 `;
@@ -73,11 +68,11 @@ const StyledMenuButton = styled(MenuButton)`
 const StyledMenuItem = styled(MenuItem)`
   font-size: 1.5rem;
   &:hover,
-  :focus {
+  &:focus {
     background-color: var(--background-category-hover-color);
   }
   ${({ variant }) =>
-    variant === 'active' &&
+    variant === "active" &&
     css`
       color: var(--font-color-hover);
     `}

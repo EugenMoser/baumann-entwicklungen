@@ -1,29 +1,23 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-import ContactModal from "../ContactModal";
-
 function Footer({ openContact, setOpenContact }) {
   return (
     <StyledFooter>
       <StyledList>
         <li>
-          <StyledButton
-            onClick={() => {
-              setOpenContact(!openContact);
-            }}
-          >
+          <StyledButton onClick={() => setOpenContact(!openContact)}>
             Tilo Baumann
           </StyledButton>
         </li>
         <li>
-          <StyledLink href="../../imprint">Impressum</StyledLink>
+          <StyledLink href="/imprint">Impressum</StyledLink>
         </li>
         <li>
-          <StyledLink href="../../privacy">Datenschutz</StyledLink>
+          <StyledLink href="/privacy">Datenschutz</StyledLink>
         </li>
         <li>
-          <StyledLink href="../../quality">
+          <StyledLink href="/quality">
             Qualitäts- und Umweltpolitik
           </StyledLink>
         </li>
@@ -42,7 +36,9 @@ const StyledFooter = styled.footer`
   border-top: 1px solid var(--font-color);
   color: var(--font-color);
   justify-content: center;
-  height: 3rem;
+  height: auto;
+  padding: 1rem 0;
+
   @media (max-width: 480px) {
     font-size: 0.8rem;
   }
@@ -54,6 +50,13 @@ const StyledList = styled.ul`
   width: 80%;
   margin: 0 50px;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    display: grid;
+    flex-direction: row;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -65,7 +68,7 @@ const StyledButton = styled.button`
   font-size: inherit;
 
   &:hover,
-  :active {
+  &:active {
     color: var(--font-color-hover);
     text-decoration: underline;
   }
@@ -76,7 +79,7 @@ const StyledLink = styled(Link)`
   color: inherit;
 
   &:hover,
-  :active {
+  &:active {
     color: var(--font-color-hover);
     text-decoration: underline;
   }

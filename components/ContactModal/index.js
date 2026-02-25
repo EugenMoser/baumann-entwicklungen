@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import styled from 'styled-components';
+import Link from "next/link";
+import styled from "styled-components";
 
 import {
   mdiAccountBoxOutline,
@@ -7,10 +7,10 @@ import {
   mdiEmailOutline,
   mdiMailboxOpenOutline,
   mdiPhoneOutline,
-} from '@mdi/js';
-import Icon from '@mdi/react';
+} from "@mdi/js";
+import Icon from "@mdi/react";
 
-import { strings } from '../../helpers/strings';
+import { strings } from "../../helpers/strings";
 
 function ContactModal({ openContact, setOpenContact }) {
   function onClickBackground() {
@@ -25,11 +25,13 @@ function ContactModal({ openContact, setOpenContact }) {
         }}
       >
         <Icon path={mdiAccountBoxOutline} />
-        <p> {strings.contaktButtonlabel}</p>
+        <p> {strings.kontaktButtonLabel}</p>
       </StyledContactButton>
       {openContact && (
         <ModalBackground onClick={onClickBackground}>
-          <Modal>
+          <Modal onClick={(e) => e.stopPropagation()}>
+            {" "}
+            {/* Prevents click from propagating to background */}
             <StyledCloseButton
               onClick={() => {
                 setOpenContact(!openContact);
@@ -63,7 +65,7 @@ function ContactModal({ openContact, setOpenContact }) {
                 <Icon
                   path={mdiPhoneOutline}
                   size={1}
-                />{' '}
+                />{" "}
                 <span>{strings.displayPhoneNumber}</span>
               </StyledLink>
               <br />
@@ -188,7 +190,7 @@ const StyledLink = styled(Link)`
     margin-left: 20px;
   }
   &:hover,
-  :active {
+  &:active {
     color: var(--font-color-hover);
     text-decoration: underline;
   }

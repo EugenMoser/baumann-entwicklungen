@@ -1,77 +1,72 @@
-import React from 'react';
+import styled from "styled-components";
 
-import styled from 'styled-components';
-
-import { getEmailBody, strings } from '../../helpers/strings';
+import { getEmailBody, strings } from "../../helpers/strings";
 
 export default function ShowSelection({ selectedArticle, selectedColor }) {
   const colorSuffix =
-    selectedColor && selectedColor.suffix === 0
-      ? ''
-      : ' - ' + selectedColor.suffix;
+    selectedColor?.suffix === 0 ? "" : " - " + selectedColor?.suffix;
 
-  const fulllArticleNumber =
+  const fullArticleNumber =
     selectedArticle && selectedArticle.article_number + colorSuffix;
 
-  function addThousendSeperator(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  function addThousandSeparator(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
+
   return (
     <StyledResultSection>
       {selectedArticle && selectedColor ? (
         <>
           <StyledArticleNumber>
-            {strings.articleNumberLabel} {fulllArticleNumber}
-          </StyledArticleNumber>{' '}
+            {strings.articleNumberLabel} {fullArticleNumber}
+          </StyledArticleNumber>
           <StyledSpecials>
-            <>
-              <StyledLabel>{strings.specialsLabel}</StyledLabel>
-              <StyledList>
-                {selectedArticle.article_description && (
-                  <li>{selectedArticle.article_description}</li>
-                )}
-                {selectedArticle.article_description1 && (
-                  <li>{selectedArticle.article_description1}</li>
-                )}
-                {selectedArticle.article_description2 && (
-                  <li>{selectedArticle.article_description2}</li>
-                )}
-                {selectedArticle.article_description3 && (
-                  <li>{selectedArticle.article_description3}</li>
-                )}
-              </StyledList>
-            </>
+            <StyledLabel>{strings.specialsLabel}</StyledLabel>
+            <StyledList>
+              {selectedArticle.article_description && (
+                <li>{selectedArticle.article_description}</li>
+              )}
+              {selectedArticle.article_description1 && (
+                <li>{selectedArticle.article_description1}</li>
+              )}
+              {selectedArticle.article_description2 && (
+                <li>{selectedArticle.article_description2}</li>
+              )}
+              {selectedArticle.article_description3 && (
+                <li>{selectedArticle.article_description3}</li>
+              )}
+            </StyledList>
           </StyledSpecials>
           <StyledVpe>
             <StyledLabel>{strings.vpeLabel}</StyledLabel>
             <StyledList>
               {selectedArticle.vpe1 && (
-                <li>{addThousendSeperator(selectedArticle.vpe1)} Stück</li>
+                <li>{addThousandSeparator(selectedArticle.vpe1)} Stück</li>
               )}
               {selectedArticle.vpe2 && (
-                <li>{addThousendSeperator(selectedArticle.vpe2)} Stück</li>
+                <li>{addThousandSeparator(selectedArticle.vpe2)} Stück</li>
               )}
               {selectedArticle.vpe3 && (
-                <li>{addThousendSeperator(selectedArticle.vpe3)} Stück</li>
+                <li>{addThousandSeparator(selectedArticle.vpe3)} Stück</li>
               )}
               {selectedArticle.vpe4 && (
-                <li>{addThousendSeperator(selectedArticle.vpe4)} Stück</li>
+                <li>{addThousandSeparator(selectedArticle.vpe4)} Stück</li>
               )}
             </StyledList>
           </StyledVpe>
           <StyledForm
             action={`mailto:${strings.mailAddress}?subject=${
               strings.subject
-            } &body=${encodeURI(
+            }&body=${encodeURI(
               getEmailBody(
                 selectedArticle.article_name,
-                fulllArticleNumber,
-                selectedColor.color_name
-              )
-            )} `}
-            method='post'
+                fullArticleNumber,
+                selectedColor.color_name,
+              ),
+            )}`}
+            method="post"
           >
-            <StyledInputButton type='submit'>
+            <StyledInputButton type="submit">
               {strings.request}
             </StyledInputButton>
           </StyledForm>
@@ -102,7 +97,7 @@ const StyledSpecials = styled.div`
 
 const StyledLabel = styled.label`
   display: block;
-  margin-bottom: 0%.5;
+  margin-bottom: 0.5rem;
   text-decoration: underline;
 `;
 
@@ -135,7 +130,7 @@ const StyledInputButton = styled.button`
   padding: 0.5rem 1rem;
 
   &:hover,
-  :active {
+  &:active {
     background-color: var(--font-color-hover);
     text-decoration: underline;
     cursor: pointer;

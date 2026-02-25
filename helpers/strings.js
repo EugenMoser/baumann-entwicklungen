@@ -3,7 +3,7 @@ const difYear = thisYear - 1984;
 
 const strings = {
   articleVariant: "In welcher Variante benötigen Sie das Produkt?",
-  articleVaraintLabel: "Produkt-Variante",
+  articleVariantLabel: "Produkt-Variante",
   companyWelcome: "Willkommen auf unserer Webseite",
   companyDescription: `Wir entwickeln und produzieren im Allgäu seit ${difYear} Jahren Spritzgussteile für die Caravan Industrie. Für diesen Markt ist ein großes Sortiment an Möbelteilen, Halterungen, Lüftungsteilen und Dichtungen entstanden. Mit dem 1984 gegründeten Unternehmen Wilfried Baumann Spritzgussteile wurde der Grundstein für das heute in zweiter Generation inhabergeführte Familienunternehmen Tilo Baumann Spritzgussteile e.K. gelegt. Wir fertigen präzise Spritzgussteile aus Thermoplasten und Elastomeren auf modernen Arburg Spritzgussmaschinen mit 15 bis 220 Tonnen Schließkraft und bis 650 Gramm Schussgewicht. Konstruktion, Fertigung und Wartung der Formen erfolgen im hauseigenen Werkzeugbau. Dadurch gewährleisten wir kurze Reaktionszeiten, hohe Flexibilität und eine gleichbleibend hohe Qualität. Unser Qualitäts- und Umweltmanagement ist nach ISO 9001 und ISO 14001 zertifiziert.`,
 
@@ -12,7 +12,7 @@ const strings = {
 
   companyOurAreas: "Unsere Bereiche",
 
-  contaktButtonlabel: "Kontakt",
+  kontaktButtonLabel: "Kontakt",
 
   contactModalHeadline: "Kontaktdaten",
 
@@ -39,7 +39,7 @@ const strings = {
   imprintRegister: "Registereintrag",
   imprintRegisterCourt: "Amtsgericht Kempten",
   imprintRegisterNumber: "HRA 9734",
-  imrprintTaxLabel: "Steuernummer",
+  imprintTaxLabel: "Steuernummer",
   imprintUST: "USt-IdNr.: DE 247 636 303",
   imprintSteuer: "Steuer-Nr.: 134/203/10387",
 
