@@ -31,13 +31,13 @@ function Quality() {
                 href="certificates/Tilo Baumann ISO 9001 DE neu.pdf"
                 target="_blank"
               >
-                Zertifikate ISO_9001 Download Deutsche Version
+                Download: Zertifikate ISO_9001 Deutsche Version
               </Link>
               <Link
                 href="certificates/Tilo Baumann ISO 9001 EN.pdf"
                 target="_blank"
               >
-                Zertifikate ISO_9001 Download Englische Version
+                Download: Zertifikate ISO_9001 Englische Version
               </Link>
             </StyledLinkWrapper>
           </StyledCertificateLink>
@@ -54,13 +54,13 @@ function Quality() {
                 href="certificates/Tilo Baumann ISO 14001 DE neu.pdf"
                 target="_blank"
               >
-                Zertifikate ISO_14001 Download Deutsche Version
+                Download: Zertifikate ISO_14001 Deutsche Version
               </Link>
               <Link
                 href="certificates/Tilo Baumann ISO 14001 EN.pdf"
                 target="_blank"
               >
-                Zertifikate ISO_14001 Download Englische Version
+                Download: Zertifikate ISO_14001 Englische Version
               </Link>
             </StyledLinkWrapper>
           </StyledCertificateLink>
@@ -92,19 +92,21 @@ const StyledImage = styled.img`
 const StyledCertificateWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: start;
-  align-items: start;
+  justify-content: space-between;
   gap: 8rem;
   margin-top: 2rem;
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    gap: 4rem;
+    align-items: center;
+  }
 `;
 
 const StyledSingleCertificateWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border: 1px solid var(--font-color);
   padding: 1rem;
-  border-radius: 10px;
 `;
 
 const StyledCertificateLink = styled.div`
