@@ -31,6 +31,7 @@ const StyledListItem = styled.li`
 
 const StyledButton = styled.button`
   display: flex;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
   box-sizing: content-box;

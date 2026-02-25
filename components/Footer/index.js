@@ -30,6 +30,7 @@ export default Footer;
 
 const StyledFooter = styled.footer`
   display: flex;
+  position: absolute;
   bottom: 0;
   width: 100%;
   border-top: 1px solid var(--font-color);
@@ -46,15 +47,16 @@ const StyledFooter = styled.footer`
 const StyledList = styled.ul`
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  margin: 0 50px;
+  width: 100%;
   align-items: center;
+  margin: 0 3rem;
 
   @media (max-width: 1024px) {
     display: grid;
     flex-direction: row;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+    margin: 0 1rem;
   }
 `;
 
