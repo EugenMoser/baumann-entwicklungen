@@ -8,18 +8,9 @@ export default function Product({
   hrefProduct,
   setSearchInputText,
 }) {
-  // Erste Artikelnummer für SEO
-  const firstArticleNumber =
-    product.articles &&
-    product.articles.length > 0 &&
-    product.articles[0].article_number
-      ? product.articles[0].article_number
-      : "";
-
   const seoAltText = [
     product.product_name,
     product.product_description1 || "",
-    firstArticleNumber ? `Art.-Nr. ${firstArticleNumber}` : "",
     "Baumann Spritzgussteile",
   ]
     .filter(Boolean)
@@ -28,7 +19,6 @@ export default function Product({
   const linkTitle = [
     product.product_name,
     product.product_description1 || "",
-    firstArticleNumber ? `Artikelnummer ${firstArticleNumber}` : "",
   ]
     .filter(Boolean)
     .join(" - ");
@@ -58,11 +48,6 @@ export default function Product({
         <TextWrapper>
           <h3>{product.product_name}</h3>
           <p>{product.product_description1}</p>
-          {firstArticleNumber && (
-            <StyledArticleNumber>
-              Art.-Nr. {firstArticleNumber}
-            </StyledArticleNumber>
-          )}
         </TextWrapper>
       </StyledLink>
     </StyledButton>
@@ -118,16 +103,6 @@ const TextWrapper = styled.div`
     p {
       font-size: var(--small-product-description);
     }
-  }
-`;
-
-const StyledArticleNumber = styled.span`
-  font-size: 0.75rem;
-  color: #666;
-  margin-top: 0.15rem;
-
-  @media (max-width: 650px) {
-    font-size: 0.65rem;
   }
 `;
 
