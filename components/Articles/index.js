@@ -18,8 +18,9 @@ export default function Articles({ articles, selectedArticleSetter }) {
     }
   }, [articles, selectedArticleSetter]);
 
-  function handleOnRenderValue(value) {
-    selectedArticleSetter(value.value);
+  function handleOnChange(event, value) {
+    // value is the selected option's value (article_id)
+    selectedArticleSetter(value);
   }
 
   function hideArticleDescription() {
@@ -44,10 +45,11 @@ export default function Articles({ articles, selectedArticleSetter }) {
         name="article"
         placeholder="Bitte wählen"
         indicator={<KeyboardArrowDown />}
-        renderValue={(value) => {
-          handleOnRenderValue(value);
-          return value.label;
-        }}
+        renderValue={(value) =>
+          // renderValue should not cause side-effects; just show label or value
+          (value && value.label) || value || ""
+        }
+        onChange={handleOnChange}
         slotProps={{
           listbox: {
             sx: { minWidth: 180 },
