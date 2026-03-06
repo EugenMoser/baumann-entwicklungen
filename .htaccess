@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Non-www auf www weiterleiten
+RewriteCond %{HTTP_HOST} ^baumann-entwicklungen\.de [NC]
+RewriteRule ^(.*)$ https://www.baumann-entwicklungen.de/$1 [R=301,L]
