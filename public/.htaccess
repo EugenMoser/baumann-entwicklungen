@@ -1,26 +1,50 @@
 # ============================================================
 # Apache-Konfiguration für statisches Next.js-Export
-# Diese Datei wird beim Build automatisch in das "out/"-Verzeichnis kopiert.
 # ============================================================
 
-# --- Directory Index (index.html als Standarddatei) ---
+# index.html als Standard-Datei in Verzeichnissen
 DirectoryIndex index.html
 
-# --- URL-Rewriting für Next.js Static Export ---
+# Verhindert, dass Apache automatisch einen Trailing Slash an Verzeichnisse anhängt.
+# Ohne dies: /products/elektro → mod_dir leitet auf /products/elektro/ → Regel 5
+# entfernt den Slash → Loop! Mit DirectorySlash Off greift stattdessen Regel 4
+# und bedient elektro.html korrekt.
+DirectorySlash Off
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  RewriteBase /
 
-  # Trailing-Slash-Redirect: /products/elektro → /products/elektro/
-  # Verhindert 403-Fehler bei Verzeichnisanfragen ohne abschließenden Slash
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^(.+[^/])$ /$1/ [R=301,L]
+  # 1. HTTP → HTTPS
+  #    1und1/IONOS terminiert SSL am Load Balancer → %{HTTPS} ist immer "off".
+  #    Deshalb X-Forwarded-Proto prüfen (vom Proxy gesetzt).
+  #    Nur weiterleiten wenn BEIDE Bedingungen erfüllt sind (kein Loop).
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-  # Statische HTML-Dateien ausliefern (Next.js Static Export)
-  # Wenn die URL kein echtes File/Verzeichnis ist, index.html probieren
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
+  # 2. /xxx/index.html → /xxx/ (Duplikat-Prävention für Google)
+  #    Behebt: "Duplikat – /index.html" in Google Search Console
+  RewriteCond %{THE_REQUEST} \s/(.*)index\.html[\s?] [NC]
+  RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+
+  # 3. directory/index.html bedienen falls vorhanden (intern, kein Redirect)
+  #    Greift wenn Next.js die Seite als Verzeichnis mit index.html exportiert
+  #    %{REQUEST_FILENAME} statt %{DOCUMENT_ROOT}%{REQUEST_URI} → zuverlässiger auf IONOS
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.+)$ /$1/index.html [L]
+
+  # 4. .html Datei bedienen falls vorhanden (intern, kein Redirect)
+  #    Greift für /products/elektro → products/elektro.html
+  #    %{REQUEST_FILENAME} statt %{DOCUMENT_ROOT}%{REQUEST_URI} → zuverlässiger auf IONOS
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.+)$ /$1.html [L]
+ 
+
+  # 5. Trailing Slash entfernen (nur wenn keine passende Datei gefunden)
+  #    /products/elektro/ → /products/elektro → dann Regel 4 greift
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
 </IfModule>
 
 # --- Komprimierung (gzip) ---
@@ -30,53 +54,29 @@ DirectoryIndex index.html
   AddOutputFilterByType DEFLATE font/woff font/woff2 image/svg+xml
 </IfModule>
 
-# --- Cache-Laufzeiten ---
+# --- Browser-Cache ---
 <IfModule mod_expires.c>
   ExpiresActive On
-
-  # Next.js Static-Assets (Hash im Dateinamen → sicher 1 Jahr)
-  <FilesMatch "^_next/">
-    ExpiresDefault "access plus 1 year"
-  </FilesMatch>
-
-  # Schriftarten – 1 Jahr
   ExpiresByType font/woff              "access plus 1 year"
   ExpiresByType font/woff2             "access plus 1 year"
-  ExpiresByType font/ttf               "access plus 1 year"
-  ExpiresByType application/font-woff  "access plus 1 year"
-  ExpiresByType application/font-woff2 "access plus 1 year"
-
-  # JavaScript & CSS – 1 Jahr
   ExpiresByType application/javascript "access plus 1 year"
-  ExpiresByType text/javascript        "access plus 1 year"
   ExpiresByType text/css               "access plus 1 year"
-
-  # Bilder – 1 Woche
   ExpiresByType image/png              "access plus 1 week"
   ExpiresByType image/jpeg             "access plus 1 week"
   ExpiresByType image/webp             "access plus 1 week"
   ExpiresByType image/gif              "access plus 1 week"
   ExpiresByType image/svg+xml          "access plus 1 week"
   ExpiresByType image/x-icon           "access plus 1 year"
-  ExpiresByType image/vnd.microsoft.icon "access plus 1 year"
-
-  # HTML-Seiten – nicht cachen (damit Updates sofort sichtbar sind)
   ExpiresByType text/html              "access plus 0 seconds"
 </IfModule>
 
-# --- Cache-Control-Header ---
 <IfModule mod_headers.c>
-  # Schriftarten und JS/CSS: 1 Jahr, unveränderlich
-  <FilesMatch "\.(woff|woff2|ttf|eot|js|css)$">
+  <FilesMatch "\.(woff|woff2|ttf|js|css)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
-
-  # Bilder: 1 Tag frisch, danach bis 7 Tage stale-while-revalidate
   <FilesMatch "\.(png|jpg|jpeg|gif|webp|svg|ico)$">
     Header set Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
   </FilesMatch>
-
-  # HTML: immer aktuell prüfen
   <FilesMatch "\.html$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
