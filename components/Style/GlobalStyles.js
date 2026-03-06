@@ -29,9 +29,7 @@ const GlobalStyles = createGlobalStyle`
    
  
 }
-@font-face {
-font-family: 'Rubik';
-src: url("/fonts/Rubik-VariableFont_wght.ttf");}
+
 
 * {
     box-sizing: border-box;

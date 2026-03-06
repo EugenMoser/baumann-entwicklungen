@@ -33,7 +33,7 @@ function ProductList({ products, setSearchInputText, hrefProduct = "" }) {
 
   return (
     <ul>
-      {sortedProducts.map((product) => (
+      {sortedProducts.map((product, index) => (
         <StyledListItem
           key={product.product_id}
           onClick={saveScrollPosition}
@@ -42,6 +42,7 @@ function ProductList({ products, setSearchInputText, hrefProduct = "" }) {
             product={product}
             hrefProduct={hrefProduct}
             setSearchInputText={setSearchInputText}
+            isFirst={index === 0}
           />
         </StyledListItem>
       ))}

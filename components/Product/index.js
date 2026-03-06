@@ -7,6 +7,7 @@ export default function Product({
   product,
   hrefProduct,
   setSearchInputText,
+  isFirst,
 }) {
   const seoAltText = [
     product.product_name,
@@ -24,11 +25,17 @@ export default function Product({
     .join(" - ");
 
   return (
-    <StyledButton
+    // StyledWrapper ist ein <div> statt <button> – ein <a> innerhalb eines <button>
+    // ist ungültiges HTML und kann Google daran hindern, Produktlinks zu folgen.
+    <StyledWrapper
       onClick={() => setSearchInputText && setSearchInputText("")}
     >
       <StyledLink
-        href={`.${hrefProduct}/${product.category}/${product.product_id}`}
+        href={
+          hrefProduct
+            ? `${hrefProduct}/${product.category}/${product.product_id}`
+            : `/products/${product.category}/${product.product_id}`
+        }
         title={linkTitle}
       >
         <ImageWrapper>
@@ -42,6 +49,8 @@ export default function Product({
             title={product.product_name}
             width={80}
             height={80}
+            // Erstes Bild in der Liste hat höchste Ladepriorität (LCP)
+            priority={!!isFirst}
           />
         </ImageWrapper>
 
@@ -50,10 +59,10 @@ export default function Product({
           <p>{product.product_description1}</p>
         </TextWrapper>
       </StyledLink>
-    </StyledButton>
+    </StyledWrapper>
   );
 }
-const StyledButton = styled.button`
+const StyledWrapper = styled.div`
   width: 100%;
   height: 100%;
   border: none;
