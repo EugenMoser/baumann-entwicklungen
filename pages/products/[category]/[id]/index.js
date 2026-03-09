@@ -42,11 +42,10 @@ export async function getStaticProps(context) {
   };
 }
 
-function ProductDetails({ staticProduct, searchInputText }) {
+function ProductDetails({ staticProduct, category, searchInputText }) {
   const product = staticProduct[0];
 
   const router = useRouter();
-  const { category } = router.query;
 
   const selectFirstColor = product?.colors[0];
   const [selectedArticle, setSelectedArticle] = useState(undefined);
